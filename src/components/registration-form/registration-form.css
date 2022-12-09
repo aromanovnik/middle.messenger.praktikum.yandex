@@ -1,0 +1,34 @@
+.registration-form {
+    max-width: 100vw;
+    max-height: 100vh;
+    width: 340px;
+
+    background: #FFFFFF;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.14);
+    border-radius: 12px;
+    margin: 0 auto;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.registration-form .login-form__title {
+    margin: 20px 0 40px;
+    font-size: 20px;
+    line-height: 20px;
+}
+
+.registration-form .registration-form__form {
+    flex-grow: 1;
+}
+
+.registration-form .registration-form__form .button {
+    margin-top: 40px;
+    margin-bottom: 14px;
+}
+
+.registration-form .registration-form__form a {
+    display: inline-flex;
+    align-self: center;
+}

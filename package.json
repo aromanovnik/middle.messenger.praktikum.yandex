@@ -1,0 +1,32 @@
+{
+  "name": "yp-first-part",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "npm run clear && parcel src/pages/index.hbs --no-cache --open",
+    "start": "npm run clear && parcel build src/pages/index.hbs && node ./server.js",
+    "clear": "rimraf dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aromanovnik/YP-First-part.git"
+  },
+  "author": "Aleksey Romanov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aromanovnik/YP-First-part/issues"
+  },
+  "engines": {
+    "node": "16.13.0"
+  },
+  "homepage": "https://github.com/aromanovnik/YP-First-part#readme",
+  "devDependencies": {
+    "@anikin/parcel-transformer-handlebars": "^1.0.9",
+    "parcel": "^2.8.0",
+    "postcss-import": "^15.0.1",
+    "rimraf": "^3.0.2"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

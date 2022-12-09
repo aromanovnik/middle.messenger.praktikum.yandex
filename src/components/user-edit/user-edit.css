@@ -1,0 +1,19 @@
+.user-edit {
+    display: flex;
+    flex: 1 1 auto;
+    width: 100%;
+    max-width: 510px;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+.user-edit__list {
+    text-align: center;
+}
+
+.user-edit__save {
+    margin-top: 60px;
+}

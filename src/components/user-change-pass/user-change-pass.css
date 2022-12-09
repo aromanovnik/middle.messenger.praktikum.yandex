@@ -1,0 +1,19 @@
+.user-change-pass {
+    display: flex;
+    flex: 1 1 auto;
+    width: 100%;
+    max-width: 510px;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 0 auto;
+}
+
+.user-change-pass .user-change-pass__list {
+    text-align: center;
+}
+
+.user-change-pass .user-change-pass__save {
+    margin-top: 60px;
+}
