@@ -1,0 +1,15 @@
+.sidebar-back {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-width: 100vw;
+    width: 64px;
+    background-color: #FBFBFB;
+    border-right: 1px solid #EAEAEA;
+    justify-content: center;
+    align-items: center;
+}
+
+.sidebar-back img {
+    transform: rotate(-180deg);
+}

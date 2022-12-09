@@ -1,0 +1,68 @@
+<div class="chat-list">
+
+    <div class='chat-list__header'>
+        <div class='chat-list__profile-link'>
+
+            <a href='../../pages/user-details/user-details.hbs'>
+                Профиль
+                <img src='../../../static/images/arrow-right.svg' alt='Arrow right'>
+            </a>
+
+        </div>
+
+        <div class='chat-list__search'>
+            <form action='#'>
+                <input name='chat_search' type='text' placeholder='Поиск'>
+            </form>
+        </div>
+    </div>
+
+    <div class='chat-list__list'>
+        {{> 'chat-item/chat-item'
+                title="Ivan Ivanov"
+                text="This is a text"
+                isYoy=true}}
+
+        {{> 'chat-item/chat-item'
+                title="Kolia Kolian"
+                text="This is a text"
+                isYoy=false}}
+
+        {{> 'chat-item/chat-item'
+                title="Galia from Магнит"
+                dateLast="11.05.2022"
+                badge="9999"
+                text="This is a text bla bla bla. This is a text bla bla bla. This is a text bla bla bla. This is a text bla bla bla."
+                isYoy=true}}
+
+        {{> 'chat-item/chat-item'
+                title="Galia from Пятерочка"
+                text="This is a text"
+                isYoy=false}}
+
+        {{> 'chat-item/chat-item'
+                title="Galia from Пятерочка"
+                text="This is a text bla bla bla. This is a text bla bla bla. This is a text bla bla bla. This is a text bla bla bla."
+                dateLast="11.05.2022"
+                badge="2"
+                isYoy=true}}
+
+        {{> 'chat-item/chat-item'
+                title="Galia from Пятерочка"
+                text="This is a text"
+                isYoy=true}}
+
+        {{> 'chat-item/chat-item'
+                title="Galia from Пятерочка"
+                text="This is a text"
+                isYoy=true}}
+
+        {{> 'chat-item/chat-item'
+                title="Galia from Ашан"
+                dateLast="11.05.2022"
+                badge="2"
+                text="This is a text bla bla bla. This is a text bla bla bla. This is a text bla bla bla. This is a text bla bla bla."
+                isYoy=true}}
+        {{> 'chat-item/chat-item' title="Galia from Пятерочка" text="This is a text" isYoy=false}}
+    </div>
+</div>
