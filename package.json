@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev": "npm run clear && parcel src/pages/index.hbs --no-cache --open",
-    "build": "parcel src/pages/index.hbs --no-cache",
-    "start": "npm run clear && parcel build src/pages/index.hbs --no-cache && node ./server.js",
+    "dev": "parcel src/pages/index.hbs --no-cache --open",
+    "build": "parcel build src/pages/index.hbs --no-cache",
+    "start": "parcel build src/pages/index.hbs --no-cache && node ./server.js",
     "clear": "rimraf dist"
   },
   "repository": {
