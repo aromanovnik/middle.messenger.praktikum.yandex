@@ -6,7 +6,7 @@
     width: 130px;
     height: 130px;
     border-radius: 50%;
-    background-color: #EFEFEF;
+    background-color: var(--bright-gray-2);
     background-image: url("../../static/images/avatar.svg");
     background-repeat: no-repeat;
     background-position: center;
@@ -19,7 +19,7 @@
 
 .user-info-head .user-info-head__change-avatar {
     line-height: 14px;
-    color: #FFFFFF;
+    color: var(--white);
     background-color: rgba(0, 0, 0, .5);
     width: 100%;
     height: 100%;
@@ -53,6 +53,6 @@
     font-weight: 600;
     font-size: 16px;
     line-height: 16px;
-    color: #1E1E1E;
+    color: var(--black);
     margin-top: 20px;
 }

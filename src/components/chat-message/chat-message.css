@@ -1,6 +1,6 @@
 .chat-message {
     padding: 10px;
-    background-color: #F8F8F8;
+    background-color: var(--cultured);
     max-width: 40%;
     height: auto;
     margin-bottom: 10px;
@@ -9,17 +9,17 @@
 
 .chat-message.chat-message_my-message {
     align-self: flex-end;
-    background-color: #E4EDFD;
+    background-color: var(--lavender);
 }
 
 .chat-message.chat-message_my-message .chat-message__date {
-    color: #3369F3;
+    color: var(--blue);
 }
 
 .chat-message .chat-message__text {
     font-size: 12px;
     line-height: 15px;
-    color: #1E1E1E;
+    color: var(--black);
     margin: 0;
     display: inline-flex;
 }
@@ -27,7 +27,7 @@
 .chat-message .chat-message__date {
     font-size: 9px;
     line-height: 9px;
-    color: #999999;
+    color: var(--spanish-gray);
     margin-left: 10px;
     align-self: flex-end;
     justify-self: flex-end;

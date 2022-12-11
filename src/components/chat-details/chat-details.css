@@ -8,7 +8,7 @@
     margin: auto;
     font-size: 12px;
     line-height: 12px;
-    color: #999999;
+    color: var(--spanish-gray);
 }
 
 .chat-details .chat-details__chat {
@@ -38,14 +38,14 @@
     right: 20px;
     bottom: 0;
     height: 1px;
-    background-color: #EAEAEA;
+    background-color: var(--bright-gray);
 }
 
 .chat-details .chat-details__user-name {
     font-weight: 600;
     font-size: 13px;
     line-height: 13px;
-    color: #1E1E1E;
+    color: var(--black);
     margin-left: 10px;
     text-decoration: none;
 }
@@ -63,7 +63,7 @@
 }
 
 .chat-details .chat-details__menu:hover {
-    background-color: #EAEAEA;
+    background-color: var(--bright-gray);
 }
 
 .chat-details .chat-details__messages {
@@ -90,7 +90,7 @@
     right: 20px;
     top: 0;
     height: 1px;
-    background-color: #EAEAEA;
+    background-color: var(--bright-gray);
 }
 
 .chat-details .chat-details__button-send {
@@ -104,7 +104,7 @@
 
 .chat-details .chat-details__input {
     min-height: 32px;
-    background: #EFEFEF;
+    background: var(--bright-gray-2);
     border-radius: 30px;
     border: 0;
     padding: 10px 20px;
@@ -115,7 +115,7 @@
 }
 
 .chat-details .chat-details__input::placeholder {
-    color: #999999;
+    color: var(--spanish-gray);
 }
 
 .chat-details .chat-details__form {

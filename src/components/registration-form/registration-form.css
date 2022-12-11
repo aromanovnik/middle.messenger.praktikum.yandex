@@ -3,7 +3,7 @@
     max-height: 100vh;
     width: 340px;
 
-    background: #FFFFFF;
+    background: var(--white);
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.14);
     border-radius: 12px;
     margin: 0 auto;

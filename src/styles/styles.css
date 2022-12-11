@@ -1,4 +1,5 @@
 @import "./base.css";
+@import "./variables.css";
 
 /*Partials*/
 @import "../components/login-form/login-form.css";
@@ -24,7 +25,7 @@ body {
     font-weight: 500;
     font-size: 13px;
     line-height: 13px;
-    color: #1E1E1E;
+    color: var(--black);
     display: flex;
 
     height: 100vh;
@@ -40,7 +41,7 @@ body {
 }
 
 a {
-    color: #3369F3;
+    color: var(--blue);
     font-size: 11px;
     line-height: 11px;
     text-decoration: none;
@@ -72,23 +73,23 @@ a:hover {
 .form__input label {
     font-size: 9px;
     line-height: 9px;
-    color: #999999;
+    color: var(--spanish-gray);
     margin-bottom: 1px;
 }
 
 .form__input input {
     height: 28px;
     border: 0;
-    border-bottom: 1px solid #3369F3;
+    border-bottom: 1px solid var(--blue);
     outline: 0;
 }
 
 .button {
     cursor: pointer;
-    background: #3369F3;
+    background: var(--blue);
     border-radius: 8px;
     text-align: center;
-    color: #FFFFFF;
+    color: var(--white);
     border: 0;
     outline: 0;
     padding: 12px;
@@ -127,7 +128,7 @@ a:hover {
     display: flex;
     justify-content: space-between;
     padding: 10px 0;
-    border-bottom: 1px solid #EAEAEA;
+    border-bottom: 1px solid var(--bright-gray);
 }
 
 .user-page .user-page__list a {
@@ -139,11 +140,11 @@ a:hover {
 }
 
 .user-page .user-page__list ul li span:last-child {
-    color: #999999;
+    color: var(--spanish-gray);
 }
 
 .user-page .user-page__list ul li input {
-    color: #999999;
+    color: var(--spanish-gray);
     padding: 0;
     height: 25px;
     margin: -5px 0 -5px;
@@ -153,5 +154,5 @@ a:hover {
 }
 
 .user-page .user-page__exit-link {
-    color: #FF0000;
+    color: var(--red);
 }
