@@ -8,7 +8,7 @@
     "start": "parcel build src/pages/index.hbs --no-cache && node ./server.js",
     "clear": "rimraf dist",
     "format": "prettier --write \"src/**/*.*\"",
-    "lint": "eslint --fix",
+    "lint": "eslint --fix \"src/**/*\"",
     "pre-commit": "npm run format && npm run lint"
   },
   "repository": {

@@ -23,13 +23,22 @@
         "plugin:prettier/recommended"
       ],
       "rules": {
+        "eol-last": [
+          "error",
+          "always"
+        ]
+      }
+    },
+    {
+      "files": [
+        "*.hbs"
+      ],
+      "rules": {
+        "eol-last": [
+          "error",
+          "always"
+        ]
       }
     }
-  ],
-  "rules": {
-    "eol-last": [
-      "error",
-      "always"
-    ]
-  }
+  ]
 }
