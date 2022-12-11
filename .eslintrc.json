@@ -1,0 +1,35 @@
+{
+  "root": true,
+  "plugins": [
+    "html"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "*.ts"
+      ],
+      "parserOptions": {
+        "project": [
+          "tsconfig.json"
+        ],
+        "createDefaultProgram": true
+      },
+      "extends": [
+        "plugin:import/recommended",
+        // Airbnb
+        "airbnb-typescript/base",
+        // Prettier
+        "prettier",
+        "plugin:prettier/recommended"
+      ],
+      "rules": {
+      }
+    }
+  ],
+  "rules": {
+    "eol-last": [
+      "error",
+      "always"
+    ]
+  }
+}
