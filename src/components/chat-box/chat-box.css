@@ -1,0 +1,9 @@
+.chat-box {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.chat-box .chat-box__chat-details {
+  flex: 1;
+}

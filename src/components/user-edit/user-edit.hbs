@@ -1,0 +1,38 @@
+<div class='user-edit'>
+
+    {{> 'user-info-head/user-info-head' isShowName=false}}
+
+    <div class='user-edit__list user-page__list'>
+        <form action='#'>
+            <ul>
+                <li>
+                    <label for='userEditEmail'>Почта</label>
+                    <input id='userEditEmail' type='email' name='email' value='pochta@yandex.ru'>
+                </li>
+                <li>
+                    <label for='userEditLogin'>Логин</label>
+                    <input id='userEditLogin' type='text' name='login' value='ivanivanov'>
+                </li>
+                <li>
+                    <label for='userEditFirstName'>Имя</label>
+                    <input id='userEditFirstName' type='text' name='first_name' value='Иван'>
+                </li>
+                <li>
+                    <label for='userEditSecondName'>Фамилия</label>
+                    <input id='userEditSecondName' type='text' name='second_name' value='Иванов'>
+                </li>
+                <li>
+                    <label for='userEditDisplayName'>Имя в чате</label>
+                    <input id='userEditDisplayName' type='text' name='display_name' value='Иванов'>
+                </li>
+                <li>
+                    <label for='userEditPhone'>Телефон</label>
+                    <input id='userEditPhone' type='tel' name='phone' value='+7 (909) 967 30 30'>
+                </li>
+            </ul>
+
+            <button class='button user-edit__save'>Сохранить</button>
+        </form>
+    </div>
+
+</div>
