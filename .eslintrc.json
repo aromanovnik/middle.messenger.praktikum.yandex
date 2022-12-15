@@ -1,44 +1,24 @@
 {
-  "root": true,
   "plugins": [
+    "prettier",
+    "unicorn",
     "html"
   ],
-  "overrides": [
-    {
-      "files": [
-        "*.ts"
-      ],
-      "parserOptions": {
-        "project": [
-          "tsconfig.json"
-        ],
-        "createDefaultProgram": true
-      },
-      "extends": [
-        "plugin:import/recommended",
-        // Airbnb
-        "airbnb-typescript/base",
-        // Prettier
-        "prettier",
-        "plugin:prettier/recommended"
-      ],
-      "rules": {
-        "eol-last": [
-          "error",
-          "always"
-        ]
-      }
-    },
-    {
-      "files": [
-        "*.hbs"
-      ],
-      "rules": {
-        "eol-last": [
-          "error",
-          "always"
-        ]
-      }
-    }
-  ]
+  "extends": [
+    "airbnb-base",
+    "plugin:unicorn/recommended",
+    "plugin:prettier/recommended",
+    "prettier"
+  ],
+  "env": {
+    "es6": true,
+    "browser": true
+  },
+  "rules": {
+    "unicorn/prevent-abbreviations": "off",
+    "eol-last": [
+      "error",
+      "always"
+    ]
+  }
 }
