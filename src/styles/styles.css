@@ -1,24 +1,24 @@
-@import './base.css';
-@import './variables.css';
+@import url('./base.css');
+@import url('./variables.css');
 
-/*Partials*/
-@import '../components/login-form/login-form.css';
-@import '../components/registration-form/registration-form.css';
+/* Partials */
+@import url('../components/login-form/login-form.css');
+@import url('../components/registration-form/registration-form.css');
 
-@import '../components/error/error.css';
+@import url('../components/error/error.css');
 
-@import '../components/chat-box/chat-box.css';
-@import '../components/chat-list/chat-list.css';
-@import '../components/chat-details/chat-details.css';
-@import '../components/chat-item/chat-item.css';
-@import '../components/chat-message/chat-message.css';
+@import url('../components/chat-box/chat-box.css');
+@import url('../components/chat-list/chat-list.css');
+@import url('../components/chat-details/chat-details.css');
+@import url('../components/chat-item/chat-item.css');
+@import url('../components/chat-message/chat-message.css');
 
-@import '../components/user-avatar/user-avatar.css';
-@import '../components/sidebar-back/sidebar-back.css';
-@import '../components/user-info-head/user-info-head.css';
-@import '../components/user-info/user-info.css';
-@import '../components/user-edit/user-edit.css';
-@import '../components/user-change-pass/user-change-pass.css';
+@import url('../components/user-avatar/user-avatar.css');
+@import url('../components/sidebar-back/sidebar-back.css');
+@import url('../components/user-info-head/user-info-head.css');
+@import url('../components/user-info/user-info.css');
+@import url('../components/user-edit/user-edit.css');
+@import url('../components/user-change-pass/user-change-pass.css');
 
 body {
   font-style: normal;
@@ -27,7 +27,6 @@ body {
   line-height: 13px;
   color: var(--black);
   display: flex;
-
   height: 100vh;
   width: 100vw;
   overflow: auto;
@@ -57,7 +56,7 @@ a:hover {
   text-decoration: underline;
 }
 
-/*Forms*/
+/* Forms */
 .form {
   display: flex;
   flex-direction: column;
@@ -97,7 +96,7 @@ a:hover {
   max-width: 100%;
 }
 
-/*User*/
+/* User */
 .user-page {
   display: flex;
   flex: 1 1 auto;
@@ -146,7 +145,7 @@ a:hover {
   color: var(--spanish-gray);
   padding: 0;
   height: 25px;
-  margin: -5px 0 -5px;
+  margin: -5px 0;
   width: 50%;
   border: 0;
   text-align: right;

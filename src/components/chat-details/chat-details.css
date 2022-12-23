@@ -31,7 +31,7 @@
   align-items: center;
 }
 
-.chat-details .chat-details__header:after {
+.chat-details .chat-details__header::after {
   content: '';
   position: absolute;
   left: 20px;
@@ -83,7 +83,7 @@
   align-items: center;
 }
 
-.chat-details .chat-details__footer:before {
+.chat-details .chat-details__footer::before {
   content: '';
   position: absolute;
   left: 20px;

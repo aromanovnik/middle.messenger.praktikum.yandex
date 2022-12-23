@@ -17,7 +17,7 @@
   text-decoration: none;
 }
 
-.chat-item:before {
+.chat-item::before {
   content: '';
   position: absolute;
   left: 10px;
@@ -53,7 +53,7 @@
   color: var(--spanish-gray);
   height: 30px;
 
-  /*...*/
+  /* ... */
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -94,7 +94,6 @@
   line-height: 12px;
   color: var(--white);
   overflow: hidden;
-
   display: flex;
   justify-content: center;
   align-items: center;

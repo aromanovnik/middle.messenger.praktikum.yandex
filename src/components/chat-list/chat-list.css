@@ -13,7 +13,6 @@
   overflow: hidden;
   padding: 10px;
   box-sizing: border-box;
-
   display: flex;
   flex-direction: column;
 }

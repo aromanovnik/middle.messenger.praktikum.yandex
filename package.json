@@ -10,8 +10,9 @@
     "server": "ts-node server.ts",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "npx eslint --fix src/",
-    "stylelint": "npx stylelint \"src/**/*.css\"",
-    "pre-commit": "npm run format && npm run lint && npm run stylelint"
+    "stylelint": "npx stylelint --fix \"src/**/*.css\"",
+    "pre-commit": "npm run format && npm run lint",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
