@@ -21,5 +21,10 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
+    "typeRoots": [
+      "node_modules/@types",
+      "typings/app.d.ts",
+      "typings/hbs.d.ts"
+    ]
   }
 }
