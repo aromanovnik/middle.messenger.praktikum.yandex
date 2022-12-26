@@ -1,3 +1,3 @@
-export * from './Block';
-export * from './registerComponent';
-export * from './render-dom';
+export * as Block from './block';
+export * as registerComponent from './register-component';
+export * as renderDom from './render-dom';

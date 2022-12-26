@@ -12,10 +12,6 @@
   background-color: var(--lavender);
 }
 
-.chat-message.chat-message_my-message .chat-message__date {
-  color: var(--blue);
-}
-
 .chat-message .chat-message__text {
   font-size: 12px;
   line-height: 15px;
@@ -35,6 +31,10 @@
   display: inline-flex;
   float: right;
   margin-top: 5px;
+}
+
+.chat-message.chat-message_my-message .chat-message__date {
+  color: var(--blue);
 }
 
 .chat-message .chat-message__date img {
