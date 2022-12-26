@@ -1,4 +1,4 @@
-import Block from 'core/block';
+import { Block } from 'core';
 
 export class NotFoundPage extends Block {
   constructor() {

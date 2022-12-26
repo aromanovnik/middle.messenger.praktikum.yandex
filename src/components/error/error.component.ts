@@ -1,12 +1,12 @@
-import Block from 'core/block';
+import { Block } from 'core';
 
 import './error.component.css';
 
 export interface ErrorComponentProps {
   title: string;
-  subtitle: string;
-  actionHref: string;
-  actionText: string;
+  subtitle?: string;
+  actionHref?: string;
+  actionText?: string;
 }
 
 export class ErrorComponent extends Block {
@@ -19,8 +19,12 @@ export class ErrorComponent extends Block {
     return `
         <div class='error'>
             <h1 class='error__title'>{{title}}</h1>
-            <p class='error__desc'>{{subtitle}}</p>
-            <a class='error__link' href='{{actionHref}}'>{{actionText}}</a>
+            {{#if subtitle}}
+                <p class='error__desc'>{{subtitle}}</p>
+            {{/if}}
+            {{#if actionText}}
+                <a class='error__link' href='{{actionHref}}'>{{actionText}}</a>
+            {{/if}}
         </div>
     `;
   }
