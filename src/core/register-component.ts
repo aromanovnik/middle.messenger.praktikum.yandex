@@ -25,7 +25,6 @@ export default function registerComponent<Properties>(Component: BlockConstructa
        */
       (Object.keys(hash) as any).forEach((key: keyof Properties) => {
         if (this[key] && typeof this[key] === 'string') {
-          // eslint-disable-next-line no-param-reassign
           hash[key] = hash[key].replace(new RegExp(`{{${key}}}`, 'i'), this[key]);
         }
       });
@@ -40,7 +39,7 @@ export default function registerComponent<Properties>(Component: BlockConstructa
 
       const contents = fn ? fn(this) : '';
 
-      return `<div data-id='${component.id}'>${contents}</div>`;
+      return `<div data-id="${component.id}">${contents}</div>`;
     },
   );
 }

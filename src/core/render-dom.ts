@@ -1,6 +1,6 @@
 import Block from 'core/block';
 
-export default function renderDom(block: Block) {
+export default function renderDOM(block: Block) {
   const root = document.querySelector('#app');
 
   if (!root) {
