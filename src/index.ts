@@ -12,6 +12,13 @@ import {
   UserAvatarComponent,
   ChatBoxComponent,
   ChatMessageComponent,
+  UserInfoComponent,
+  UserInfoHeadComponent,
+  UserEditComponent,
+  UserChangePassComponent,
+  SidebarBackComponent,
+  RegistrationFormComponent,
+  LoginFormComponent,
 } from 'components';
 
 registerComponent(ErrorComponent);
@@ -19,6 +26,13 @@ registerComponent(ChatItemComponent);
 registerComponent(UserAvatarComponent);
 registerComponent(ChatBoxComponent);
 registerComponent(ChatMessageComponent);
+registerComponent(UserInfoComponent);
+registerComponent(UserInfoHeadComponent);
+registerComponent(UserEditComponent);
+registerComponent(UserChangePassComponent);
+registerComponent(SidebarBackComponent);
+registerComponent(RegistrationFormComponent);
+registerComponent(LoginFormComponent);
 
 document.addEventListener('DOMContentLoaded', () => {
   const App = new NotFoundPage();

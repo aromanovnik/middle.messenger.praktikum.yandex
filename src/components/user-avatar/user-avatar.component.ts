@@ -3,20 +3,20 @@ import { Block } from 'core';
 import './user-avatar.component.css';
 
 export interface UserAvatarComponentProps {
-  image?: string;
+  avatar?: string;
 }
 
 export class UserAvatarComponent extends Block {
-  constructor({ image }: UserAvatarComponentProps) {
-    super({ image });
+  constructor({ avatar }: UserAvatarComponentProps) {
+    super({ avatar });
   }
 
   override render(): string {
     // language=hbs
     return `
         <div class='user-avatar'>
-            {{#if image}}
-                <img class='user-avatar__img' src='{{image}}' alt='User avatar' />
+            {{#if avatar}}
+                <img class='user-avatar__img' src='{{avatar}}' alt='User avatar' />
             {{/if}}
         </div>
     `;

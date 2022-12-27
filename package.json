@@ -18,7 +18,8 @@
     "core": "./src/core",
     "pages": "./src/pages",
     "components": "./src/components",
-    "helpers": "./src/helpers"
+    "helpers": "./src/helpers",
+    "api": "./src/api"
   },
   "repository": {
     "type": "git",
