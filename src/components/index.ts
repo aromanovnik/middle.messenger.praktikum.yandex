@@ -10,3 +10,5 @@ export * from './user-change-pass';
 export * from './sidebar-back';
 export * from './registration-form';
 export * from './login-form';
+export * from './chat-details';
+export * from './chat-list';

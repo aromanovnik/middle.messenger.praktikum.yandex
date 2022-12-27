@@ -7,7 +7,7 @@
   height: 130px;
   border-radius: 50%;
   background-color: var(--bright-gray-2);
-  background-image: url('../../static/images/avatar.svg');
+  background-image: url('../../../static/images/avatar.svg');
   background-repeat: no-repeat;
   background-position: center;
   overflow: hidden;

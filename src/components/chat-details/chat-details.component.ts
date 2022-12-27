@@ -1,6 +1,8 @@
 import { Block } from 'core';
 import { ChatMessageComponentProps } from 'components/chat-message';
 
+import './chat-details.component.css';
+
 export interface ChatDetailsComponentProps {
   // image?: string;
   user: string;

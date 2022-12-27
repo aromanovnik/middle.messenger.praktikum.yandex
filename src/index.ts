@@ -1,11 +1,13 @@
 require('babel-core/register');
 
-import { renderDOM, registerComponent } from 'core';
-
-import { NotFoundPage } from 'pages/not-found';
+import { renderDOM, registerComponent, Router } from 'core';
 
 import './styles/styles.css';
 
+// Pages
+import { NotFoundPage, ServerErrorPage, OnboardingPage } from 'pages';
+
+// Component
 import {
   ErrorComponent,
   ChatItemComponent,
@@ -19,6 +21,8 @@ import {
   SidebarBackComponent,
   RegistrationFormComponent,
   LoginFormComponent,
+  ChatListComponent,
+  ChatDetailsComponent,
 } from 'components';
 
 registerComponent(ErrorComponent);
@@ -33,15 +37,52 @@ registerComponent(UserChangePassComponent);
 registerComponent(SidebarBackComponent);
 registerComponent(RegistrationFormComponent);
 registerComponent(LoginFormComponent);
+registerComponent(ChatListComponent);
+registerComponent(ChatDetailsComponent);
 
-document.addEventListener('DOMContentLoaded', () => {
-  const App = new NotFoundPage();
-  // const App = new OnboardingPage({
-  //   links: [
-  //     {to: '#signup', text: 'signup'},
-  //     {to: '#login', text: 'login'},
-  //   ]
-  // });
+const router = new Router([
+  {
+    to: '',
+    page: new OnboardingPage(),
+  },
+  {
+    to: 'home/',
+    page: new NotFoundPage(),
+  },
+  {
+    to: 'auth/',
+    page: new NotFoundPage(),
+  },
+  {
+    to: 'registration/',
+    page: new NotFoundPage(),
+  },
+  {
+    to: 'user-settings/',
+    page: new NotFoundPage(),
+  },
+  {
+    to: 'user-details/',
+    page: new NotFoundPage(),
+  },
+  {
+    to: 'user-change-password/',
+    page: new NotFoundPage(),
+  },
+  {
+    to: 'server-error/',
+    page: new ServerErrorPage(),
+  },
+  {
+    to: 'not-found/',
+    page: new NotFoundPage(),
+  },
+]);
 
-  renderDOM(App);
-});
+const navigation = (): void => {
+  const hash = window.location.hash ?? '';
+  renderDOM(router.getPage(hash));
+};
+
+window.addEventListener('hashchange', navigation);
+document.addEventListener('DOMContentLoaded', navigation);
