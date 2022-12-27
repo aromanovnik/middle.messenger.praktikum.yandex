@@ -79,6 +79,4 @@ const router = [
   },
 ];
 
-document.addEventListener('DOMContentLoaded', () => {
-  new Router(router);
-});
+document.addEventListener('DOMContentLoaded', () => new Router(router));
