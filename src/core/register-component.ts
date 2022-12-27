@@ -3,11 +3,13 @@ import Block from 'core/block';
 
 interface BlockConstructable<Properties = any> {
   new (properties: Properties): Block;
+
+  componentName?: string;
 }
 
 export default function registerComponent<Properties>(Component: BlockConstructable<Properties>) {
   Handlebars.registerHelper(
-    Component.name,
+    Component.componentName || Component.name,
     function (this: Properties, { hash: { ref, ...hash }, data, fn }: HelperOptions) {
       if (!data.root.children) {
         data.root.children = {};
@@ -39,7 +41,7 @@ export default function registerComponent<Properties>(Component: BlockConstructa
 
       const contents = fn ? fn(this) : '';
 
-      return `<div data-id="${component.id}">${contents}</div>`;
+      return `<div data-id='${component.id}'>${contents}</div>`;
     },
   );
 }

@@ -1,6 +1,6 @@
 require('babel-core/register');
 
-import { renderDOM, registerComponent, Router } from 'core';
+import { registerComponent, Router } from 'core';
 
 import './styles/styles.css';
 
@@ -40,7 +40,7 @@ registerComponent(LoginFormComponent);
 registerComponent(ChatListComponent);
 registerComponent(ChatDetailsComponent);
 
-const router = new Router([
+const router = [
   {
     to: '',
     page: new OnboardingPage(),
@@ -50,39 +50,35 @@ const router = new Router([
     page: new NotFoundPage(),
   },
   {
-    to: 'auth/',
+    to: 'auth',
     page: new NotFoundPage(),
   },
   {
-    to: 'registration/',
+    to: 'registration',
     page: new NotFoundPage(),
   },
   {
-    to: 'user-settings/',
+    to: 'user-settings',
     page: new NotFoundPage(),
   },
   {
-    to: 'user-details/',
+    to: 'user-details',
     page: new NotFoundPage(),
   },
   {
-    to: 'user-change-password/',
+    to: 'user-change-password',
     page: new NotFoundPage(),
   },
   {
-    to: 'server-error/',
+    to: 'server-error',
     page: new ServerErrorPage(),
   },
   {
-    to: 'not-found/',
+    to: '*',
     page: new NotFoundPage(),
   },
-]);
+];
 
-const navigation = (): void => {
-  const hash = window.location.hash ?? '';
-  renderDOM(router.getPage(hash));
-};
-
-window.addEventListener('hashchange', navigation);
-document.addEventListener('DOMContentLoaded', navigation);
+document.addEventListener('DOMContentLoaded', () => {
+  new Router(router);
+});
