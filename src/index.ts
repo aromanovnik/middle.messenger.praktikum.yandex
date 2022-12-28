@@ -5,7 +5,17 @@ import { registerComponent, Router } from 'core';
 import './styles/styles.css';
 
 // Pages
-import { NotFoundPage, ServerErrorPage, OnboardingPage } from 'pages';
+import {
+  NotFoundPage,
+  ServerErrorPage,
+  OnboardingPage,
+  AuthPage,
+  HomePage,
+  RegistrationPage,
+  UserChangePasswordPage,
+  UserDetailsPage,
+  UserSettingsPage,
+} from 'pages';
 
 // Component
 import {
@@ -47,27 +57,27 @@ const router = [
   },
   {
     to: 'home/',
-    page: new NotFoundPage(),
+    page: new HomePage(),
   },
   {
     to: 'auth',
-    page: new NotFoundPage(),
+    page: new AuthPage(),
   },
   {
     to: 'registration',
-    page: new NotFoundPage(),
+    page: new RegistrationPage(),
   },
   {
     to: 'user-settings',
-    page: new NotFoundPage(),
+    page: new UserSettingsPage(),
   },
   {
     to: 'user-details',
-    page: new NotFoundPage(),
+    page: new UserDetailsPage(),
   },
   {
     to: 'user-change-password',
-    page: new NotFoundPage(),
+    page: new UserChangePasswordPage(),
   },
   {
     to: 'server-error',

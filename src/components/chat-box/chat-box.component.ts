@@ -13,11 +13,11 @@ export class ChatBoxComponent extends Block {
         <div class='chat-box'>
 
             <div class='chat-box__chat-list'>
-                {{> 'chat-list/chat-list'}}
+                {{{ChatListComponent}}}
             </div>
 
             <div class='chat-box__chat-details'>
-                {{> 'chat-details/chat-details' isEmpty=false}}
+                {{{ChatDetailsComponent}}}
             </div>
         </div>`;
   }

@@ -26,10 +26,9 @@ export class ChatListComponent extends Block {
             </div>
 
             <div class='chat-list__list'>
-                {{> 'chat-item/chat-item'
-                        title="Ivan Ivanov"
-                        text="This is a text"
-                        isYoy=true}}
+                {{{ChatItemComponent title="Ivan Ivanov"
+                                     text="This is a text"
+                                     isYoy=true}}}
             </div>
         </div>
     `;

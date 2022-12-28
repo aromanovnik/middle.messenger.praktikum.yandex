@@ -44,7 +44,9 @@ export class ChatDetailsComponent extends Block {
                 </div>
 
                 <div class="chat-details__messages">
-                    {{> 'chat-message/chat-message' dateMessage='11.05.2022' text='Hello!' isMyMessage=true}}
+                    {{{ChatMessageComponentProps dateMessage='11.05.2022'
+                                                 text='Hello!'
+                                                 isMyMessage=true}}}
                 </div>
 
                 <div class="chat-details__footer">
