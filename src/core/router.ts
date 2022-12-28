@@ -52,6 +52,10 @@ export default class Router {
     window.addEventListener('hashchange', this.navigation.bind(this));
   }
 
+  public addRouters(routers: RouterItem[]): void {
+    this.pages = [...this.pages, ...routers];
+  }
+
   public navigation() {
     renderDOM(this.getPage(this.path));
   }

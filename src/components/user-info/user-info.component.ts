@@ -27,40 +27,40 @@ export class UserInfoComponent extends Block {
 
                 <div class='user-info__list user-page__list'>
                     <ul>
-                        <li>
+                        <li class='user-page__item-list'>
                             <span>Почта</span>
                             <span>{{user.email}}</span>
                         </li>
-                        <li>
+                        <li class='user-page__item-list'>
                             <span>Логин</span>
                             <span>{{user.login}}</span>
                         </li>
-                        <li>
+                        <li class='user-page__item-list'>
                             <span>Имя</span>
                             <span>{{user.firstName}}</span>
                         </li>
-                        <li>
+                        <li class='user-page__item-list'>
                             <span>Фамилия</span>
                             <span>{{user.secondName}}</span>
                         </li>
-                        <li>
+                        <li class='user-page__item-list'>
                             <span>Имя в чате</span>
                             <span>{{user.displayName}}</span>
                         </li>
-                        <li>
+                        <li class='user-page__item-list'>
                             <span>Телефон</span>
                             <span>{{user.phone}}</span>
                         </li>
                     </ul>
 
                     <ul>
-                        <li>
+                        <li class='user-page__item-list'>
                             <a href="#user-settings">Изменить данные</a>
                         </li>
-                        <li>
+                        <li class='user-page__item-list'>
                             <a href="#user-change-password">Изменить пароль</a>
                         </li>
-                        <li>
+                        <li class='user-page__item-list'>
                             <a class='user-page__exit-link' href="/">Выйти</a>
                         </li>
                     </ul>

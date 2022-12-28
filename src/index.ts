@@ -33,6 +33,8 @@ import {
   LoginFormComponent,
   ChatListComponent,
   ChatDetailsComponent,
+  InputComponent,
+  ButtonComponent,
 } from 'components';
 
 registerComponent(ErrorComponent);
@@ -49,6 +51,8 @@ registerComponent(RegistrationFormComponent);
 registerComponent(LoginFormComponent);
 registerComponent(ChatListComponent);
 registerComponent(ChatDetailsComponent);
+registerComponent(InputComponent);
+registerComponent(ButtonComponent);
 
 const router = [
   {

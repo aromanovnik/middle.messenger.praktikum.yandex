@@ -12,3 +12,5 @@ export * from './registration-form';
 export * from './login-form';
 export * from './chat-details';
 export * from './chat-list';
+export * from './input';
+export * from './button';

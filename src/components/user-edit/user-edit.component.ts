@@ -29,38 +29,74 @@ export class UserEditComponent extends Block {
                     <form action='#'>
                         <ul>
                             <li>
-                                <label for='userEditEmail'>Почта</label>
-                                <input id='userEditEmail' type='email' name='email'
-                                       value='{{user.email}}'>
+                                {{{InputComponent
+                                        className='user-page__item-list'
+                                        label='Почта'
+                                        id='userEditEmail'
+                                        type='email'
+                                        name='email'
+                                        placeholder=''
+                                        value=user.email
+                                }}}
                             </li>
                             <li>
-                                <label for='userEditLogin'>Логин</label>
-                                <input id='userEditLogin' type='text' name='login'
-                                       value='{{user.login}}'>
+                                {{{InputComponent
+                                        className='user-page__item-list'
+                                        label='Логин'
+                                        id='userEditLogin'
+                                        type='text'
+                                        name='login'
+                                        placeholder=''
+                                        value=user.login
+                                }}}
                             </li>
                             <li>
-                                <label for='userEditFirstName'>Имя</label>
-                                <input id='userEditFirstName' type='text' name='first_name'
-                                       value='{{user.firstName}}'>
+                                {{{InputComponent
+                                        className='user-page__item-list'
+                                        label='Имя'
+                                        id='userEditFirstName'
+                                        type='text'
+                                        name='first_name'
+                                        placeholder=''
+                                        value=user.firstName
+                                }}}
                             </li>
                             <li>
-                                <label for='userEditSecondName'>Фамилия</label>
-                                <input id='userEditSecondName' type='text' name='second_name'
-                                       value='{{user.secondName}}'>
+                                {{{InputComponent
+                                        className='user-page__item-list'
+                                        label='Фамилия'
+                                        id='userEditSecondName'
+                                        type='text'
+                                        name='second_name'
+                                        placeholder=''
+                                        value=user.secondName
+                                }}}
                             </li>
                             <li>
-                                <label for='userEditDisplayName'>Имя в чате</label>
-                                <input id='userEditDisplayName' type='text' name='display_name'
-                                       value='{{user.displayName}}'>
+                                {{{InputComponent
+                                        className='user-page__item-list'
+                                        label='Имя в чате'
+                                        id='userEditDisplayName'
+                                        type='text'
+                                        name='display_name'
+                                        placeholder=''
+                                        value=user.displayName
+                                }}}
                             </li>
                             <li>
-                                <label for='userEditPhone'>Телефон</label>
-                                <input id='userEditPhone' type='tel' name='phone'
-                                       value='{{user.phone}}'>
+                                {{{InputComponent
+                                        className='user-page__item-list'
+                                        label='Телефон'
+                                        id='userEditPhone'
+                                        type='tel'
+                                        name='phone'
+                                        placeholder=''
+                                        value=user.phone
+                                }}}
                             </li>
                         </ul>
 
-                        <button class='button user-edit__save'>Сохранить</button>
+                        {{{ButtonComponent className='user-edit__save' title='Сохранить'}}}
                     </form>
                 </div>
 

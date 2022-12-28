@@ -16,51 +16,72 @@ export class RegistrationFormComponent extends Block {
             <h1 class='registration-form__title'>Регистрация</h1>
 
             <form action='#' class='registration-form__form form'>
-                <div class='form__input'>
-                    <label for='registrationFirstName'>Имя</label>
-                    <input id='registrationFirstName' type='text' name='first_name'
-                           placeholder='' />
-                </div>
 
-                <div class='form__input'>
-                    <label for='registrationSecondName'>Фамилия</label>
-                    <input id='registrationSecondName' type='text' name='second_name'
-                           placeholder='' />
-                </div>
+                {{{InputComponent
+                        label='Имя'
+                        className='form__input'
+                        id='registrationFirstName'
+                        type='text'
+                        name='first_name'
+                        placeholder=''
+                }}}
 
-                <div class='form__input'>
-                    <label for='registrationLogin'>Логин</label>
-                    <input id='registrationLogin' type='text' name='login' placeholder='' />
-                </div>
+                {{{InputComponent
+                        label='Фамилия'
+                        className='form__input'
+                        id='registrationSecondName'
+                        type='text'
+                        name='second_name'
+                        placeholder=''
+                }}}
 
-                <div class='form__input'>
-                    <label for='registrationEmail'>Email</label>
-                    <input id='registrationEmail' type='email' name='email' placeholder='' />
-                </div>
+                {{{InputComponent
+                        label='Логин'
+                        className='form__input'
+                        id='registrationLogin'
+                        type='text'
+                        name='login'
+                        placeholder=''
+                }}}
 
-                <div class='form__input'>
-                    <label for='registrationEmail'>Телефон</label>
-                    <input id='registrationEmail' type='tel' name='phone' placeholder='' />
-                </div>
+                {{{InputComponent
+                        label='Email'
+                        className='form__input'
+                        id='registrationEmail'
+                        type='email'
+                        name='email'
+                        placeholder=''
+                }}}
 
-                <div class='form__input'>
-                    <label for='registrationPassword'>Пароль</label>
-                    <input id='registrationPassword' type='password' name='password'
-                           placeholder='' />
-                </div>
+                {{{InputComponent
+                        label='Телефон'
+                        className='form__input'
+                        id='registrationTel'
+                        type='tel'
+                        name='phone'
+                        placeholder=''
+                }}}
 
-                <div class='form__input'>
-                    <label for='registrationPasswordConfirm'>Пароль (ещё раз)</label>
-                    <input
-                            id='registrationPasswordConfirm'
-                            type='password'
-                            name='password-confirm'
-                            placeholder=''
-                    />
-                </div>
+                {{{InputComponent
+                        label='Пароль'
+                        className='form__input'
+                        id='registrationPassword'
+                        type='password'
+                        name='password'
+                        placeholder=''
+                }}}
 
-                <button class='button'>Войти</button>
-                <a href='#auth'>Ещё не зарегистрированы?</a>
+                {{{InputComponent
+                        label='Пароль (ещё раз)'
+                        className='form__input'
+                        id='registrationPasswordConfirm'
+                        type='password'
+                        name='password-confirm'
+                        placeholder=''
+                }}}
+
+                {{{ButtonComponent title='Зарегистрироваться'}}}
+                <a href='#auth'>Или войти</a>
             </form>
         </div>
     `;

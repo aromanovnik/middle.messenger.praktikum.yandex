@@ -16,17 +16,26 @@ export class LoginFormComponent extends Block {
             <h1 class='login-form__title'>Авторизация</h1>
 
             <form action='#' class='login-form__form form'>
-                <div class='form__input'>
-                    <label for='loginLogin'>Логин</label>
-                    <input id='loginLogin' type='text' name='login' placeholder='' />
-                </div>
 
-                <div class='form__input'>
-                    <label for='loginPassword'>Пароль</label>
-                    <input id='loginPassword' type='password' name='password' placeholder='' />
-                </div>
+                {{{InputComponent
+                        label='Логин'
+                        className='form__input'
+                        id='loginLogin'
+                        type='text'
+                        name='login'
+                        placeholder=''
+                }}}
 
-                <button class='button'>Войти</button>
+                {{{InputComponent
+                        label='Пароль'
+                        className='form__input'
+                        id='loginPassword'
+                        type='password'
+                        name='password'
+                        placeholder=''
+                }}}
+
+                {{{ButtonComponent title='Войти'}}}
                 <a href='#registration'>Ещё не зарегистрированы?</a>
             </form>
         </div>

@@ -28,23 +28,40 @@ export class UserChangePassComponent extends Block {
                     <form action='#'>
                         <ul>
                             <li>
-                                <label for='userPassOldPassword'>Старый пароль</label>
-                                <input id='userPassOldPassword' type='password' name='oldPassword'>
+                                {{{InputComponent
+                                        className='user-page__item-list'
+                                        label='Старый пароль'
+                                        id='userPassOldPassword'
+                                        type='password'
+                                        name='oldPassword'
+                                        placeholder=''
+                                }}}
                             </li>
 
                             <li>
-                                <label for='userPassNewPassword'>Новый пароль</label>
-                                <input id='userPassNewPassword' type='password' name='newPassword'>
+                                {{{InputComponent
+                                        className='user-page__item-list'
+                                        label='Новый пароль'
+                                        id='userPassNewPassword'
+                                        type='password'
+                                        name='newPassword'
+                                        placeholder=''
+                                }}}
                             </li>
 
                             <li>
-                                <label for='userPassNewPasswordConf'>Повторите новый пароль</label>
-                                <input id='userPassNewPasswordConf' type='password'
-                                       name='newPasswordConf'>
+                                {{{InputComponent
+                                        className='user-page__item-list'
+                                        label='Повторите новый пароль'
+                                        id='userPassNewPasswordConf'
+                                        type='password'
+                                        name='newPasswordConf'
+                                        placeholder=''
+                                }}}
                             </li>
                         </ul>
 
-                        <button class='button user-change-pass__save'>Сохранить</button>
+                        {{{ButtonComponent className='user-change-pass__save' title='Сохранить'}}}
                     </form>
                 </div>
             {{/if}}
