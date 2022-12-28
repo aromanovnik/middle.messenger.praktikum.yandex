@@ -4,6 +4,8 @@ import { userInfo } from 'demo';
 import './user-info.component.css';
 
 export class UserInfoComponent extends Block {
+  static override componentName = 'UserInfoComponent';
+
   constructor() {
     super();
 

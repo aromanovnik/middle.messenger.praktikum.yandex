@@ -12,6 +12,8 @@ export interface ChatItemComponentProps {
 }
 
 export class ChatItemComponent extends Block {
+  static override componentName = 'ChatItemComponent';
+
   constructor({ image, dateLast, title, text, isYoy, badge }: ChatItemComponentProps) {
     super({ image, dateLast, title, text, isYoy, badge });
   }

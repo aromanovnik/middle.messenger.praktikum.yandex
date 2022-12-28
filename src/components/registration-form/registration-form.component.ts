@@ -3,6 +3,12 @@ import { Block } from 'core';
 import './registration-form.component.css';
 
 export class RegistrationFormComponent extends Block {
+  static override componentName = 'RegistrationFormComponent';
+
+  constructor() {
+    super();
+  }
+
   protected override render(): string {
     // language=hbs
     return `

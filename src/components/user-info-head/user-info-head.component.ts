@@ -9,6 +9,8 @@ export interface UserInfoHeadComponentProps {
 }
 
 export class UserInfoHeadComponent extends Block {
+  static override componentName = 'UserInfoHeadComponent';
+
   constructor({ avatar, firstName, isShowName }: UserInfoHeadComponentProps) {
     super({ avatar, firstName, isShowName });
   }

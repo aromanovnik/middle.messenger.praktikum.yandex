@@ -4,6 +4,8 @@ import { userInfo } from 'demo';
 import './user-change-pass.component.css';
 
 export class UserChangePassComponent extends Block {
+  static override componentName = 'UserChangePassComponent';
+
   constructor() {
     super();
 

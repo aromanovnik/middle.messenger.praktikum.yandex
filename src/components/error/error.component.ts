@@ -10,6 +10,8 @@ export interface ErrorComponentProps {
 }
 
 export class ErrorComponent extends Block {
+  static override componentName = 'ErrorComponent';
+
   constructor({ title, subtitle, actionHref, actionText }: ErrorComponentProps) {
     super({ title, subtitle, actionHref, actionText });
   }

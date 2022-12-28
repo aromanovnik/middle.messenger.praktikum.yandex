@@ -3,6 +3,12 @@ import { Block } from 'core';
 import './login-form.component.css';
 
 export class LoginFormComponent extends Block {
+  static override componentName = 'LoginFormComponent';
+
+  constructor() {
+    super();
+  }
+
   protected override render(): string {
     // language=hbs
     return `

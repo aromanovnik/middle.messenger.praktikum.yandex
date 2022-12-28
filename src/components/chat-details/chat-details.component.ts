@@ -9,6 +9,8 @@ export interface ChatDetailsComponentProps {
 }
 
 export class ChatDetailsComponent extends Block {
+  static override componentName = 'ChatDetailsComponent';
+
   constructor() {
     super();
   }
@@ -42,8 +44,8 @@ export class ChatDetailsComponent extends Block {
 
                 <div class="chat-details__messages">
                     {{{ChatMessageComponent dateMessage='11.05.2022'
-                                                 text='Hello!'
-                                                 isMyMessage=true}}}
+                                            text='Hello!'
+                                            isMyMessage=true}}}
                 </div>
 
                 <div class="chat-details__footer">

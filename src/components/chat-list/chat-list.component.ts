@@ -3,6 +3,8 @@ import { Block } from '../../core';
 import './chat-list.component.css';
 
 export class ChatListComponent extends Block {
+  static override componentName = 'ChatListComponent';
+
   constructor() {
     super();
   }

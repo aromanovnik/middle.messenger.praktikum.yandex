@@ -11,7 +11,7 @@
   position: relative;
 }
 
-.sidebar-back:before {
+.sidebar-back::before {
   content: "";
   position: absolute;
   width: 100%;

@@ -9,6 +9,8 @@ export interface ChatMessageComponentProps {
 }
 
 export class ChatMessageComponent extends Block {
+  static override componentName = 'ChatMessageComponent';
+
   constructor({ isMyMessage, text, dateMessage }: ChatMessageComponentProps) {
     super({ isMyMessage, text, dateMessage });
   }
