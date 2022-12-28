@@ -1,4 +1,5 @@
 import { Block } from 'core';
+// todo: Only for demo
 import { ChatMessage, userInfo } from 'demo';
 
 import './chat-message.component.css';

@@ -1,4 +1,5 @@
 import { Block } from 'core';
+// todo: Only for demo
 import { userInfo } from 'demo';
 
 import './user-edit.component.css';
@@ -9,7 +10,6 @@ export class UserEditComponent extends Block {
   constructor() {
     super();
 
-    // todo: Only for demo
     this.setProps({
       user: userInfo,
     });

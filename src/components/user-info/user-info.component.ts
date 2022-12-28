@@ -1,4 +1,5 @@
 import { Block } from 'core';
+// todo: Only for demo
 import { userInfo } from 'demo';
 
 import './user-info.component.css';
@@ -9,7 +10,6 @@ export class UserInfoComponent extends Block {
   constructor() {
     super();
 
-    // todo: Only for demo
     this.setProps({
       user: userInfo,
     });
