@@ -1,30 +1,34 @@
-import { Block } from '../../core';
+import { Block } from 'core';
+import { ChatMessage, userInfo } from 'demo';
 
 import './chat-message.component.css';
 
 export interface ChatMessageComponentProps {
-  isMyMessage?: boolean;
-  text: string;
-  dateMessage: Date;
+  message: ChatMessage;
 }
 
 export class ChatMessageComponent extends Block {
   static override componentName = 'ChatMessageComponent';
 
-  constructor({ isMyMessage, text, dateMessage }: ChatMessageComponentProps) {
-    super({ isMyMessage, text, dateMessage });
+  constructor({ message }: ChatMessageComponentProps) {
+    super({ message });
+
+    this.setProps({
+      user: userInfo,
+      isMyMessage: userInfo.id === this.props.message.userId,
+    });
   }
 
   override render(): string {
     // language=hbs
     return `
         <div class='chat-message {{#if isMyMessage}}chat-message_my-message{{/if}}'>
-            <p class='chat-message__text'>{{text}}</p>
+            <p class='chat-message__text'>{{message.content}}</p>
             <span class='chat-message__date'>
                 {{#if isMyMessage}}
                     <span class="chat-message__mark"></span>
                 {{/if}}
-                {{dateMessage}}
+                {{message.time}}
           </span>
         </div>
 

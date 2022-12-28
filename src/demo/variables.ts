@@ -1,4 +1,4 @@
-import { ChatsResponse, UserResponse } from './types';
+import { ChatMessage, ChatsResponse, UserResponse } from './types';
 
 // User
 export const userInfo: UserResponse = {
@@ -24,6 +24,7 @@ export const chat: ChatsResponse = {
     content: 'this is message content',
   },
 };
+
 export const chats: ChatsResponse[] = [
   chat,
   {
@@ -55,5 +56,24 @@ export const chats: ChatsResponse[] = [
       },
       content: 'this is message content 2',
     },
+  },
+];
+
+// Messages
+export const message: ChatMessage = {
+  id: 1,
+  userId: 1,
+  chatId: 125,
+  time: new Date(),
+  type: ChatMessage.TypeEnum.Message,
+  content: 'This is a message',
+};
+
+export const messages: ChatMessage[] = [
+  message,
+  {
+    ...message,
+    id: 3,
+    userId: 3,
   },
 ];

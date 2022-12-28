@@ -1,18 +1,17 @@
 import { Block } from 'core';
-import { ChatMessageComponentProps } from 'components/chat-message';
+import { messages } from 'demo';
 
 import './chat-details.component.css';
-
-export interface ChatDetailsComponentProps {
-  user: string;
-  messages: ChatMessageComponentProps[];
-}
 
 export class ChatDetailsComponent extends Block {
   static override componentName = 'ChatDetailsComponent';
 
   constructor() {
     super();
+
+    this.setProps({
+      messages,
+    });
   }
 
   protected override render(): string {
@@ -43,9 +42,9 @@ export class ChatDetailsComponent extends Block {
                 </div>
 
                 <div class="chat-details__messages">
-                    {{{ChatMessageComponent dateMessage='11.05.2022'
-                                            text='Hello!'
-                                            isMyMessage=true}}}
+                    {{#each messages}}
+                        {{{ChatMessageComponent message=this}}}
+                    {{/each}}
                 </div>
 
                 <div class="chat-details__footer">

@@ -10,8 +10,8 @@ export interface ChatItemComponentProps {
 export class ChatItemComponent extends Block {
   static override componentName = 'ChatItemComponent';
 
-  constructor({ chat, ...props }: ChatItemComponentProps) {
-    super({ chat, ...props });
+  constructor({ chat }: ChatItemComponentProps) {
+    super({ chat });
 
     this.setProps({
       user: userInfo,
