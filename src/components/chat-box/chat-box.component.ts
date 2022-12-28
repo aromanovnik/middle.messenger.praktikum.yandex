@@ -13,7 +13,6 @@ export class ChatBoxComponent extends Block {
     // language=hbs
     return `
         <div class='chat-box'>
-
             <div class='chat-box__chat-list'>
                 {{{ChatListComponent}}}
             </div>

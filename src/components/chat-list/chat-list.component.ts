@@ -1,4 +1,5 @@
-import { Block } from '../../core';
+import { Block } from 'core';
+import { chats } from 'demo';
 
 import './chat-list.component.css';
 
@@ -7,6 +8,10 @@ export class ChatListComponent extends Block {
 
   constructor() {
     super();
+
+    this.setProps({
+      chats,
+    });
   }
 
   protected override render(): string {
@@ -31,9 +36,9 @@ export class ChatListComponent extends Block {
             </div>
 
             <div class='chat-list__list'>
-                {{{ChatItemComponent title="Ivan Ivanov"
-                                     text="This is a text"
-                                     isYoy=true}}}
+                {{#each chats}}
+                    {{{ChatItemComponent chat=this}}}
+                {{/each}}
             </div>
         </div>
     `;
