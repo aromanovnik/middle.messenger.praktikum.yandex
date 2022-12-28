@@ -1,6 +1,6 @@
 import { Block } from 'core';
 // todo: Only for demo
-import { messages } from 'demo';
+import { messages, chat } from 'demo';
 
 import './chat-details.component.css';
 
@@ -12,6 +12,7 @@ export class ChatDetailsComponent extends Block {
 
     this.setProps({
       messages,
+      chat,
     });
   }
 
@@ -31,12 +32,12 @@ export class ChatDetailsComponent extends Block {
                 <div class="chat-details__header">
                     <a href='#user-details'
                        class="chat-details__avatar">
-                        {{{UserAvatarComponent image=null}}}
+                        {{{UserAvatarComponent image=chat.avatar}}}
                     </a>
 
                     <a href='#user-details'
                        class="chat-details__user-name">
-                        Genadii
+                        {{chat.title}}
                     </a>
 
                     <button class="chat-details__menu" title="menu"></button>

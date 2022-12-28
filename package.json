@@ -7,7 +7,7 @@
     "build": "parcel build src/index.html --no-cache",
     "start": "parcel build src/index.html --no-cache && npm run server",
     "clear": "rimraf dist",
-    "server": "ts-node server.ts",
+    "server": "ts-node server.js",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "npx eslint --fix src/",
     "stylelint": "npx stylelint --fix \"src/**/*.css\"",
