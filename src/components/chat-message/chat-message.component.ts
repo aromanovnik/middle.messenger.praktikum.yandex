@@ -12,11 +12,10 @@ export class ChatMessageComponent extends Block {
   static override componentName = 'ChatMessageComponent';
 
   constructor({ message }: ChatMessageComponentProps) {
-    super({ message });
-
-    this.setProps({
+    super({
+      message,
       user: userInfo,
-      isMyMessage: userInfo.id === this.props.message.userId,
+      isMyMessage: userInfo.id === message.userId,
     });
   }
 

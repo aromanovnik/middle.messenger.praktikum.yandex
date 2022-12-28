@@ -8,9 +8,7 @@ export class ChatListComponent extends Block {
   static override componentName = 'ChatListComponent';
 
   constructor() {
-    super();
-
-    this.setProps({
+    super({
       chats,
     });
   }

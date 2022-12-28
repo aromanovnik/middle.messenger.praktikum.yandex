@@ -12,11 +12,10 @@ export class ChatItemComponent extends Block {
   static override componentName = 'ChatItemComponent';
 
   constructor({ chat }: ChatItemComponentProps) {
-    super({ chat });
-
-    this.setProps({
+    super({
+      chat,
       user: userInfo,
-      isYou: userInfo.id === this.props.chat.lastMessage.user.id,
+      isYou: userInfo.id === chat.lastMessage.user?.id,
     });
   }
 

@@ -8,9 +8,7 @@ export class ChatDetailsComponent extends Block {
   static override componentName = 'ChatDetailsComponent';
 
   constructor() {
-    super();
-
-    this.setProps({
+    super({
       messages,
       chat,
     });
