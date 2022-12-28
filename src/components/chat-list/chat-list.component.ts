@@ -3,6 +3,10 @@ import { Block } from '../../core';
 import './chat-list.component.css';
 
 export class ChatListComponent extends Block {
+  constructor() {
+    super();
+  }
+
   protected override render(): string {
     // language=hbs
     return `
@@ -11,9 +15,8 @@ export class ChatListComponent extends Block {
             <div class='chat-list__header'>
                 <div class='chat-list__profile-link'>
 
-                    <a href='../../pages/user-details/user-details.hbs'>
+                    <a href='#user-details'>
                         Профиль
-                        <img src='../../../static/images/arrow-right.svg' alt='Arrow right'>
                     </a>
 
                 </div>

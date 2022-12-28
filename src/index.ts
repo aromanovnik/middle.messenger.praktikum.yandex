@@ -56,7 +56,7 @@ const router = [
     page: new OnboardingPage(),
   },
   {
-    to: 'home/',
+    to: 'home',
     page: new HomePage(),
   },
   {

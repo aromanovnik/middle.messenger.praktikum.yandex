@@ -4,8 +4,8 @@
   "description": "",
   "scripts": {
     "dev": "parcel src/index.html --no-source-maps --no-cache --open",
-    "build": "parcel build src/pages/index.hbs --no-cache",
-    "start": "parcel build src/pages/index.hbs --no-cache && npm run server",
+    "build": "parcel build src/index.html --no-cache",
+    "start": "parcel build src/index.html --no-cache && npm run server",
     "clear": "rimraf dist",
     "server": "ts-node server.ts",
     "format": "prettier --write \"src/**/*.ts\"",
@@ -19,7 +19,7 @@
     "pages": "./src/pages",
     "components": "./src/components",
     "helpers": "./src/helpers",
-    "api": "./src/api"
+    "demo": "./src/demo"
   },
   "repository": {
     "type": "git",
@@ -29,9 +29,6 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/aromanovnik/middle.messenger.praktikum.yandex/issues"
-  },
-  "engines": {
-    "node": "16.13.0"
   },
   "homepage": "https://github.com/aromanovnik/middle.messenger.praktikum.yandex#readme",
   "devDependencies": {

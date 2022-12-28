@@ -19,7 +19,7 @@ export class ChatItemComponent extends Block {
   override render(): string {
     // language=hbs
     return `
-        <a href='#' class="chat-item">
+        <a href='#home/1' class="chat-item">
             <div class='chat-item__avatar'>
                 {{{UserAvatarComponent image=null}}}
             </div>

@@ -20,6 +20,15 @@
   display: inline-flex;
 }
 
+.chat-message .chat-message__mark {
+  width: 10px;
+  height: 10px;
+  background-image: url('../../../static/images/check-mark.svg');
+  background-repeat: no-repeat;
+  background-position: center center;
+  margin-right: 4px;
+}
+
 .chat-message .chat-message__date {
   font-size: 9px;
   line-height: 9px;
@@ -35,8 +44,4 @@
 
 .chat-message.chat-message_my-message .chat-message__date {
   color: var(--blue);
-}
-
-.chat-message .chat-message__date img {
-  margin-right: 4px;
 }

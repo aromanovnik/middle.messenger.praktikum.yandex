@@ -21,7 +21,7 @@ export class LoginFormComponent extends Block {
                 </div>
 
                 <button class='button'>Войти</button>
-                <a href='../../pages/registration/registration.hbs'>Ещё не зарегистрированы?</a>
+                <a href='#registration'>Ещё не зарегистрированы?</a>
             </form>
         </div>
     `;

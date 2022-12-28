@@ -56,10 +56,13 @@
   line-height: 20px;
   text-align: center;
   border: 0;
-  background: none;
   border-radius: 8px;
   margin-left: auto;
   margin-right: 20px;
+  background-color: unset;
+  background-image: url('../../../static/images/menu.svg');
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .chat-details .chat-details__menu:hover {
@@ -96,10 +99,13 @@
 .chat-details .chat-details__button-send {
   width: 28px;
   height: 28px;
-  background: none;
   border: 0;
   object-fit: cover;
   margin-left: 10px;
+  background-color: unset;
+  background-image: url('../../../static/images/send.svg');
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .chat-details .chat-details__input {
@@ -130,8 +136,11 @@
 .chat-details .chat-details__button-clip {
   width: 32px;
   height: 32px;
-  background: none;
   border: 0;
   object-fit: cover;
   margin-left: 20px;
+  background-color: unset;
+  background-image: url('../../../static/images/clip.svg');
+  background-repeat: no-repeat;
+  background-position: center;
 }

@@ -32,8 +32,7 @@ export class UserInfoHeadComponent extends Block {
             </div>
 
             {{#if isShowName}}
-                <h2 class='user-info-head__user-name'>Иван</h2>
-                <!--<h2 class='user-info-head__user-name'>{{firstName}}</h2>-->
+                <h2 class='user-info-head__user-name'>{{firstName}}</h2>
             {{/if}}
         </div>
     `;

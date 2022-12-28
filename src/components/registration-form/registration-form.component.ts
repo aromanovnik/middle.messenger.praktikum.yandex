@@ -54,7 +54,7 @@ export class RegistrationFormComponent extends Block {
                 </div>
 
                 <button class='button'>Войти</button>
-                <a href='../../pages/auth/auth.hbs'>Ещё не зарегистрированы?</a>
+                <a href='#auth'>Ещё не зарегистрированы?</a>
             </form>
         </div>
     `;

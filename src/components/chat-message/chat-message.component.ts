@@ -20,7 +20,7 @@ export class ChatMessageComponent extends Block {
             <p class='chat-message__text'>{{text}}</p>
             <span class='chat-message__date'>
                 {{#if isMyMessage}}
-                    <img src='../../../static/images/check-mark.svg' alt='Check mark'>
+                    <span class="chat-message__mark"></span>
                 {{/if}}
                 {{dateMessage}}
           </span>
