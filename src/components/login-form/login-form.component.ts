@@ -9,13 +9,18 @@ export class LoginFormComponent extends Block {
     super();
   }
 
+  onSubmit(event: Event): void {
+    alert('event');
+    console.log('onSubmit', event);
+  }
+
   protected override render(): string {
     // language=hbs
     return `
         <div class='login-form'>
             <h1 class='login-form__title'>Авторизация</h1>
 
-            <form action='#' class='login-form__form form'>
+            <form class='login-form__form form'>
 
                 {{{InputComponent
                         label='Логин'
@@ -35,7 +40,7 @@ export class LoginFormComponent extends Block {
                         placeholder=''
                 }}}
 
-                {{{ButtonComponent title='Войти'}}}
+                {{{ButtonComponent title='Войти' onClick=onSubmit}}}
                 <a href='#registration'>Ещё не зарегистрированы?</a>
             </form>
         </div>
