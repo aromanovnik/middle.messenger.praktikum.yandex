@@ -62,9 +62,10 @@ export class LoginFormComponent extends Block {
 
   onInput(event: InputEvent): void {
     const target = event.target as HTMLInputElement;
-    if (target.name in this.formValue) {
+    const name = target?.dataset['key'] ? target?.dataset['key'] : target.name;
+    if (name in this.formValue) {
       // @ts-ignore
-      this.formValue[target.name] = target.value;
+      this.formValue[name] = target.value;
     }
   }
 

@@ -48,14 +48,7 @@ export class ChatDetailsComponent extends Block {
                 </div>
 
                 <div class="chat-details__footer">
-                    <button class="chat-details__button-clip" title="Send file">
-                    </button>
-
-                    <form class="chat-details__form" action="#">
-                        <input class="chat-details__input" type="text" name="message"
-                               placeholder="Сообщение">
-                        <button class="chat-details__button-send" title="Send message"></button>
-                    </form>
+                    {{{ChatInputComponent}}}
                 </div>
             </div>
 

@@ -37,6 +37,7 @@ import {
   InputFieldComponent,
   InputErrorComponent,
   ButtonComponent,
+  ChatInputComponent,
 } from 'components';
 
 registerComponent(ErrorComponent);
@@ -53,6 +54,7 @@ registerComponent(RegistrationFormComponent);
 registerComponent(LoginFormComponent);
 registerComponent(ChatListComponent);
 registerComponent(ChatDetailsComponent);
+registerComponent(ChatInputComponent);
 registerComponent(InputComponent);
 registerComponent(InputFieldComponent);
 registerComponent(InputErrorComponent);
