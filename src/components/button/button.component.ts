@@ -3,7 +3,7 @@ import { Block } from 'core';
 import './button.component.css';
 
 export interface ButtonComponentProps {
-  onClick?: () => void;
+  onClick?: (event: MouseEvent) => void;
   title?: string;
   className?: string;
 }

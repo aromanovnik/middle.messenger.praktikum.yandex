@@ -4,10 +4,10 @@ import './input.component.css';
 
 export interface InputComponentProps {
   className?: string;
-  onChange?: () => void;
-  onBlur?: () => void;
-  onInput?: () => void;
-  onFocus?: () => void;
+  onChange?: (event: InputEvent) => void;
+  onBlur?: (event: InputEvent) => void;
+  onInput?: (event: InputEvent) => void;
+  onFocus?: (event: InputEvent) => void;
   type?: 'text' | 'password' | 'email' | 'tel';
   placeholder?: string;
   label?: string;

@@ -19,6 +19,7 @@
     "pages": "./src/pages",
     "components": "./src/components",
     "helpers": "./src/helpers",
+    "services": "./src/services",
     "demo": "./src/demo"
   },
   "repository": {
