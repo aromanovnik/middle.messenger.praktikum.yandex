@@ -21,9 +21,31 @@ export function validateForm(rules: ValidateRule[]): string {
   for (let i = 0; i < rules.length; i++) {
     const { type, value } = rules[i];
     switch (type) {
-      case ValidateRuleType.Message: {
-        if (!value?.trim()) {
-          errorMessage = 'message — не должно быть пустым.';
+      case ValidateRuleType.Name: {
+        if (!value?.trim() || /^(\+|[A-ZА-Я])([[A-Za-zА-Яa-z-])+$/.test(value)) {
+          errorMessage =
+            'first_name, second_name — латиница или кириллица, первая буква должна быть заглавной, без пробелов и без цифр, нет спецсимволов (допустим только дефис).';
+        }
+        break;
+      }
+
+      case ValidateRuleType.Login: {
+        if (
+          !value?.trim() ||
+          value?.length < 3 ||
+          value?.length > 30 ||
+          (value.match(/([A-Za-z0-9_-])/g) || []).length !== value.length
+        ) {
+          //
+          errorMessage =
+            'login — от 3 до 20 символов, латиница, может содержать цифры, но не состоять из них, без пробелов, без спецсимволов (допустимы дефис и нижнее подчёркивание).';
+        }
+        break;
+      }
+      case ValidateRuleType.Email: {
+        if (!value?.trim() || !/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,}$/.test(value)) {
+          errorMessage =
+            'email — латиница, может включать цифры и спецсимволы вроде дефиса, обязательно должна быть «собака» (@) и точка после неё, но перед точкой обязательно должны быть буквы.';
         }
         break;
       }
@@ -42,6 +64,12 @@ export function validateForm(rules: ValidateRule[]): string {
         ) {
           errorMessage =
             'password — от 8 до 40 символов, обязательно хотя бы одна заглавная буква и цифра.';
+        }
+        break;
+      }
+      case ValidateRuleType.Message: {
+        if (!value?.trim()) {
+          errorMessage = 'message — не должно быть пустым.';
         }
         break;
       }
