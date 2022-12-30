@@ -1,44 +1,47 @@
 {
-  "root": true,
   "plugins": [
-    "html"
+    "@typescript-eslint",
+    "prettier",
+    "import"
   ],
-  "overrides": [
-    {
-      "files": [
-        "*.ts"
-      ],
-      "parserOptions": {
-        "project": [
-          "tsconfig.json"
-        ],
-        "createDefaultProgram": true
-      },
-      "extends": [
-        "plugin:import/recommended",
-        // Airbnb
-        "airbnb-typescript/base",
-        // Prettier
-        "prettier",
-        "plugin:prettier/recommended"
-      ],
-      "rules": {
-        "eol-last": [
-          "error",
-          "always"
-        ]
-      }
-    },
-    {
-      "files": [
-        "*.hbs"
-      ],
-      "rules": {
-        "eol-last": [
-          "error",
-          "always"
-        ]
-      }
-    }
-  ]
+  "extends": [
+    "eslint:recommended",
+    "plugin:import/recommended",
+    "airbnb-base",
+    "airbnb-typescript/base",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true
+  },
+  "rules": {
+    "eol-last": [
+      "error",
+      "always"
+    ],
+    "no-underscore-dangle": "off",
+    "no-continue": "off",
+    "import/no-unresolved": "off",
+    "no-restricted-syntax": "off",
+    "class-methods-use-this": "off",
+    "no-param-reassign": "off",
+    "import/first": "off",
+    "no-plusplus": "off",
+    "no-nested-ternary": "off",
+    "no-new": "off",
+    "import/prefer-default-export": "off",
+    "@typescript-eslint/no-empty-interface": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/no-this-alias": "warn",
+    "@typescript-eslint/no-useless-constructor": "warn"
+  }
 }

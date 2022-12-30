@@ -1,24 +1,5 @@
-@import './base.css';
-@import './variables.css';
-
-/*Partials*/
-@import '../components/login-form/login-form.css';
-@import '../components/registration-form/registration-form.css';
-
-@import '../components/error/error.css';
-
-@import '../components/chat-box/chat-box.css';
-@import '../components/chat-list/chat-list.css';
-@import '../components/chat-details/chat-details.css';
-@import '../components/chat-item/chat-item.css';
-@import '../components/chat-message/chat-message.css';
-
-@import '../components/user-avatar/user-avatar.css';
-@import '../components/sidebar-back/sidebar-back.css';
-@import '../components/user-info-head/user-info-head.css';
-@import '../components/user-info/user-info.css';
-@import '../components/user-edit/user-edit.css';
-@import '../components/user-change-pass/user-change-pass.css';
+@import url('./base.css');
+@import url('./variables.css');
 
 body {
   font-style: normal;
@@ -27,10 +8,14 @@ body {
   line-height: 13px;
   color: var(--black);
   display: flex;
-
   height: 100vh;
   width: 100vw;
   overflow: auto;
+}
+
+#app {
+  display: flex;
+  flex: 1 1 auto;
 }
 
 .page {
@@ -57,7 +42,7 @@ a:hover {
   text-decoration: underline;
 }
 
-/*Forms*/
+/* Forms */
 .form {
   display: flex;
   flex-direction: column;
@@ -84,20 +69,7 @@ a:hover {
   outline: 0;
 }
 
-.button {
-  cursor: pointer;
-  background: var(--blue);
-  border-radius: 8px;
-  text-align: center;
-  color: var(--white);
-  border: 0;
-  outline: 0;
-  padding: 12px;
-  width: 280px;
-  max-width: 100%;
-}
-
-/*User*/
+/* User */
 .user-page {
   display: flex;
   flex: 1 1 auto;
@@ -123,11 +95,12 @@ a:hover {
   margin: 60px 0 0;
 }
 
-.user-page .user-page__list ul li {
+.user-page .user-page__list .user-page__item-list {
   display: flex;
   justify-content: space-between;
   padding: 10px 0;
   border-bottom: 1px solid var(--bright-gray);
+  flex-wrap: wrap;
 }
 
 .user-page .user-page__list a {
@@ -146,7 +119,7 @@ a:hover {
   color: var(--spanish-gray);
   padding: 0;
   height: 25px;
-  margin: -5px 0 -5px;
+  margin: -5px 0;
   width: 50%;
   border: 0;
   text-align: right;
