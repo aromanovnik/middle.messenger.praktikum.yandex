@@ -1,14 +1,15 @@
 import { HTTPTransport } from 'core/http-transport';
+import { ChangePasswordRequest, UserUpdateRequest } from 'demo';
 
 export class UserService {
   http = new HTTPTransport();
 
-  editInfo(): void {
-    console.log('[UserService] editInfo -> ');
+  editInfo(data: UserUpdateRequest): void {
+    console.log('[UserService] editInfo -> ', data);
   }
 
-  changePassword(): void {
-    console.log('[UserService] changePassword -> ');
+  changePassword(data: ChangePasswordRequest): void {
+    console.log('[UserService] changePassword -> ', data);
   }
 }
 

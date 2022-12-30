@@ -1,5 +1,7 @@
 import { Block } from 'core';
+import { SignInRequest } from 'demo';
 import { authService } from 'services';
+import { validateForm, ValidateRuleType } from 'helpers';
 
 import './login-form.component.css';
 
@@ -8,10 +10,7 @@ export class LoginFormComponent extends Block {
 
   authService = authService;
 
-  formValue: {
-    login: string;
-    password: string;
-  } = {
+  formValue: SignInRequest = {
     login: '',
     password: '',
   };
@@ -20,23 +19,45 @@ export class LoginFormComponent extends Block {
     super();
 
     this.setProps({
+      error: '',
+      values: this.formValue,
       onSubmit: this.onSubmit.bind(this),
       onBlur: this.onBlur.bind(this),
       onInput: this.onInput.bind(this),
     });
   }
 
-  validate(): void {}
+  validate(): string {
+    const message = validateForm([
+      {
+        type: ValidateRuleType.Login,
+        value: this.formValue.login,
+      },
+      {
+        type: ValidateRuleType.Password,
+        value: this.formValue.password,
+      },
+    ]);
+
+    this.setProps({
+      error: message,
+      values: this.formValue,
+    });
+    return message;
+  }
 
   onSubmit(event: MouseEvent): void {
     event?.preventDefault();
 
-    this.authService.auth();
+    if (this.validate()) {
+      return;
+    }
+
+    this.authService.auth(this.formValue);
   }
 
-  onBlur(event: InputEvent): void {
-    const target = event.target as HTMLInputElement;
-    console.log('onBlur -> ', target.name, target.value);
+  onBlur(): void {
+    this.validate();
   }
 
   onInput(event: InputEvent): void {
@@ -45,7 +66,6 @@ export class LoginFormComponent extends Block {
       // @ts-ignore
       this.formValue[target.name] = target.value;
     }
-    console.log('this.formValue -> ', this.formValue);
   }
 
   protected override render(): string {
@@ -63,6 +83,7 @@ export class LoginFormComponent extends Block {
                         type='text'
                         name='login'
                         placeholder=''
+                        value=values.login
                         onBlur=onBlur
                         onInput=onInput
                 }}}
@@ -74,9 +95,12 @@ export class LoginFormComponent extends Block {
                         type='password'
                         name='password'
                         placeholder=''
+                        value=values.password
                         onBlur=onBlur
                         onInput=onInput
                 }}}
+
+                {{{InputErrorComponent error=error}}}
 
                 {{{ButtonComponent title='Войти' onClick=onSubmit}}}
                 <a href='#registration'>Ещё не зарегистрированы?</a>

@@ -1,7 +1,5 @@
 import { Block } from 'core';
 
-import './input.component.css';
-
 export interface InputComponentProps {
   className?: string;
   onChange?: (event: InputEvent) => void;
@@ -14,28 +12,16 @@ export interface InputComponentProps {
   value?: string;
   error?: string;
   name?: string;
+  dataKey?: string;
   id?: string;
 }
 
 export class InputComponent extends Block {
   static override componentName = 'InputComponent';
 
-  constructor({
-    onInput,
-    onFocus,
-    onChange,
-    onBlur,
-    type = 'text',
-    ...props
-  }: InputComponentProps) {
+  constructor({ type = 'text', ...props }: InputComponentProps) {
     super({
       ...props,
-      events: {
-        input: onInput,
-        focus: onFocus,
-        change: onChange,
-        blur: onBlur,
-      },
     });
   }
 
@@ -44,14 +30,18 @@ export class InputComponent extends Block {
     return `
         <div class='input {{className}}'>
             <label class='input__label' for='{{id}}'>{{label}}</label>
-            <input class='input__input'
-                   id='{{id}}'
-                   type='{{type}}'
-                   name='{{name}}'
-                   placeholder='{{placeholder}}'
-                   value='{{value}}'
-            />
-            <div class='input__error'>{{#if error}}{{error}}{{/if}}</div>
+            {{{InputFieldComponent id=id
+                                   type=type
+                                   name=name
+                                   dataKey=dataKey
+                                   placeholder=placeholder
+                                   value=value
+                                   onInput=onInput
+                                   onFocus=onFocus
+                                   onChange=onChange
+                                   onBlur=onBlur
+            }}}
+            {{{InputErrorComponent error=error}}}
         </div>
     `;
   }

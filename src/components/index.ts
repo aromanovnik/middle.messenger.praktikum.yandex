@@ -13,4 +13,6 @@ export * from './login-form';
 export * from './chat-details';
 export * from './chat-list';
 export * from './input';
+export * from './input-field';
+export * from './input-error';
 export * from './button';

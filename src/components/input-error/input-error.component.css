@@ -1,3 +1,4 @@
 .input__error {
   width: 100%;
+  color: var(--red);
 }

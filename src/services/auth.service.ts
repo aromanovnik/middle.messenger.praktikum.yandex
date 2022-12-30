@@ -1,14 +1,15 @@
 import { HTTPTransport } from 'core/http-transport';
+import { SignInRequest, SignUpRequest } from 'demo';
 
 export class AuthService {
   http = new HTTPTransport();
 
-  auth(): void {
-    console.log('[AuthService] auth -> ');
+  auth(data: SignInRequest): void {
+    console.log('[AuthService] auth -> ', data);
   }
 
-  registration(): void {
-    console.log('[AuthService] registration -> ');
+  registration(data: SignUpRequest): void {
+    console.log('[AuthService] registration -> ', data);
   }
 }
 

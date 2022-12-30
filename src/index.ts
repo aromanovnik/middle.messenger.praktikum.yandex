@@ -34,6 +34,8 @@ import {
   ChatListComponent,
   ChatDetailsComponent,
   InputComponent,
+  InputFieldComponent,
+  InputErrorComponent,
   ButtonComponent,
 } from 'components';
 
@@ -52,6 +54,8 @@ registerComponent(LoginFormComponent);
 registerComponent(ChatListComponent);
 registerComponent(ChatDetailsComponent);
 registerComponent(InputComponent);
+registerComponent(InputFieldComponent);
+registerComponent(InputErrorComponent);
 registerComponent(ButtonComponent);
 
 const router = [
