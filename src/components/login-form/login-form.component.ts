@@ -5,7 +5,15 @@ import { validateForm, ValidateRuleType } from 'helpers';
 
 import './login-form.component.css';
 
-export class LoginFormComponent extends Block {
+export interface LoginFormComponentProps {
+  error?: string;
+  values?: SignInRequest;
+  onSubmit?: (event: MouseEvent) => void;
+  onBlur?: () => void;
+  onInput?: (event: InputEvent) => void;
+}
+
+export class LoginFormComponent extends Block<LoginFormComponentProps> {
   static override componentName = 'LoginFormComponent';
 
   authService = authService;
@@ -103,7 +111,9 @@ export class LoginFormComponent extends Block {
 
                 {{{InputErrorComponent error=error}}}
 
-                {{{ButtonComponent title='Войти' onClick=onSubmit}}}
+                {{{ButtonComponent type='submit'
+                                   title='Войти'
+                                   onClick=onSubmit}}}
                 <a href='#registration'>Ещё не зарегистрированы?</a>
             </form>
         </div>

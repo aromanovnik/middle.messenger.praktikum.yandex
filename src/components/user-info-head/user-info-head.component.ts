@@ -8,7 +8,7 @@ export interface UserInfoHeadComponentProps {
   isShowName?: boolean;
 }
 
-export class UserInfoHeadComponent extends Block {
+export class UserInfoHeadComponent extends Block<UserInfoHeadComponentProps> {
   static override componentName = 'UserInfoHeadComponent';
 
   constructor({ avatar, firstName, isShowName }: UserInfoHeadComponentProps) {

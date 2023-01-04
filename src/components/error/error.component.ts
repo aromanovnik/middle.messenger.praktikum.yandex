@@ -9,7 +9,7 @@ export interface ErrorComponentProps {
   actionText?: string;
 }
 
-export class ErrorComponent extends Block {
+export class ErrorComponent extends Block<ErrorComponentProps> {
   static override componentName = 'ErrorComponent';
 
   constructor({ title, subtitle, actionHref, actionText }: ErrorComponentProps) {

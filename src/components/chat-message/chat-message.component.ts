@@ -1,14 +1,16 @@
 import { Block } from 'core';
 // todo: Only for demo
-import { ChatMessage, userInfo } from 'demo';
+import { ChatMessage, userInfo, UserResponse } from 'demo';
 
 import './chat-message.component.css';
 
 export interface ChatMessageComponentProps {
   message: ChatMessage;
+  isMyMessage: boolean;
+  user: UserResponse;
 }
 
-export class ChatMessageComponent extends Block {
+export class ChatMessageComponent extends Block<ChatMessageComponentProps> {
   static override componentName = 'ChatMessageComponent';
 
   constructor({ message }: ChatMessageComponentProps) {

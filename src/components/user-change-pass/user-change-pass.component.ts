@@ -2,12 +2,21 @@ import { Block } from 'core';
 import { userService } from 'services';
 
 // todo: Only for demo
-import { ChangePasswordRequest, userInfo } from 'demo';
+import { ChangePasswordRequest, userInfo, UserResponse } from 'demo';
 
 import './user-change-pass.component.css';
 import { validateForm, ValidateRuleType } from '../../helpers';
 
-export class UserChangePassComponent extends Block {
+export interface UserChangePassComponentProps {
+  user?: UserResponse;
+  error?: string;
+  values: ChangePasswordRequest;
+  onSubmit?: (event: MouseEvent) => void;
+  onBlur?: () => void;
+  onInput?: (event: InputEvent) => void;
+}
+
+export class UserChangePassComponent extends Block<UserChangePassComponentProps> {
   static override componentName = 'UserChangePassComponent';
 
   userService = userService;
@@ -126,7 +135,9 @@ export class UserChangePassComponent extends Block {
 
                         {{{InputErrorComponent error=error}}}
 
-                        {{{ButtonComponent className='user-change-pass__save' title='Сохранить'}}}
+                        {{{ButtonComponent type='submit'
+                                           className='user-change-pass__save'
+                                           title='Сохранить'}}}
                     </form>
                 </div>
             {{/if}}

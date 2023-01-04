@@ -5,7 +5,15 @@ import { SignUpRequest } from 'demo';
 
 import './registration-form.component.css';
 
-export class RegistrationFormComponent extends Block {
+export interface RegistrationFormComponentProps {
+  error?: string;
+  values?: SignUpRequest;
+  onSubmit?: (event: MouseEvent) => void;
+  onBlur?: () => void;
+  onInput?: (event: InputEvent) => void;
+}
+
+export class RegistrationFormComponent extends Block<RegistrationFormComponentProps> {
   static override componentName = 'RegistrationFormComponent';
 
   authService = authService;
@@ -180,7 +188,9 @@ export class RegistrationFormComponent extends Block {
 
                 {{{InputErrorComponent error=error}}}
 
-                {{{ButtonComponent title='Зарегистрироваться' onClick=onSubmit}}}
+                {{{ButtonComponent type='submit'
+                                   title='Зарегистрироваться'
+                                   onClick=onSubmit}}}
                 <a href='#auth'>Или войти</a>
             </form>
         </div>

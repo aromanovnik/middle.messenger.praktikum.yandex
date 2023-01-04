@@ -6,7 +6,7 @@ export interface InputErrorComponentProps {
   error?: string;
 }
 
-export class InputErrorComponent extends Block {
+export class InputErrorComponent extends Block<InputErrorComponentProps> {
   static override componentName = 'InputErrorComponent';
 
   constructor({ error }: InputErrorComponentProps) {

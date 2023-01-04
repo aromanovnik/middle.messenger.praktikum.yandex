@@ -16,11 +16,12 @@ export interface InputComponentProps {
   id?: string;
 }
 
-export class InputComponent extends Block {
+export class InputComponent extends Block<InputComponentProps> {
   static override componentName = 'InputComponent';
 
   constructor({ type = 'text', ...props }: InputComponentProps) {
     super({
+      type,
       ...props,
     });
   }

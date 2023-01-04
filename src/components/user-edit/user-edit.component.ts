@@ -1,12 +1,21 @@
 import { Block } from 'core';
 import { userService } from 'services';
 // todo: Only for demo
-import { userInfo, UserUpdateRequest } from 'demo';
+import { userInfo, UserResponse, UserUpdateRequest } from 'demo';
 
 import './user-edit.component.css';
 import { validateForm, ValidateRuleType } from '../../helpers';
 
-export class UserEditComponent extends Block {
+export interface UserEditComponentProps {
+  error?: string;
+  user?: UserResponse;
+  values?: UserUpdateRequest;
+  onSubmit?: (event: MouseEvent) => void;
+  onBlur?: () => void;
+  onInput?: (event: InputEvent) => void;
+}
+
+export class UserEditComponent extends Block<UserEditComponentProps> {
   static override componentName = 'UserEditComponent';
 
   userService = userService;
@@ -15,8 +24,8 @@ export class UserEditComponent extends Block {
     firstName: '',
     secondName: '',
     displayName: '',
-    login: '',
     email: '',
+    login: '',
     phone: '',
   };
 
@@ -109,6 +118,8 @@ export class UserEditComponent extends Block {
                                         name='email'
                                         placeholder=''
                                         value=user.email
+                                        onBlur=onBlur
+                                        onInput=onInput
                                 }}}
                             </li>
                             <li>
@@ -120,6 +131,8 @@ export class UserEditComponent extends Block {
                                         name='login'
                                         placeholder=''
                                         value=user.login
+                                        onBlur=onBlur
+                                        onInput=onInput
                                 }}}
                             </li>
                             <li>
@@ -132,6 +145,8 @@ export class UserEditComponent extends Block {
                                         dataKey='firstName'
                                         placeholder=''
                                         value=user.firstName
+                                        onBlur=onBlur
+                                        onInput=onInput
                                 }}}
                             </li>
                             <li>
@@ -144,6 +159,8 @@ export class UserEditComponent extends Block {
                                         dataKey='secondName'
                                         placeholder=''
                                         value=user.secondName
+                                        onBlur=onBlur
+                                        onInput=onInput
                                 }}}
                             </li>
                             <li>
@@ -156,6 +173,8 @@ export class UserEditComponent extends Block {
                                         dataKey='displayName'
                                         placeholder=''
                                         value=user.displayName
+                                        onBlur=onBlur
+                                        onInput=onInput
                                 }}}
                             </li>
                             <li>
@@ -167,13 +186,17 @@ export class UserEditComponent extends Block {
                                         name='phone'
                                         placeholder=''
                                         value=user.phone
+                                        onBlur=onBlur
+                                        onInput=onInput
                                 }}}
                             </li>
                         </ul>
 
                         {{{InputErrorComponent error=error}}}
 
-                        {{{ButtonComponent className='user-edit__save' title='Сохранить'}}}
+                        {{{ButtonComponent type='submit'
+                                           className='user-edit__save'
+                                           title='Сохранить'}}}
                     </form>
                 </div>
 

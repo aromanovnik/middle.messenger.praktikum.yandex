@@ -4,7 +4,17 @@ import { validateForm, ValidateRuleType } from 'helpers';
 
 import './chat-input.component.css';
 
-export class ChatInputComponent extends Block {
+export interface ChatInputComponentProps {
+  error?: string;
+  values: {
+    message: string;
+  };
+  onSubmit?: (event: MouseEvent) => void;
+  onBlur?: () => void;
+  onInput?: (event: InputEvent) => void;
+}
+
+export class ChatInputComponent extends Block<ChatInputComponentProps> {
   static override componentName = 'ChatInputComponent';
 
   messagesService = messagesService;
@@ -32,8 +42,6 @@ export class ChatInputComponent extends Block {
         value: this.formValue.message,
       },
     ]);
-
-    console.log('1', this.formValue);
 
     this.setProps({
       error: message,
@@ -81,7 +89,9 @@ export class ChatInputComponent extends Block {
                                        onBlur=onBlur
                 }}}
 
-                {{{ButtonComponent className='chat-input__button-send' onClick=onSubmit}}}
+                {{{ButtonComponent type='submit'
+                                   className='chat-input__button-send'
+                                   onClick=onSubmit}}}
             </form>
         </div>
     `;
