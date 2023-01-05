@@ -5,8 +5,44 @@ import { SignUpRequest } from 'demo';
 
 import './registration-form.component.css';
 
-export class RegistrationFormComponent extends Block {
+export interface RegistrationFormComponentProps {
+  values?: SignUpRequest;
+  onSubmit?: (event: MouseEvent) => void;
+  onInput?: (event: InputEvent) => void;
+  validateRuleType: typeof ValidateRuleType;
+}
+
+export class RegistrationFormComponent extends Block<RegistrationFormComponentProps> {
   static override componentName = 'RegistrationFormComponent';
+
+  get isValid(): boolean {
+    return !validateForm([
+      {
+        type: ValidateRuleType.Name,
+        value: this.formValue.firstName,
+      },
+      {
+        type: ValidateRuleType.Name,
+        value: this.formValue.secondName,
+      },
+      {
+        type: ValidateRuleType.Email,
+        value: this.formValue.email,
+      },
+      {
+        type: ValidateRuleType.Login,
+        value: this.formValue.login,
+      },
+      {
+        type: ValidateRuleType.Password,
+        value: this.formValue.password,
+      },
+      {
+        type: ValidateRuleType.Phone,
+        value: this.formValue.phone,
+      },
+    ]);
+  }
 
   authService = authService;
 
@@ -23,57 +59,21 @@ export class RegistrationFormComponent extends Block {
     super();
 
     this.setProps({
-      error: '',
       values: this.formValue,
       onSubmit: this.onSubmit.bind(this),
-      onBlur: this.onBlur.bind(this),
       onInput: this.onInput.bind(this),
+      validateRuleType: ValidateRuleType,
     });
-  }
-
-  validate(): string {
-    const message = validateForm([
-      {
-        type: ValidateRuleType.Name,
-        value: this.formValue.firstName,
-      },
-      {
-        type: ValidateRuleType.Name,
-        value: this.formValue.secondName,
-      },
-      {
-        type: ValidateRuleType.Login,
-        value: this.formValue.login,
-      },
-      {
-        type: ValidateRuleType.Password,
-        value: this.formValue.password,
-      },
-      {
-        type: ValidateRuleType.Phone,
-        value: this.formValue.phone,
-      },
-    ]);
-
-    this.setProps({
-      error: message,
-      values: this.formValue,
-    });
-    return message;
   }
 
   onSubmit(event: MouseEvent): void {
     event?.preventDefault();
 
-    if (this.validate()) {
+    if (!this.isValid) {
       return;
     }
 
     this.authService.auth(this.formValue);
-  }
-
-  onBlur(): void {
-    this.validate();
   }
 
   onInput(event: InputEvent): void {
@@ -102,8 +102,8 @@ export class RegistrationFormComponent extends Block {
                         dataKey='firstName'
                         placeholder=''
                         value=values.firstName
-                        onBlur=onBlur
                         onInput=onInput
+                        validate=validateRuleType.Name
                 }}}
 
                 {{{InputComponent
@@ -115,8 +115,8 @@ export class RegistrationFormComponent extends Block {
                         dataKey='secondName'
                         placeholder=''
                         value=values.secondName
-                        onBlur=onBlur
                         onInput=onInput
+                        validate=validateRuleType.Name
                 }}}
 
                 {{{InputComponent
@@ -127,8 +127,8 @@ export class RegistrationFormComponent extends Block {
                         name='login'
                         placeholder=''
                         value=values.login
-                        onBlur=onBlur
                         onInput=onInput
+                        validate=validateRuleType.Login
                 }}}
 
                 {{{InputComponent
@@ -139,8 +139,8 @@ export class RegistrationFormComponent extends Block {
                         name='email'
                         placeholder=''
                         value=values.email
-                        onBlur=onBlur
                         onInput=onInput
+                        validate=validateRuleType.Email
                 }}}
 
                 {{{InputComponent
@@ -151,8 +151,8 @@ export class RegistrationFormComponent extends Block {
                         name='phone'
                         placeholder=''
                         value=values.phone
-                        onBlur=onBlur
                         onInput=onInput
+                        validate=validateRuleType.Phone
                 }}}
 
                 {{{InputComponent
@@ -163,8 +163,8 @@ export class RegistrationFormComponent extends Block {
                         name='password'
                         placeholder=''
                         value=values.password
-                        onBlur=onBlur
                         onInput=onInput
+                        validate=validateRuleType.Password
                 }}}
 
                 {{{InputComponent
@@ -174,13 +174,13 @@ export class RegistrationFormComponent extends Block {
                         type='password'
                         name='password_confirm'
                         placeholder=''
-                        onBlur=onBlur
                         onInput=onInput
+                        validate=validateRuleType.Password
                 }}}
 
-                {{{InputErrorComponent error=error}}}
-
-                {{{ButtonComponent title='Зарегистрироваться' onClick=onSubmit}}}
+                {{{ButtonComponent type='submit'
+                                   title='Зарегистрироваться'
+                                   onClick=onSubmit}}}
                 <a href='#auth'>Или войти</a>
             </form>
         </div>

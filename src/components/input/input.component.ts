@@ -1,4 +1,5 @@
 import { Block } from 'core';
+import { validateForm, ValidateRuleType } from 'helpers';
 
 export interface InputComponentProps {
   className?: string;
@@ -14,13 +15,36 @@ export interface InputComponentProps {
   name?: string;
   dataKey?: string;
   id?: string;
+  validate?: ValidateRuleType;
 }
 
-export class InputComponent extends Block {
+export class InputComponent extends Block<InputComponentProps> {
   static override componentName = 'InputComponent';
 
-  constructor({ type = 'text', ...props }: InputComponentProps) {
+  constructor({ type = 'text', onBlur, error, validate, ...props }: InputComponentProps) {
     super({
+      type,
+      error,
+      validate,
+      onBlur: (event: InputEvent): void => {
+        if (typeof validate !== 'undefined') {
+          const target = event.target as HTMLInputElement;
+          const message = validateForm([
+            {
+              type: validate,
+              value: target.value ?? '',
+            },
+          ]);
+
+          this.refs['errorRef']?.setProps({
+            error: message,
+          });
+        }
+
+        if (onBlur) {
+          onBlur(event);
+        }
+      },
       ...props,
     });
   }
@@ -41,7 +65,7 @@ export class InputComponent extends Block {
                                    onChange=onChange
                                    onBlur=onBlur
             }}}
-            {{{InputErrorComponent error=error}}}
+            {{{InputErrorComponent ref='errorRef' error=error}}}
         </div>
     `;
   }

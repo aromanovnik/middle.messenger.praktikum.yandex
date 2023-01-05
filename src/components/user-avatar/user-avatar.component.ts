@@ -6,7 +6,7 @@ export interface UserAvatarComponentProps {
   avatar?: string;
 }
 
-export class UserAvatarComponent extends Block {
+export class UserAvatarComponent extends Block<UserAvatarComponentProps> {
   static override componentName = 'UserAvatarComponent';
 
   constructor({ avatar }: UserAvatarComponentProps) {

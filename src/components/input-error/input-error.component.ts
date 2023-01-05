@@ -6,7 +6,7 @@ export interface InputErrorComponentProps {
   error?: string;
 }
 
-export class InputErrorComponent extends Block {
+export class InputErrorComponent extends Block<InputErrorComponentProps> {
   static override componentName = 'InputErrorComponent';
 
   constructor({ error }: InputErrorComponentProps) {
@@ -16,7 +16,9 @@ export class InputErrorComponent extends Block {
   protected override render(): string {
     // language=hbs
     return `
-        <div class='input__error'>{{#if error}}{{error}}{{/if}}</div>
+        <div class='input__error {{#if error}}input__error_show{{/if}}'>
+            {{#if error}}{{error}}{{/if}}
+        </div>
     `;
   }
 }

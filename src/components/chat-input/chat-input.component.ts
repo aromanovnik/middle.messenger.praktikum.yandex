@@ -4,7 +4,17 @@ import { validateForm, ValidateRuleType } from 'helpers';
 
 import './chat-input.component.css';
 
-export class ChatInputComponent extends Block {
+export interface ChatInputComponentProps {
+  error?: string;
+  values: {
+    message: string;
+  };
+  onSubmit?: (event: MouseEvent) => void;
+  onBlur?: () => void;
+  onInput?: (event: InputEvent) => void;
+}
+
+export class ChatInputComponent extends Block<ChatInputComponentProps> {
   static override componentName = 'ChatInputComponent';
 
   messagesService = messagesService;
@@ -33,12 +43,10 @@ export class ChatInputComponent extends Block {
       },
     ]);
 
-    console.log('1', this.formValue);
-
-    this.setProps({
+    this.refs['errorRef']?.setProps({
       error: message,
-      values: this.formValue,
     });
+
     return message;
   }
 
@@ -69,6 +77,7 @@ export class ChatInputComponent extends Block {
     // language=hbs
     return `
         <div class="chat-input">
+
             <button class="chat-input__button-clip" title="Send file"></button>
 
             <form class="chat-input__form" action="#">
@@ -81,8 +90,12 @@ export class ChatInputComponent extends Block {
                                        onBlur=onBlur
                 }}}
 
-                {{{ButtonComponent className='chat-input__button-send' onClick=onSubmit}}}
+                {{{ButtonComponent type='submit'
+                                   className='chat-input__button-send'
+                                   onClick=onSubmit}}}
             </form>
+
+            {{{InputErrorComponent ref='errorRef' error=error}}}
         </div>
     `;
   }

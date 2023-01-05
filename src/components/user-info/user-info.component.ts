@@ -1,10 +1,14 @@
 import { Block } from 'core';
 // todo: Only for demo
-import { userInfo } from 'demo';
+import { userInfo, UserResponse } from 'demo';
 
 import './user-info.component.css';
 
-export class UserInfoComponent extends Block {
+export interface UserInfoComponentProps {
+  user?: UserResponse;
+}
+
+export class UserInfoComponent extends Block<UserInfoComponentProps> {
   static override componentName = 'UserInfoComponent';
 
   constructor() {

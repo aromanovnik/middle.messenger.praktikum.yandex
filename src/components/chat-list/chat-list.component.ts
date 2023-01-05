@@ -1,10 +1,14 @@
 import { Block } from 'core';
 // todo: Only for demo
-import { chats } from 'demo';
+import { chats, ChatsResponse } from 'demo';
 
 import './chat-list.component.css';
 
-export class ChatListComponent extends Block {
+export interface ChatListComponentProps {
+  chats: ChatsResponse[];
+}
+
+export class ChatListComponent extends Block<ChatListComponentProps> {
   static override componentName = 'ChatListComponent';
 
   constructor() {
@@ -34,11 +38,11 @@ export class ChatListComponent extends Block {
                 </div>
             </div>
 
-            <div class='chat-list__list'>
+            <nav class='chat-list__list'>
                 {{#each chats}}
                     {{{ChatItemComponent chat=this}}}
                 {{/each}}
-            </div>
+            </nav>
         </div>
     `;
   }

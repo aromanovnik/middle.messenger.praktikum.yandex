@@ -1,10 +1,15 @@
 import { Block } from 'core';
 // todo: Only for demo
-import { messages, chat } from 'demo';
+import { messages, chat, ChatMessage, ChatsResponse } from 'demo';
 
 import './chat-details.component.css';
 
-export class ChatDetailsComponent extends Block {
+export interface ChatDetailsComponentProps {
+  messages: ChatMessage[];
+  chat: ChatsResponse;
+}
+
+export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
   static override componentName = 'ChatDetailsComponent';
 
   constructor() {
@@ -21,7 +26,7 @@ export class ChatDetailsComponent extends Block {
 
             {{#if isEmpty}}
                 <span class='chat-details__empty-message'>
-                  Выберите чат чтобы отправить сообщение
+                  Выберите чат, чтобы отправить сообщение
                 </span>
             {{/if}}
 

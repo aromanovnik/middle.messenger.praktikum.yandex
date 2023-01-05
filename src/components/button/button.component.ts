@@ -6,14 +6,18 @@ export interface ButtonComponentProps {
   onClick?: (event: MouseEvent) => void;
   title?: string;
   className?: string;
+  events: object;
+  type?: 'button' | 'submit' | 'reset';
 }
 
-export class ButtonComponent extends Block {
+export class ButtonComponent extends Block<ButtonComponentProps> {
   static override componentName = 'ButtonComponent';
 
-  constructor({ onClick, ...props }: ButtonComponentProps) {
+  constructor({ onClick, title, className, type }: ButtonComponentProps) {
     super({
-      ...props,
+      title,
+      className,
+      type,
       events: {
         click: onClick,
       },
@@ -23,7 +27,7 @@ export class ButtonComponent extends Block {
   protected override render(): string {
     // language=hbs
     return `
-        <button class='button {{className}}'>{{title}}</button>
+        <button class='button {{className}}' type='{{type}}'>{{title}}</button>
     `;
   }
 }

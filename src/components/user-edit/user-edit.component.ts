@@ -1,40 +1,24 @@
 import { Block } from 'core';
 import { userService } from 'services';
 // todo: Only for demo
-import { userInfo, UserUpdateRequest } from 'demo';
+import { userInfo, UserResponse, UserUpdateRequest } from 'demo';
 
 import './user-edit.component.css';
-import { validateForm, ValidateRuleType } from '../../helpers';
+import { validateForm, ValidateRuleType } from 'helpers';
 
-export class UserEditComponent extends Block {
+export interface UserEditComponentProps {
+  user?: UserResponse;
+  values?: UserUpdateRequest;
+  onSubmit?: (event: MouseEvent) => void;
+  onInput?: (event: InputEvent) => void;
+  validateRuleType: typeof ValidateRuleType;
+}
+
+export class UserEditComponent extends Block<UserEditComponentProps> {
   static override componentName = 'UserEditComponent';
 
-  userService = userService;
-
-  formValue: UserUpdateRequest = {
-    firstName: '',
-    secondName: '',
-    displayName: '',
-    login: '',
-    email: '',
-    phone: '',
-  };
-
-  constructor() {
-    super();
-
-    this.setProps({
-      user: userInfo,
-      error: '',
-      values: this.formValue,
-      onSubmit: this.onSubmit.bind(this),
-      onBlur: this.onBlur.bind(this),
-      onInput: this.onInput.bind(this),
-    });
-  }
-
-  validate(): string {
-    const message = validateForm([
+  get isValid(): boolean {
+    return !validateForm([
       {
         type: ValidateRuleType.Name,
         value: this.formValue.firstName,
@@ -56,26 +40,39 @@ export class UserEditComponent extends Block {
         value: this.formValue.phone,
       },
     ]);
+  }
+
+  userService = userService;
+
+  formValue: UserUpdateRequest = {
+    firstName: userInfo.firstName ?? '',
+    secondName: userInfo.secondName ?? '',
+    displayName: userInfo.displayName ?? '',
+    email: userInfo.email ?? '',
+    login: userInfo.login ?? '',
+    phone: userInfo.phone ?? '',
+  };
+
+  constructor() {
+    super();
 
     this.setProps({
-      error: message,
+      user: userInfo,
       values: this.formValue,
+      onSubmit: this.onSubmit.bind(this),
+      onInput: this.onInput.bind(this),
+      validateRuleType: ValidateRuleType,
     });
-    return message;
   }
 
   onSubmit(event: MouseEvent): void {
     event?.preventDefault();
 
-    if (this.validate()) {
+    if (!this.isValid) {
       return;
     }
 
     this.userService.editInfo(this.formValue);
-  }
-
-  onBlur(): void {
-    this.validate();
   }
 
   onInput(event: InputEvent): void {
@@ -108,7 +105,9 @@ export class UserEditComponent extends Block {
                                         type='email'
                                         name='email'
                                         placeholder=''
-                                        value=user.email
+                                        value=values.email
+                                        onInput=onInput
+                                        validate=validateRuleType.Email
                                 }}}
                             </li>
                             <li>
@@ -119,7 +118,9 @@ export class UserEditComponent extends Block {
                                         type='text'
                                         name='login'
                                         placeholder=''
-                                        value=user.login
+                                        value=values.login
+                                        onInput=onInput
+                                        validate=validateRuleType.Login
                                 }}}
                             </li>
                             <li>
@@ -131,7 +132,9 @@ export class UserEditComponent extends Block {
                                         name='first_name'
                                         dataKey='firstName'
                                         placeholder=''
-                                        value=user.firstName
+                                        value=values.firstName
+                                        onInput=onInput
+                                        validate=validateRuleType.Name
                                 }}}
                             </li>
                             <li>
@@ -143,7 +146,9 @@ export class UserEditComponent extends Block {
                                         name='second_name'
                                         dataKey='secondName'
                                         placeholder=''
-                                        value=user.secondName
+                                        value=values.secondName
+                                        onInput=onInput
+                                        validate=validateRuleType.Name
                                 }}}
                             </li>
                             <li>
@@ -155,7 +160,8 @@ export class UserEditComponent extends Block {
                                         name='display_name'
                                         dataKey='displayName'
                                         placeholder=''
-                                        value=user.displayName
+                                        value=values.displayName
+                                        onInput=onInput
                                 }}}
                             </li>
                             <li>
@@ -167,13 +173,16 @@ export class UserEditComponent extends Block {
                                         name='phone'
                                         placeholder=''
                                         value=user.phone
+                                        onInput=onInput
+                                        validate=validateRuleType.Phone
                                 }}}
                             </li>
                         </ul>
 
-                        {{{InputErrorComponent error=error}}}
-
-                        {{{ButtonComponent className='user-edit__save' title='Сохранить'}}}
+                        {{{ButtonComponent type='submit'
+                                           onClick=onSubmit
+                                           className='user-edit__save'
+                                           title='Сохранить'}}}
                     </form>
                 </div>
 

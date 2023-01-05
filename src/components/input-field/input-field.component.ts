@@ -11,9 +11,10 @@ export interface InputFieldComponentProps {
   name?: string;
   id?: string;
   dataKey?: string;
+  events?: object;
 }
 
-export class InputFieldComponent extends Block {
+export class InputFieldComponent extends Block<InputFieldComponentProps> {
   static override componentName = 'InputFieldComponent';
 
   constructor({
@@ -29,6 +30,7 @@ export class InputFieldComponent extends Block {
     super({
       ...props,
       dataKey: dataKey || name,
+      name,
       events: {
         input: onInput,
         focus: onFocus,
