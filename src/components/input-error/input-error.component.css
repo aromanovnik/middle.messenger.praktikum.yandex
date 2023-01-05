@@ -1,4 +1,10 @@
 .input__error {
   width: 100%;
+  text-align: center;
   color: var(--red);
+  display: none;
+}
+
+.input__error_show {
+  display: block;
 }

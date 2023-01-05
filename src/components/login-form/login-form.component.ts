@@ -6,15 +6,28 @@ import { validateForm, ValidateRuleType } from 'helpers';
 import './login-form.component.css';
 
 export interface LoginFormComponentProps {
-  error?: string;
   values?: SignInRequest;
   onSubmit?: (event: MouseEvent) => void;
   onBlur?: () => void;
   onInput?: (event: InputEvent) => void;
+  validateRuleType: typeof ValidateRuleType;
 }
 
 export class LoginFormComponent extends Block<LoginFormComponentProps> {
   static override componentName = 'LoginFormComponent';
+
+  get isValid(): boolean {
+    return !validateForm([
+      {
+        type: ValidateRuleType.Login,
+        value: this.formValue.login,
+      },
+      {
+        type: ValidateRuleType.Password,
+        value: this.formValue.password,
+      },
+    ]);
+  }
 
   authService = authService;
 
@@ -27,45 +40,21 @@ export class LoginFormComponent extends Block<LoginFormComponentProps> {
     super();
 
     this.setProps({
-      error: '',
       values: this.formValue,
       onSubmit: this.onSubmit.bind(this),
-      onBlur: this.onBlur.bind(this),
       onInput: this.onInput.bind(this),
+      validateRuleType: ValidateRuleType,
     });
-  }
-
-  validate(): string {
-    const message = validateForm([
-      {
-        type: ValidateRuleType.Login,
-        value: this.formValue.login,
-      },
-      {
-        type: ValidateRuleType.Password,
-        value: this.formValue.password,
-      },
-    ]);
-
-    this.setProps({
-      error: message,
-      values: this.formValue,
-    });
-    return message;
   }
 
   onSubmit(event: MouseEvent): void {
     event?.preventDefault();
 
-    if (this.validate()) {
+    if (!this.isValid) {
       return;
     }
 
     this.authService.auth(this.formValue);
-  }
-
-  onBlur(): void {
-    this.validate();
   }
 
   onInput(event: InputEvent): void {
@@ -92,8 +81,8 @@ export class LoginFormComponent extends Block<LoginFormComponentProps> {
                         type='text'
                         name='login'
                         placeholder=''
+                        validate=validateRuleType.Login
                         value=values.login
-                        onBlur=onBlur
                         onInput=onInput
                 }}}
 
@@ -104,12 +93,10 @@ export class LoginFormComponent extends Block<LoginFormComponentProps> {
                         type='password'
                         name='password'
                         placeholder=''
+                        validate=validateRuleType.Password
                         value=values.password
-                        onBlur=onBlur
                         onInput=onInput
                 }}}
-
-                {{{InputErrorComponent error=error}}}
 
                 {{{ButtonComponent type='submit'
                                    title='Войти'

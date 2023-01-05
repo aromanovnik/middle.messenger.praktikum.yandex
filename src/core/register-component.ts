@@ -36,7 +36,7 @@ export default function registerComponent<Properties>(Component: BlockConstructa
       children[component.id] = component;
 
       if (ref) {
-        refs[ref] = component.getContent();
+        refs[ref] = component;
       }
 
       const contents = fn ? fn(this) : '';

@@ -16,7 +16,9 @@ export class InputErrorComponent extends Block<InputErrorComponentProps> {
   protected override render(): string {
     // language=hbs
     return `
-        <div class='input__error'>{{#if error}}{{error}}{{/if}}</div>
+        <div class='input__error {{#if error}}input__error_show{{/if}}'>
+            {{#if error}}{{error}}{{/if}}
+        </div>
     `;
   }
 }

@@ -43,10 +43,10 @@ export class ChatInputComponent extends Block<ChatInputComponentProps> {
       },
     ]);
 
-    this.setProps({
+    this.refs['errorRef']?.setProps({
       error: message,
-      values: this.formValue,
     });
+
     return message;
   }
 
@@ -77,6 +77,7 @@ export class ChatInputComponent extends Block<ChatInputComponentProps> {
     // language=hbs
     return `
         <div class="chat-input">
+
             <button class="chat-input__button-clip" title="Send file"></button>
 
             <form class="chat-input__form" action="#">
@@ -93,6 +94,8 @@ export class ChatInputComponent extends Block<ChatInputComponentProps> {
                                    className='chat-input__button-send'
                                    onClick=onSubmit}}}
             </form>
+
+            {{{InputErrorComponent ref='errorRef' error=error}}}
         </div>
     `;
   }

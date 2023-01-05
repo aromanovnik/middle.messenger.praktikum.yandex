@@ -5,19 +5,31 @@ import { userService } from 'services';
 import { ChangePasswordRequest, userInfo, UserResponse } from 'demo';
 
 import './user-change-pass.component.css';
-import { validateForm, ValidateRuleType } from '../../helpers';
+import { validateForm, ValidateRuleType } from 'helpers';
 
 export interface UserChangePassComponentProps {
   user?: UserResponse;
-  error?: string;
   values: ChangePasswordRequest;
   onSubmit?: (event: MouseEvent) => void;
-  onBlur?: () => void;
   onInput?: (event: InputEvent) => void;
+  validateRuleType: typeof ValidateRuleType;
 }
 
 export class UserChangePassComponent extends Block<UserChangePassComponentProps> {
   static override componentName = 'UserChangePassComponent';
+
+  get isValid(): boolean {
+    return !validateForm([
+      {
+        type: ValidateRuleType.Password,
+        value: this.formValue.oldPassword,
+      },
+      {
+        type: ValidateRuleType.Password,
+        value: this.formValue.newPassword,
+      },
+    ]);
+  }
 
   userService = userService;
 
@@ -31,45 +43,21 @@ export class UserChangePassComponent extends Block<UserChangePassComponentProps>
 
     this.setProps({
       user: userInfo,
-      error: '',
       values: this.formValue,
       onSubmit: this.onSubmit.bind(this),
-      onBlur: this.onBlur.bind(this),
       onInput: this.onInput.bind(this),
+      validateRuleType: ValidateRuleType,
     });
-  }
-
-  validate(): string {
-    const message = validateForm([
-      {
-        type: ValidateRuleType.Password,
-        value: this.formValue.oldPassword,
-      },
-      {
-        type: ValidateRuleType.Password,
-        value: this.formValue.newPassword,
-      },
-    ]);
-
-    this.setProps({
-      error: message,
-      values: this.formValue,
-    });
-    return message;
   }
 
   onSubmit(event: MouseEvent): void {
     event?.preventDefault();
 
-    if (this.validate()) {
+    if (!this.isValid) {
       return;
     }
 
     this.userService.changePassword(this.formValue);
-  }
-
-  onBlur(): void {
-    this.validate();
   }
 
   onInput(event: InputEvent): void {
@@ -91,7 +79,7 @@ export class UserChangePassComponent extends Block<UserChangePassComponentProps>
                                          firstName=user.firstName}}}
 
                 <div class='user-change-pass__list user-page__list'>
-                    <form action='#'>
+                    <form>
                         <ul>
                             <li>
                                 {{{InputComponent
@@ -100,10 +88,11 @@ export class UserChangePassComponent extends Block<UserChangePassComponentProps>
                                         id='userPassOldPassword'
                                         type='password'
                                         name='oldPassword'
+                                        ref='oldPassword'
                                         placeholder=''
                                         value=values.oldPassword
-                                        onBlur=onBlur
                                         onInput=onInput
+                                        validate=validateRuleType.Password
                                 }}}
                             </li>
 
@@ -114,10 +103,11 @@ export class UserChangePassComponent extends Block<UserChangePassComponentProps>
                                         id='userPassNewPassword'
                                         type='password'
                                         name='newPassword'
+                                        ref='newPassword'
                                         placeholder=''
                                         value=values.newPassword
-                                        onBlur=onBlur
                                         onInput=onInput
+                                        validate=validateRuleType.Password
                                 }}}
                             </li>
 
@@ -129,13 +119,13 @@ export class UserChangePassComponent extends Block<UserChangePassComponentProps>
                                         type='password'
                                         name='newPasswordConf'
                                         placeholder=''
+                                        validate=validateRuleType.Password
                                 }}}
                             </li>
                         </ul>
 
-                        {{{InputErrorComponent error=error}}}
-
-                        {{{ButtonComponent type='submit'
+                        {{{ButtonComponent onClick=onSubmit
+                                           type='submit'
                                            className='user-change-pass__save'
                                            title='Сохранить'}}}
                     </form>
