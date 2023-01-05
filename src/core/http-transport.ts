@@ -13,6 +13,10 @@ type Options = {
   timeout?: number;
 };
 
+// todo: Спороно, но сделаю.
+// создаем тип метода
+type HTTPMethod = (url: string, options: Options) => Promise<XMLHttpRequest>;
+
 function queryStringify(data: { [key: string | number]: string }) {
   if (typeof data !== 'object') {
     throw new Error('Data must be object');
@@ -26,25 +30,25 @@ function queryStringify(data: { [key: string | number]: string }) {
 }
 
 export class HTTPTransport {
-  get(url: string, options: Options): Promise<XMLHttpRequest> {
-    return this.request(url, { ...options, method: METHOD.GET }, options.timeout);
-  }
+  // используем тип и удаляем дублирование в аргументах
+  get: HTTPMethod = (url, options) =>
+    this.request(url, { ...options, method: METHOD.GET }, options.timeout);
 
-  post(url: string, options: Options): Promise<XMLHttpRequest> {
-    return this.request(url, { ...options, method: METHOD.POST }, options.timeout);
-  }
+  // используем тип и удаляем дублирование в аргументах
+  put: HTTPMethod = (url, options) =>
+    this.request(url, { ...options, method: METHOD.PUT }, options.timeout);
 
-  put(url: string, options: Options): Promise<XMLHttpRequest> {
-    return this.request(url, { ...options, method: METHOD.PUT }, options.timeout);
-  }
+  // используем тип и удаляем дублирование в аргументах
+  post: HTTPMethod = (url, options) =>
+    this.request(url, { ...options, method: METHOD.POST }, options.timeout);
 
-  patch(url: string, options: Options): Promise<XMLHttpRequest> {
-    return this.request(url, { ...options, method: METHOD.PATCH }, options.timeout);
-  }
+  // используем тип и удаляем дублирование в аргументах
+  patch: HTTPMethod = (url, options) =>
+    this.request(url, { ...options, method: METHOD.POST }, options.timeout);
 
-  delete(url: string, options: Options): Promise<XMLHttpRequest> {
-    return this.request(url, { ...options, method: METHOD.DELETE }, options.timeout);
-  }
+  // используем тип и удаляем дублирование в аргументах
+  delete: HTTPMethod = (url, options) =>
+    this.request(url, { ...options, method: METHOD.DELETE }, options.timeout);
 
   request(url: string, options: Options, timeout = 5000): Promise<XMLHttpRequest> {
     const { headers = {}, data } = options;
