@@ -5,14 +5,5 @@
   "singleQuote": true,
   "bracketSpacing": true,
   "endOfLine": "auto",
-  "printWidth": 100,
-  "overrides": [
-    {
-      "files": ["*.hbs"],
-      "options": {
-        "singleQuote": true,
-        "parser": "glimmer"
-      }
-    }
-  ]
+  "printWidth": 100
 }
