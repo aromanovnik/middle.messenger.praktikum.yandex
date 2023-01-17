@@ -1,71 +1,99 @@
-import Block from 'core/block';
-import renderDOM from 'core/render-dom';
+export interface CoreRouter {
+  start(): void;
 
-export interface RouterItem {
-  to: string;
-  page: Block;
+  use(path: string, callback: () => void): CoreRouter;
+
+  go(path: string): void;
+
+  back(): void;
+
+  forward(): void;
 }
 
-export interface RouterItemActive extends RouterItem {
-  path?: string;
-  params?: string[];
-}
+type Params = Record<string, string>;
 
-export default class Router {
-  public pages: RouterItem[] = [];
+export class Router implements CoreRouter {
+  private routes: Record<string, Function> = {};
 
-  private _page!: RouterItemActive;
+  private isStarted = false;
 
-  public set page(item: RouterItem) {
-    const pathArr = this.hash.split('/');
-    this._page = {
-      ...item,
-      path: pathArr.shift(),
-      params: pathArr ?? [],
-    };
-  }
+  start() {
+    if (!this.isStarted) {
+      this.isStarted = true;
 
-  public get page(): RouterItemActive {
-    return this._page;
-  }
+      // event: PopStateEvent
+      window.onpopstate = () => {
+        this.onRouteChange.call(this);
+      };
 
-  public get hash(): string {
-    return window.location.hash;
-  }
-
-  public get path(): string {
-    return this.hash.split('/')[0];
-  }
-
-  private get notFound(): RouterItem {
-    const item: RouterItem | undefined = this.pages.find((el) => el.to === '*');
-    if (!item) {
-      throw new Error('Error: Page "Not found" not found');
+      this.onRouteChange();
     }
-    return item;
   }
 
-  constructor(routers: RouterItem[]) {
-    this.pages = routers;
-    this.navigation();
+  private comparePath(routeHash: string, pathName: string): boolean {
+    const rHash = routeHash.split('/');
+    const pName = pathName.split('/');
 
-    window.addEventListener('hashchange', this.navigation.bind(this));
+    if (rHash.length !== pName.length) {
+      return false;
+    }
+
+    return rHash.every((piece, index) => {
+      if (piece.startsWith(':')) {
+        return true;
+      }
+
+      return piece === pName[index];
+    });
   }
 
-  public addRouters(routers: RouterItem[]): void {
-    this.pages = [...this.pages, ...routers];
+  private getVariablesFromRoutePath(routeHash: string, pathName: string): Params {
+    const params: Params = {};
+    const rHash = routeHash.split('/');
+    const pName = pathName.split('/');
+
+    rHash.forEach((item, index) => {
+      if (!item.startsWith(':')) {
+        return;
+      }
+
+      const variableName = item.substring(1);
+      params[variableName] = pName[index];
+    });
+
+    return params;
   }
 
-  public navigation() {
-    renderDOM(this.getPage(this.path));
+  private onRouteChange(pathname: string = window.location.pathname) {
+    const found = Object.entries(this.routes).some(([routeHash, callback]) => {
+      if (this.comparePath(routeHash, pathname)) {
+        const params = this.getVariablesFromRoutePath(routeHash, pathname);
+        callback(params);
+        return true;
+      }
+      return false;
+    });
+
+    if (!found && this.routes['*']) {
+      this.routes['*']();
+    }
   }
 
-  public getPage(to: string): RouterItem['page'] {
-    this.page =
-      this.pages.find((el) => {
-        return el.to === to.replace('#', '');
-      }) ?? this.notFound;
+  use(hash: string, callback: Function) {
+    this.routes[hash] = callback;
+    return this;
+  }
 
-    return this.page.page;
+  go(pathname: string) {
+    window.history.pushState({}, '', pathname);
+    this.onRouteChange(pathname);
+  }
+
+  back() {
+    window.history.back();
+  }
+
+  forward() {
+    window.history.forward();
   }
 }

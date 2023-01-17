@@ -6,6 +6,11 @@ interface BlockMeta<P = any> {
   props: P;
 }
 
+export interface BlockClass<P> extends Function {
+  new (props: P): Block<P>;
+  componentName?: string;
+}
+
 type Events = Values<typeof Block.EVENTS>;
 
 export default class Block<P = any> {
@@ -14,6 +19,7 @@ export default class Block<P = any> {
     FLOW_CDM: 'flow:component-did-mount',
     FLOW_CDU: 'flow:component-did-update',
     FLOW_RENDER: 'flow:render',
+    FLOW_CWU: 'flow:component-will-unmount',
   } as const;
 
   public id = nanoid(6);
@@ -57,6 +63,7 @@ export default class Block<P = any> {
     eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
+    eventBus.on(Block.EVENTS.FLOW_CWU, this._componentWillUnmount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
@@ -78,6 +85,13 @@ export default class Block<P = any> {
   }
 
   componentDidMount(properties: P) {}
+
+  _componentWillUnmount() {
+    this.eventBus().destroy();
+    this.componentWillUnmount();
+  }
+
+  componentWillUnmount() {}
 
   _componentDidUpdate(oldProperties: P, newProperties: P) {
     const response = this.componentDidUpdate(oldProperties, newProperties);
