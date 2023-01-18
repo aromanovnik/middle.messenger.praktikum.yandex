@@ -1,4 +1,5 @@
 import { Block } from 'core';
+import { routerHoc } from 'hocs';
 
 export class OnboardingPage extends Block {
   constructor() {
@@ -21,3 +22,5 @@ export class OnboardingPage extends Block {
     `;
   }
 }
+
+export default routerHoc(OnboardingPage);

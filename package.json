@@ -20,7 +20,9 @@
     "components": "./src/components",
     "helpers": "./src/helpers",
     "services": "./src/services",
-    "demo": "./src/demo"
+    "demo": "./src/demo",
+    "hocs": "./src/hocs",
+    "store": "./src/store"
   },
   "repository": {
     "type": "git",

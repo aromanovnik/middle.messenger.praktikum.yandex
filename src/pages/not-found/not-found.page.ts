@@ -1,4 +1,5 @@
 import { Block } from 'core';
+import { routerHoc } from 'hocs';
 
 export class NotFoundPage extends Block {
   constructor() {
@@ -17,3 +18,5 @@ export class NotFoundPage extends Block {
     `;
   }
 }
+
+export default routerHoc(NotFoundPage);

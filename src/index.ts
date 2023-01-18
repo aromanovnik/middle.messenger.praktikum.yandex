@@ -1,102 +1,27 @@
 require('babel-core/register');
 
+import store from 'store';
+
+import * as components from 'components';
 import { registerComponent, Router } from 'core';
+
+// eslint-disable-next-line import/order
+import { initRouter } from './router';
 
 import './styles/styles.css';
 
-// Pages
-import {
-  NotFoundPage,
-  ServerErrorPage,
-  OnboardingPage,
-  AuthPage,
-  HomePage,
-  RegistrationPage,
-  UserChangePasswordPage,
-  UserDetailsPage,
-  UserSettingsPage,
-} from 'pages';
-
 // Component
-import {
-  ErrorComponent,
-  ChatItemComponent,
-  UserAvatarComponent,
-  ChatBoxComponent,
-  ChatMessageComponent,
-  UserInfoComponent,
-  UserInfoHeadComponent,
-  UserEditComponent,
-  UserChangePassComponent,
-  SidebarBackComponent,
-  RegistrationFormComponent,
-  LoginFormComponent,
-  ChatListComponent,
-  ChatDetailsComponent,
-  InputComponent,
-  InputFieldComponent,
-  InputErrorComponent,
-  ButtonComponent,
-  ChatInputComponent,
-} from 'components';
+Object.values(components).forEach((Component: any) => {
+  registerComponent(Component);
+});
 
-registerComponent(ErrorComponent);
-registerComponent(ChatItemComponent);
-registerComponent(UserAvatarComponent);
-registerComponent(ChatBoxComponent);
-registerComponent(ChatMessageComponent);
-registerComponent(UserInfoComponent);
-registerComponent(UserInfoHeadComponent);
-registerComponent(UserEditComponent);
-registerComponent(UserChangePassComponent);
-registerComponent(SidebarBackComponent);
-registerComponent(RegistrationFormComponent);
-registerComponent(LoginFormComponent);
-registerComponent(ChatListComponent);
-registerComponent(ChatDetailsComponent);
-registerComponent(ChatInputComponent);
-registerComponent(InputComponent);
-registerComponent(InputFieldComponent);
-registerComponent(InputErrorComponent);
-registerComponent(ButtonComponent);
+document.addEventListener('DOMContentLoaded', () => {
+  const router = new Router();
 
-const router = [
-  {
-    to: '',
-    page: new OnboardingPage(),
-  },
-  {
-    to: 'home',
-    page: new HomePage(),
-  },
-  {
-    to: 'auth',
-    page: new AuthPage(),
-  },
-  {
-    to: 'registration',
-    page: new RegistrationPage(),
-  },
-  {
-    to: 'user-settings',
-    page: new UserSettingsPage(),
-  },
-  {
-    to: 'user-details',
-    page: new UserDetailsPage(),
-  },
-  {
-    to: 'user-change-password',
-    page: new UserChangePasswordPage(),
-  },
-  {
-    to: 'server-error',
-    page: new ServerErrorPage(),
-  },
-  {
-    to: '*',
-    page: new NotFoundPage(),
-  },
-];
+  store.on('changed', (prevState, nextState) => {
+    console.log('%cstore updated', 'background: #222; color: #bada55', prevState, nextState);
+  });
 
-document.addEventListener('DOMContentLoaded', () => new Router(router));
+  initRouter(router, store);
+  // store.dispatch(initApp);
+});

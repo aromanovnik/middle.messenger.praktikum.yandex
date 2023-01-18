@@ -1,4 +1,5 @@
 import { Block } from 'core';
+import { routerHoc } from 'hocs';
 
 export class ServerErrorPage extends Block {
   constructor() {
@@ -19,3 +20,5 @@ export class ServerErrorPage extends Block {
     `;
   }
 }
+
+export default routerHoc(ServerErrorPage);
