@@ -21,7 +21,7 @@ export class UserApi {
         'Content-Type': 'application/json',
       },
     });
-    return res.response;
+    return JSON.parse(res.response ?? '{}');
   }
 
   // {avatar}
@@ -32,7 +32,7 @@ export class UserApi {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
     });
-    return res.response;
+    return JSON.parse(res.response ?? '{}');
   }
 
   public static async password(data: ChangePasswordRequest): Promise<PasswordResponseData> {
@@ -42,7 +42,7 @@ export class UserApi {
         'Content-Type': 'application/json',
       },
     });
-    return res.response;
+    return JSON.parse(res.response ?? '{}');
   }
 
   public static async user(data: Pick<UserResponse, 'id'>): Promise<PasswordResponseData> {
@@ -51,7 +51,7 @@ export class UserApi {
         'Content-Type': 'application/json',
       },
     });
-    return res.response;
+    return JSON.parse(res.response ?? '{}');
   }
 
   public static async search(data: FindUserRequest): Promise<SearchUserResponseData> {
@@ -61,6 +61,6 @@ export class UserApi {
         'Content-Type': 'application/json',
       },
     });
-    return res.response;
+    return JSON.parse(res.response ?? '[]');
   }
 }

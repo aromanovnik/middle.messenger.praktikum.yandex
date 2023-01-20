@@ -22,7 +22,11 @@
     "services": "./src/services",
     "demo": "./src/demo",
     "hocs": "./src/hocs",
-    "store": "./src/store"
+    "store": "./src/store",
+    "models": "./src/models",
+    "api": "./src/api",
+    "utils": "./src/utils",
+    "router": "./src/router"
   },
   "repository": {
     "type": "git",

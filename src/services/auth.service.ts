@@ -1,9 +1,6 @@
-import { HTTPTransport } from 'core/http-transport';
-import { SignInRequest, SignUpRequest } from 'demo';
+import { SignInRequest, SignUpRequest } from 'api';
 
 export class AuthService {
-  http = new HTTPTransport();
-
   auth(data: SignInRequest): void {
     console.log('[AuthService] auth -> ', data);
   }

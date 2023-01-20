@@ -37,5 +37,3 @@ export class Store<State extends Record<string, any>> extends EventBus {
     }
   }
 }
-
-// export default Store

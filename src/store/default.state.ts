@@ -1,3 +1,5 @@
+import { AppState } from './type.store';
+
 export const defaultState: AppState = {
   appIsInited: false,
   isLoading: false,

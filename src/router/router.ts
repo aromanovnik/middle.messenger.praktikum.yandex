@@ -1,4 +1,5 @@
 import { BlockClass, renderDOM, Router, Store } from 'core';
+import { AppState } from 'store/type.store';
 import {
   AuthPage,
   MessengerPage,
@@ -9,7 +10,7 @@ import {
   UserChangePasswordPage,
   UserDetailsPage,
   UserSettingsPage,
-} from './pages';
+} from '../pages';
 
 export enum Screens {
   Messenger = 'messenger',
@@ -118,10 +119,6 @@ export function initRouter(router: Router, store: Store<AppState>) {
     });
   });
 
-  /**
-   * Глобальный слушатель изменений в сторе
-   * для переключения активного экрана
-   */
   store.on('changed', (prevState, nextState) => {
     if (!prevState.appIsInited && nextState.appIsInited) {
       router.start();
