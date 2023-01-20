@@ -1,5 +1,5 @@
 import { BlockClass, renderDOM, Router, Store } from 'core';
-import { AppState } from 'store/type.store';
+import { AppState } from 'store';
 import {
   AuthPage,
   MessengerPage,
@@ -24,6 +24,19 @@ export enum Screens {
   ServerError = 'server-error',
 }
 
+export enum ScreensPath {
+  Messenger = '/messenger',
+  MessengerDetail = '/messenger/:id-chat',
+  Onboarding = '/onboadring',
+  Login = '/',
+  Registration = '/sign-up',
+  Settings = '/settings',
+  SettingsPass = '/settings-pass',
+  Profile = '/profile',
+  NotFound = '/not-found',
+  ServerError = '/server-error',
+}
+
 const map: Record<Screens, BlockClass<any>> = {
   [Screens.Onboarding]: OnboardingPage,
 
@@ -46,52 +59,52 @@ export const getScreenComponent = (screen: Screens): BlockClass<any> => {
 
 const routes = [
   {
-    path: '/onboarding',
+    path: ScreensPath.Onboarding,
     block: Screens.Onboarding,
     shouldAuthorized: false,
   },
   {
-    path: '/',
+    path: ScreensPath.Login,
     block: Screens.Login,
     shouldAuthorized: false,
   },
   {
-    path: '/sign-up',
+    path: ScreensPath.Registration,
     block: Screens.Registration,
     shouldAuthorized: false,
   },
   {
-    path: '/profile',
+    path: ScreensPath.Profile,
     block: Screens.Profile,
     shouldAuthorized: true,
   },
   {
-    path: '/settings',
+    path: ScreensPath.Settings,
     block: Screens.Settings,
     shouldAuthorized: true,
   },
   {
-    path: '/settings-pass',
+    path: ScreensPath.SettingsPass,
     block: Screens.SettingsPass,
     shouldAuthorized: true,
   },
   {
-    path: '/messenger',
+    path: ScreensPath.Messenger,
     block: Screens.Messenger,
     shouldAuthorized: true,
   },
   {
-    path: '/messenger/:id-chat',
+    path: ScreensPath.MessengerDetail,
     block: Screens.Messenger,
     shouldAuthorized: true,
   },
   {
-    path: '/not-found',
+    path: ScreensPath.NotFound,
     block: Screens.NotFound,
     shouldAuthorized: false,
   },
   {
-    path: '/server-error',
+    path: ScreensPath.ServerError,
     block: Screens.ServerError,
     shouldAuthorized: false,
   },

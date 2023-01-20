@@ -1,8 +1,8 @@
 import { Dispatch } from 'core';
-import { AppState } from 'store/type.store';
-import { AuthApi } from '../api/auth.api';
-import { apiHasError } from '../utils';
-import { UserModel } from '../models';
+import { AppState } from 'store';
+import { AuthApi } from 'api';
+import { apiHasError } from 'utils';
+import { UserModel } from 'models';
 
 export async function initAppService(dispatch: Dispatch<AppState>) {
   try {
