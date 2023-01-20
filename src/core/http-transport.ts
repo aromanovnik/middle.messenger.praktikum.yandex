@@ -1,4 +1,4 @@
-enum METHOD {
+export enum METHOD {
   GET = 'GET',
   POST = 'POST',
   PUT = 'PUT',
@@ -6,7 +6,7 @@ enum METHOD {
   DELETE = 'DELETE',
 }
 
-type Options = {
+export type Options = {
   method: METHOD;
   headers?: { [key: string]: string };
   data?: any;
@@ -15,7 +15,7 @@ type Options = {
 
 // todo: Спороно, но сделаю.
 // создаем тип метода
-type HTTPMethod = (url: string, options: Options) => Promise<XMLHttpRequest>;
+export type HTTPMethod = (url: string, options: Omit<Options, 'method'>) => Promise<XMLHttpRequest>;
 
 function queryStringify(data: { [key: string | number]: string }) {
   if (typeof data !== 'object') {
@@ -31,26 +31,26 @@ function queryStringify(data: { [key: string | number]: string }) {
 
 export class HTTPTransport {
   // используем тип и удаляем дублирование в аргументах
-  get: HTTPMethod = (url, options) =>
-    this.request(url, { ...options, method: METHOD.GET }, options.timeout);
+  static get: HTTPMethod = (url, options) =>
+    HTTPTransport.request(url, { ...options, method: METHOD.GET }, options.timeout);
 
   // используем тип и удаляем дублирование в аргументах
-  put: HTTPMethod = (url, options) =>
-    this.request(url, { ...options, method: METHOD.PUT }, options.timeout);
+  static put: HTTPMethod = (url, options) =>
+    HTTPTransport.request(url, { ...options, method: METHOD.PUT }, options.timeout);
 
   // используем тип и удаляем дублирование в аргументах
-  post: HTTPMethod = (url, options) =>
-    this.request(url, { ...options, method: METHOD.POST }, options.timeout);
+  static post: HTTPMethod = (url, options) =>
+    HTTPTransport.request(url, { ...options, method: METHOD.POST }, options.timeout);
 
   // используем тип и удаляем дублирование в аргументах
-  patch: HTTPMethod = (url, options) =>
-    this.request(url, { ...options, method: METHOD.POST }, options.timeout);
+  static patch: HTTPMethod = (url, options) =>
+    HTTPTransport.request(url, { ...options, method: METHOD.POST }, options.timeout);
 
   // используем тип и удаляем дублирование в аргументах
-  delete: HTTPMethod = (url, options) =>
-    this.request(url, { ...options, method: METHOD.DELETE }, options.timeout);
+  static delete: HTTPMethod = (url, options) =>
+    HTTPTransport.request(url, { ...options, method: METHOD.DELETE }, options.timeout);
 
-  request(url: string, options: Options, timeout = 5000): Promise<XMLHttpRequest> {
+  static request(url: string, options: Options, timeout = 5000): Promise<XMLHttpRequest> {
     const { headers = {}, data } = options;
     let { method } = options;
     if (!method) {
