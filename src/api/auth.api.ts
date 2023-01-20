@@ -30,7 +30,7 @@ export class AuthApi {
   }
 
   public static async user(): Promise<UserResponseData> {
-    const res = await HTTPTransport.get(`${AuthApi.path}user`, {
+    const res = await HTTPTransport.get(`${AuthApi.path}/user`, {
       headers: {
         'Content-Type': 'application/json',
       },

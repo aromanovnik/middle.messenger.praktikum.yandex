@@ -1,4 +1,5 @@
 import { BlockClass, Store } from 'core';
+import store, { AppState } from 'store';
 
 type StoreHocProps = { store: Store<AppState> };
 
@@ -8,7 +9,9 @@ export function storeHoc<P extends StoreHocProps>(WrappedBlock: BlockClass<P>) {
     public static componentName = WrappedBlock.componentName || WrappedBlock.name;
 
     constructor(props: P) {
-      super({ ...props, store: window.store });
+      super({ ...props, store });
+
+      console.log('store -> ', store);
     }
 
     __onChangeStoreCallback = () => {
@@ -18,17 +21,17 @@ export function storeHoc<P extends StoreHocProps>(WrappedBlock: BlockClass<P>) {
        * с помощью метода mapStateToProps
        */
       // @ts-expect-error this is not typed
-      this.setProps({ ...this.props, store: window.store });
+      this.setProps({ ...this.props, store });
     };
 
     componentDidMount(props: P) {
       super.componentDidMount(props);
-      window.store.on('changed', this.__onChangeStoreCallback);
+      store.on('changed', this.__onChangeStoreCallback);
     }
 
     componentWillUnmount() {
       super.componentWillUnmount();
-      window.store.off('changed', this.__onChangeStoreCallback);
+      store.off('changed', this.__onChangeStoreCallback);
     }
   } as BlockClass<Omit<P, 'store'>>;
 }

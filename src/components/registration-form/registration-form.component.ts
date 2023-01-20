@@ -1,14 +1,16 @@
-import { Block } from 'core';
+import { Block, Store } from 'core';
 import { validateForm, ValidateRuleType } from 'helpers';
-import { authService } from 'services';
-import { SignUpRequest } from 'demo';
+import { AuthService, SignUpPayload } from 'services';
 
 import './registration-form.component.css';
+import { storeHoc } from '../../hocs';
+import { AppState } from '../../store';
 
 export interface RegistrationFormComponentProps {
-  values?: SignUpRequest;
-  onSubmit?: (event: MouseEvent) => void;
-  onInput?: (event: InputEvent) => void;
+  store: Store<AppState>;
+  values: SignUpPayload;
+  onSubmit: (event: MouseEvent) => void;
+  onInput: (event: InputEvent) => void;
   validateRuleType: typeof ValidateRuleType;
 }
 
@@ -19,11 +21,11 @@ export class RegistrationFormComponent extends Block<RegistrationFormComponentPr
     return !validateForm([
       {
         type: ValidateRuleType.Name,
-        value: this.formValue.firstName,
+        value: this.formValue.first_name,
       },
       {
         type: ValidateRuleType.Name,
-        value: this.formValue.secondName,
+        value: this.formValue.second_name,
       },
       {
         type: ValidateRuleType.Email,
@@ -44,11 +46,9 @@ export class RegistrationFormComponent extends Block<RegistrationFormComponentPr
     ]);
   }
 
-  authService = authService;
-
-  formValue: SignUpRequest = {
-    firstName: '',
-    secondName: '',
+  formValue: SignUpPayload = {
+    first_name: '',
+    second_name: '',
     email: '',
     login: '',
     password: '',
@@ -72,8 +72,7 @@ export class RegistrationFormComponent extends Block<RegistrationFormComponentPr
     if (!this.isValid) {
       return;
     }
-
-    this.authService.auth(this.formValue);
+    this.props.store.dispatch(AuthService.signIn, this.formValue);
   }
 
   onInput(event: InputEvent): void {
@@ -99,7 +98,6 @@ export class RegistrationFormComponent extends Block<RegistrationFormComponentPr
                         id='registrationFirstName'
                         type='text'
                         name='first_name'
-                        dataKey='firstName'
                         placeholder=''
                         value=values.firstName
                         onInput=onInput
@@ -112,7 +110,6 @@ export class RegistrationFormComponent extends Block<RegistrationFormComponentPr
                         id='registrationSecondName'
                         type='text'
                         name='second_name'
-                        dataKey='secondName'
                         placeholder=''
                         value=values.secondName
                         onInput=onInput
@@ -187,3 +184,5 @@ export class RegistrationFormComponent extends Block<RegistrationFormComponentPr
     `;
   }
 }
+
+export default storeHoc(RegistrationFormComponent);

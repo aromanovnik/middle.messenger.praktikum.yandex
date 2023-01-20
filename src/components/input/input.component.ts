@@ -60,6 +60,7 @@ export class InputComponent extends Block<InputComponentProps> {
                                    dataKey=dataKey
                                    placeholder=placeholder
                                    value=value
+                                   type=type
                                    onInput=onInput
                                    onFocus=onFocus
                                    onChange=onChange

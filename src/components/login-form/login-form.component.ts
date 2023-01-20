@@ -1,15 +1,18 @@
-import { Block } from 'core';
-import { SignInRequest } from 'demo';
-import { authService } from 'services';
+import { Block, Router, Store } from 'core';
+import { AuthService, SignInPayload } from 'services';
 import { validateForm, ValidateRuleType } from 'helpers';
 
 import './login-form.component.css';
+import { routerHoc, storeHoc } from 'hocs';
+import { AppState } from 'store';
 
 export interface LoginFormComponentProps {
-  values?: SignInRequest;
-  onSubmit?: (event: MouseEvent) => void;
-  onBlur?: () => void;
-  onInput?: (event: InputEvent) => void;
+  router: Router;
+  store: Store<AppState>;
+  values: SignInPayload;
+  onSubmit: (event: MouseEvent) => void;
+  onBlur: () => void;
+  onInput: (event: InputEvent) => void;
   validateRuleType: typeof ValidateRuleType;
 }
 
@@ -29,9 +32,7 @@ export class LoginFormComponent extends Block<LoginFormComponentProps> {
     ]);
   }
 
-  authService = authService;
-
-  formValue: SignInRequest = {
+  formValue: SignInPayload = {
     login: '',
     password: '',
   };
@@ -54,7 +55,8 @@ export class LoginFormComponent extends Block<LoginFormComponentProps> {
       return;
     }
 
-    this.authService.auth(this.formValue);
+    console.log('props -> ', this.props.store);
+    this.props.store.dispatch(AuthService.signIn, this.formValue);
   }
 
   onInput(event: InputEvent): void {
@@ -101,9 +103,13 @@ export class LoginFormComponent extends Block<LoginFormComponentProps> {
                 {{{ButtonComponent type='submit'
                                    title='Войти'
                                    onClick=onSubmit}}}
+
                 <a href='#registration'>Ещё не зарегистрированы?</a>
             </form>
         </div>
     `;
   }
 }
+
+console.dir(routerHoc(storeHoc(LoginFormComponent)));
+export default routerHoc(storeHoc(LoginFormComponent));

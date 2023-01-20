@@ -5,8 +5,8 @@ import { Dispatch } from 'core';
 import { UserModel } from 'models';
 import router, { ScreensPath } from 'router';
 
-type SignInPayload = SignInRequest;
-type SignUpPayload = SignUpRequest;
+export type SignInPayload = SignInRequest;
+export type SignUpPayload = SignUpRequest;
 
 export class AuthService {
   static async signIn(
@@ -54,12 +54,12 @@ export class AuthService {
 
     const response = await AuthApi.signIn(action);
     if (apiHasError(response)) {
-      dispatch({ isLoading: false, loginFormError: response.reason });
+      dispatch({ isLoading: false, registrationFormError: response.reason });
       return;
     }
 
     const user = await AuthApi.user();
-    dispatch({ isLoading: false, loginFormError: null });
+    dispatch({ isLoading: false, registrationFormError: null });
 
     if (apiHasError(user)) {
       dispatch(AuthService.logout);

@@ -29,6 +29,7 @@ export class InputFieldComponent extends Block<InputFieldComponentProps> {
   }: InputFieldComponentProps) {
     super({
       ...props,
+      type,
       dataKey: dataKey || name,
       name,
       events: {
@@ -50,6 +51,7 @@ export class InputFieldComponent extends Block<InputFieldComponentProps> {
                placeholder='{{placeholder}}'
                value='{{value}}'
                data-key='{{dataKey}}'
+               type='{{type}}'
         />
     `;
   }
