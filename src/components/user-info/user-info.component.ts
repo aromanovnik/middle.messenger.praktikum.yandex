@@ -1,10 +1,14 @@
-import { Block } from 'core';
+import { Block, Router, Store } from 'core';
 // todo: Only for demo
 import { userInfo, UserResponse } from 'demo';
 
 import './user-info.component.css';
+import { routerHoc, storeHoc } from 'hocs';
+import { AppState } from 'store';
 
 export interface UserInfoComponentProps {
+  router: Router;
+  store: Store<AppState>;
   user?: UserResponse;
 }
 
@@ -75,3 +79,5 @@ export class UserInfoComponent extends Block<UserInfoComponentProps> {
     `;
   }
 }
+
+export default routerHoc(storeHoc(UserInfoComponent));

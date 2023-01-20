@@ -1,8 +1,12 @@
-import { Block } from 'core';
+import { Block, Router, Store } from 'core';
 
 import './user-info-head.component.css';
+import { storeHoc } from 'hocs';
+import { AppState } from 'store';
 
 export interface UserInfoHeadComponentProps {
+  router: Router;
+  store: Store<AppState>;
   avatar?: string;
   firstName?: string;
   isShowName?: boolean;
@@ -11,8 +15,9 @@ export interface UserInfoHeadComponentProps {
 export class UserInfoHeadComponent extends Block<UserInfoHeadComponentProps> {
   static override componentName = 'UserInfoHeadComponent';
 
-  constructor({ avatar, firstName, isShowName }: UserInfoHeadComponentProps) {
-    super({ avatar, firstName, isShowName });
+  // { avatar, firstName, isShowName }: UserInfoHeadComponentProps
+  constructor() {
+    super();
   }
 
   protected override render(): string {
@@ -40,3 +45,5 @@ export class UserInfoHeadComponent extends Block<UserInfoHeadComponentProps> {
     `;
   }
 }
+
+export default storeHoc(UserInfoHeadComponent);

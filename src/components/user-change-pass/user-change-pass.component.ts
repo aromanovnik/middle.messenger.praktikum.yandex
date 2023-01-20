@@ -1,13 +1,17 @@
-import { Block } from 'core';
-import { userService } from 'services';
+import { Block, Router, Store } from 'core';
+import { UserService } from 'services';
 
 // todo: Only for demo
 import { ChangePasswordRequest, userInfo, UserResponse } from 'demo';
 
 import './user-change-pass.component.css';
 import { validateForm, ValidateRuleType } from 'helpers';
+import { routerHoc, storeHoc } from 'hocs';
+import { AppState } from 'store';
 
 export interface UserChangePassComponentProps {
+  router: Router;
+  store: Store<AppState>;
   user?: UserResponse;
   values: ChangePasswordRequest;
   onSubmit?: (event: MouseEvent) => void;
@@ -30,8 +34,6 @@ export class UserChangePassComponent extends Block<UserChangePassComponentProps>
       },
     ]);
   }
-
-  userService = userService;
 
   formValue: ChangePasswordRequest = {
     oldPassword: '',
@@ -57,7 +59,7 @@ export class UserChangePassComponent extends Block<UserChangePassComponentProps>
       return;
     }
 
-    this.userService.changePassword(this.formValue);
+    this.props.store.dispatch(UserService.changePassword, this.formValue);
   }
 
   onInput(event: InputEvent): void {
@@ -135,3 +137,5 @@ export class UserChangePassComponent extends Block<UserChangePassComponentProps>
     `;
   }
 }
+
+export default routerHoc(storeHoc(UserChangePassComponent));

@@ -1,12 +1,16 @@
-import { Block } from 'core';
-import { userService } from 'services';
+import { Block, Router, Store } from 'core';
+import { UserService } from 'services';
 // todo: Only for demo
 import { userInfo, UserResponse, UserUpdateRequest } from 'demo';
 
 import './user-edit.component.css';
 import { validateForm, ValidateRuleType } from 'helpers';
+import { routerHoc, storeHoc } from 'hocs';
+import { AppState } from 'store';
 
 export interface UserEditComponentProps {
+  router: Router;
+  store: Store<AppState>;
   user?: UserResponse;
   values?: UserUpdateRequest;
   onSubmit?: (event: MouseEvent) => void;
@@ -42,8 +46,6 @@ export class UserEditComponent extends Block<UserEditComponentProps> {
     ]);
   }
 
-  userService = userService;
-
   formValue: UserUpdateRequest = {
     firstName: userInfo.firstName ?? '',
     secondName: userInfo.secondName ?? '',
@@ -72,7 +74,7 @@ export class UserEditComponent extends Block<UserEditComponentProps> {
       return;
     }
 
-    this.userService.editInfo(this.formValue);
+    this.props.store.dispatch(UserService.editUser, this.formValue);
   }
 
   onInput(event: InputEvent): void {
@@ -191,3 +193,5 @@ export class UserEditComponent extends Block<UserEditComponentProps> {
     `;
   }
 }
+
+export default routerHoc(storeHoc(UserEditComponent));

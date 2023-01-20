@@ -111,5 +111,4 @@ export class LoginFormComponent extends Block<LoginFormComponentProps> {
   }
 }
 
-console.dir(routerHoc(storeHoc(LoginFormComponent)));
 export default routerHoc(storeHoc(LoginFormComponent));

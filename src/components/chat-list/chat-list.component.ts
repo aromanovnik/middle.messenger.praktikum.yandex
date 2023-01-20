@@ -1,20 +1,22 @@
-import { Block } from 'core';
+import { Block, Router, Store } from 'core';
 // todo: Only for demo
-import { chats, ChatsResponse } from 'demo';
 
 import './chat-list.component.css';
+import { routerHoc, storeHoc } from 'hocs';
+import { AppState } from 'store';
+import { ChatModel } from 'models';
 
 export interface ChatListComponentProps {
-  chats: ChatsResponse[];
+  router: Router;
+  store: Store<AppState>;
+  chats: ChatModel[];
 }
 
 export class ChatListComponent extends Block<ChatListComponentProps> {
   static override componentName = 'ChatListComponent';
 
   constructor() {
-    super({
-      chats,
-    });
+    super();
   }
 
   protected override render(): string {
@@ -47,3 +49,5 @@ export class ChatListComponent extends Block<ChatListComponentProps> {
     `;
   }
 }
+
+export default routerHoc(storeHoc(ChatListComponent));

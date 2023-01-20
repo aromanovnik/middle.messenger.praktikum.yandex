@@ -25,7 +25,7 @@ export class UserService {
     dispatch({ isLoading: false, loginFormError: null, user: new UserModel(response) });
   }
 
-  async changePassword(
+  static async changePassword(
     dispatch: Dispatch<AppState>,
     state: AppState,
     action: ChangePasswordPayload,
@@ -41,7 +41,7 @@ export class UserService {
     dispatch({ isLoading: false, passwordFormError: null });
   }
 
-  async changeAvatar(
+  static async changeAvatar(
     dispatch: Dispatch<AppState>,
     state: AppState,
     action: ChangeAvatartPayload,

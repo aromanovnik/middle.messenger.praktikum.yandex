@@ -1,10 +1,14 @@
-import { Block } from 'core';
+import { Block, Router, Store } from 'core';
 // todo: Only for demo
-import { messages, chat, ChatMessage, ChatsResponse } from 'demo';
+import { ChatMessage, ChatsResponse } from 'demo';
 
 import './chat-details.component.css';
+import { routerHoc, storeHoc } from 'hocs';
+import { AppState } from 'store';
 
 export interface ChatDetailsComponentProps {
+  router: Router;
+  store: Store<AppState>;
   messages: ChatMessage[];
   chat: ChatsResponse;
 }
@@ -13,10 +17,7 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
   static override componentName = 'ChatDetailsComponent';
 
   constructor() {
-    super({
-      messages,
-      chat,
-    });
+    super();
   }
 
   protected override render(): string {
@@ -61,3 +62,5 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
     `;
   }
 }
+
+export default routerHoc(storeHoc(ChatDetailsComponent));
