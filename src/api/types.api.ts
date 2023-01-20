@@ -326,7 +326,7 @@ export interface ChatsResponse {
    * @type {ChatsResponseLastMessage}
    * @memberof ChatsResponse
    */
-  lastMessage: ChatsResponseLastMessage;
+  last_message: ChatsResponseLastMessage;
 }
 
 /**
@@ -954,4 +954,10 @@ export interface VideoInfoResponse {
    * @memberof VideoInfoResponse
    */
   size: number;
+}
+
+export interface GetChatRequest {
+  offset?: number;
+  limit?: number;
+  title?: number;
 }
