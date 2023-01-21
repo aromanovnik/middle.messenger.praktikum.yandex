@@ -14,6 +14,7 @@ export interface LoginFormComponentProps {
   onBlur: () => void;
   onInput: (event: InputEvent) => void;
   validateRuleType: typeof ValidateRuleType;
+  formError?: () => string | null;
 }
 
 export class LoginFormComponent extends Block<LoginFormComponentProps> {
@@ -37,14 +38,15 @@ export class LoginFormComponent extends Block<LoginFormComponentProps> {
     password: '',
   };
 
-  constructor() {
-    super();
+  constructor(props: LoginFormComponentProps) {
+    super(props);
 
     this.setProps({
       values: this.formValue,
       onSubmit: this.onSubmit.bind(this),
       onInput: this.onInput.bind(this),
       validateRuleType: ValidateRuleType,
+      formError: () => this.props.store.getState().loginFormError,
     });
   }
 
@@ -55,7 +57,6 @@ export class LoginFormComponent extends Block<LoginFormComponentProps> {
       return;
     }
 
-    console.log('props -> ', this.props.store);
     this.props.store.dispatch(AuthService.signIn, this.formValue);
   }
 
@@ -99,6 +100,8 @@ export class LoginFormComponent extends Block<LoginFormComponentProps> {
                         value=values.password
                         onInput=onInput
                 }}}
+
+                {{{InputErrorComponent error=formError}}}
 
                 {{{ButtonComponent type='submit'
                                    title='Войти'

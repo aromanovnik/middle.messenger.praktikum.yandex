@@ -52,7 +52,7 @@ export class AuthService {
   ): Promise<void> {
     dispatch({ isLoading: true });
 
-    const response = await AuthApi.signIn(action);
+    const response = await AuthApi.signUp(action);
     if (apiHasError(response)) {
       dispatch({ isLoading: false, registrationFormError: response.reason });
       return;

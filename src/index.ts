@@ -3,7 +3,7 @@ import { initAppService } from 'services';
 require('babel-core/register');
 
 import * as components from 'components';
-import { registerComponent } from 'core';
+import { registerComponent, BlockConstructable } from 'core';
 
 import router, { initRouter } from 'router';
 import store from 'store';
@@ -11,7 +11,7 @@ import store from 'store';
 import './styles/styles.css';
 
 // Component
-Object.values(components).forEach((Component: any) => {
+Object.values(components).forEach((Component: BlockConstructable<any>) => {
   registerComponent(Component);
 });
 

@@ -1,7 +1,8 @@
+// @ts-ignore
 import Handlebars, { HelperOptions } from 'handlebars';
 import Block from 'core/block';
 
-interface BlockConstructable<Properties = any> {
+export interface BlockConstructable<Properties = any> {
   new (properties: Properties): Block;
 
   componentName?: string;

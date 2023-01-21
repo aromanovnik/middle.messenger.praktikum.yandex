@@ -1,4 +1,5 @@
 import { nanoid } from 'nanoid';
+// @ts-ignore
 import Handlebars from 'handlebars';
 import EventBus from './event-bus';
 
@@ -8,6 +9,7 @@ interface BlockMeta<P = any> {
 
 export interface BlockClass<P> extends Function {
   new (props: P): Block<P>;
+
   componentName?: string;
 }
 
@@ -24,6 +26,7 @@ export default class Block<P = any> {
 
   public id = nanoid(6);
 
+  // @ts-ignore
   private readonly _meta: BlockMeta;
 
   protected _element?: Nullable<HTMLElement>;
@@ -71,6 +74,7 @@ export default class Block<P = any> {
     this._element = this._createDocumentElement('div');
   }
 
+  // @ts-ignore
   protected getStateFromProps(properties: any): void {
     this.state = {};
   }
@@ -84,6 +88,7 @@ export default class Block<P = any> {
     this.componentDidMount(properties);
   }
 
+  // @ts-ignore
   componentDidMount(properties: P) {}
 
   _componentWillUnmount() {
@@ -101,6 +106,7 @@ export default class Block<P = any> {
     this._render();
   }
 
+  // @ts-ignore
   componentDidUpdate(oldProperties: P, newProperties: P) {
     return true;
   }

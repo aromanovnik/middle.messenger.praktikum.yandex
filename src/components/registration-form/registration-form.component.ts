@@ -12,6 +12,7 @@ export interface RegistrationFormComponentProps {
   onSubmit: (event: MouseEvent) => void;
   onInput: (event: InputEvent) => void;
   validateRuleType: typeof ValidateRuleType;
+  formError?: () => string | null;
 }
 
 export class RegistrationFormComponent extends Block<RegistrationFormComponentProps> {
@@ -55,14 +56,15 @@ export class RegistrationFormComponent extends Block<RegistrationFormComponentPr
     phone: '',
   };
 
-  constructor() {
-    super();
+  constructor(props: RegistrationFormComponentProps) {
+    super(props);
 
     this.setProps({
       values: this.formValue,
       onSubmit: this.onSubmit.bind(this),
       onInput: this.onInput.bind(this),
       validateRuleType: ValidateRuleType,
+      formError: () => this.props.store.getState().registrationFormError,
     });
   }
 
@@ -72,7 +74,7 @@ export class RegistrationFormComponent extends Block<RegistrationFormComponentPr
     if (!this.isValid) {
       return;
     }
-    this.props.store.dispatch(AuthService.signIn, this.formValue);
+    this.props.store.dispatch(AuthService.signUp, this.formValue);
   }
 
   onInput(event: InputEvent): void {
@@ -99,7 +101,7 @@ export class RegistrationFormComponent extends Block<RegistrationFormComponentPr
                         type='text'
                         name='first_name'
                         placeholder=''
-                        value=values.firstName
+                        value=values.first_name
                         onInput=onInput
                         validate=validateRuleType.Name
                 }}}
@@ -111,7 +113,7 @@ export class RegistrationFormComponent extends Block<RegistrationFormComponentPr
                         type='text'
                         name='second_name'
                         placeholder=''
-                        value=values.secondName
+                        value=values.second_name
                         onInput=onInput
                         validate=validateRuleType.Name
                 }}}
@@ -174,6 +176,8 @@ export class RegistrationFormComponent extends Block<RegistrationFormComponentPr
                         onInput=onInput
                         validate=validateRuleType.Password
                 }}}
+
+                {{{InputErrorComponent error=formError}}}
 
                 {{{ButtonComponent type='submit'
                                    title='Зарегистрироваться'

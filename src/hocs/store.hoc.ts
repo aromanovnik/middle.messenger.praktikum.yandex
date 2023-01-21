@@ -1,5 +1,6 @@
 import { BlockClass, Store } from 'core';
 import store, { AppState } from 'store';
+import { isEqual } from 'utils';
 
 type StoreHocProps = { store: Store<AppState> };
 
@@ -10,11 +11,17 @@ export function storeHoc<P extends StoreHocProps>(WrappedBlock: BlockClass<P>) {
 
     constructor(props: P) {
       super({ ...props, store });
-
-      console.log('store -> ', store);
     }
 
-    __onChangeStoreCallback = () => {
+    __onChangeStoreCallback = (prevState: AppState, nextState: AppState) => {
+      if (isEqual(prevState, nextState)) {
+        return;
+      }
+
+      // const diff = diffObjectsDeep.map(prevState, nextState);
+      // console.log('Store -> ', prevState, nextState);
+      // console.log('Diff -> ', diff);
+
       /**
        * TODO: проверить что стор реально обновлен
        * и прокидывать не целый стор, а необходимые поля
