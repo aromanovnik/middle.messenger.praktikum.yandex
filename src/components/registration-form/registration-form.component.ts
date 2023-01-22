@@ -1,15 +1,18 @@
-import { Block, Store } from 'core';
+import { Block, Router, Store } from 'core';
 import { validateForm, ValidateRuleType } from 'helpers';
 import { AuthService, SignUpPayload } from 'services';
 
 import './registration-form.component.css';
-import { storeHoc } from '../../hocs';
-import { AppState } from '../../store';
+import { routerHoc, storeHoc } from 'hocs';
+import { AppState } from 'store';
+import { ScreensPath } from 'router';
 
 export interface RegistrationFormComponentProps {
+  router: Router;
   store: Store<AppState>;
   values: SignUpPayload;
   onSubmit: (event: MouseEvent) => void;
+  goToLogin: (event: MouseEvent) => void;
   onInput: (event: InputEvent) => void;
   validateRuleType: typeof ValidateRuleType;
   formError?: () => string | null;
@@ -62,10 +65,17 @@ export class RegistrationFormComponent extends Block<RegistrationFormComponentPr
     this.setProps({
       values: this.formValue,
       onSubmit: this.onSubmit.bind(this),
+      goToLogin: this.goToLogin.bind(this),
       onInput: this.onInput.bind(this),
       validateRuleType: ValidateRuleType,
       formError: () => this.props.store.getState().registrationFormError,
     });
+  }
+
+  goToLogin(event: MouseEvent): void {
+    event?.preventDefault();
+
+    this.props.router.go(ScreensPath.Login);
   }
 
   onSubmit(event: MouseEvent): void {
@@ -182,11 +192,14 @@ export class RegistrationFormComponent extends Block<RegistrationFormComponentPr
                 {{{ButtonComponent type='submit'
                                    title='Зарегистрироваться'
                                    onClick=onSubmit}}}
-                <a href='#auth'>Или войти</a>
+
+                {{{ButtonComponent title='Или войти'
+                                   className='button_link'
+                                   onClick=goToLogin}}}
             </form>
         </div>
     `;
   }
 }
 
-export default storeHoc(RegistrationFormComponent);
+export default routerHoc(storeHoc(RegistrationFormComponent));

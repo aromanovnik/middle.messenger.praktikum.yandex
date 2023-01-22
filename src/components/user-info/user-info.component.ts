@@ -1,26 +1,47 @@
 import { Block, Router, Store } from 'core';
-// todo: Only for demo
-import { userInfo, UserResponse } from 'demo';
 
 import './user-info.component.css';
-import { routerHoc, storeHoc } from 'hocs';
+import { routerHoc, storeHoc, userHoc } from 'hocs';
 import { AppState } from 'store';
+import { UserModel } from 'models';
+import { ScreensPath } from 'router';
+import { AuthService } from 'services';
 
 export interface UserInfoComponentProps {
   router: Router;
   store: Store<AppState>;
-  user?: UserResponse;
+  user: UserModel;
+  goToEditUser: (event: MouseEvent) => void;
+  goToChangePass: (event: MouseEvent) => void;
+  logout: (event: MouseEvent) => void;
 }
 
 export class UserInfoComponent extends Block<UserInfoComponentProps> {
   static override componentName = 'UserInfoComponent';
 
-  constructor() {
-    super();
+  constructor(props: UserInfoComponentProps) {
+    super(props);
 
     this.setProps({
-      user: userInfo,
+      goToEditUser: this.goToEditUser.bind(this),
+      goToChangePass: this.goToChangePass.bind(this),
+      logout: this.logout.bind(this),
     });
+  }
+
+  goToEditUser(event: MouseEvent): void {
+    event?.preventDefault();
+    this.props.router.go(ScreensPath.Settings);
+  }
+
+  goToChangePass(event: MouseEvent): void {
+    event?.preventDefault();
+    this.props.router.go(ScreensPath.SettingsPass);
+  }
+
+  logout(event: MouseEvent): void {
+    event?.preventDefault();
+    this.props.store.dispatch(AuthService.logout);
   }
 
   protected override render(): string {
@@ -63,13 +84,19 @@ export class UserInfoComponent extends Block<UserInfoComponentProps> {
 
                     <ul>
                         <li class='user-page__item-list'>
-                            <a href="#user-settings">Изменить данные</a>
+                            {{{ButtonComponent title='Изменить данные'
+                                               className='button_link user-page__item-list'
+                                               onClick=goToEditUser}}}
                         </li>
                         <li class='user-page__item-list'>
-                            <a href="#user-change-password">Изменить пароль</a>
+                            {{{ButtonComponent title='Изменить пароль'
+                                               className='button_link user-page__item-list'
+                                               onClick=goToChangePass}}}
                         </li>
                         <li class='user-page__item-list'>
-                            <a class='user-page__exit-link' href="/">Выйти</a>
+                            {{{ButtonComponent title='Выйти'
+                                               className='button_link user-page__exit-link'
+                                               onClick=logout}}}
                         </li>
                     </ul>
                 </div>
@@ -80,4 +107,4 @@ export class UserInfoComponent extends Block<UserInfoComponentProps> {
   }
 }
 
-export default routerHoc(storeHoc(UserInfoComponent));
+export default userHoc(routerHoc(storeHoc(UserInfoComponent)));

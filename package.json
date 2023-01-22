@@ -25,7 +25,6 @@
     "store": "./src/store",
     "models": "./src/models",
     "api": "./src/api",
-    "utils": "./src/utils",
     "router": "./src/router"
   },
   "repository": {

@@ -1,6 +1,6 @@
 import { BlockClass, Store } from 'core';
 import store, { AppState } from 'store';
-import { isEqual } from 'utils';
+import { isEqual } from 'helpers';
 
 type StoreHocProps = { store: Store<AppState> };
 

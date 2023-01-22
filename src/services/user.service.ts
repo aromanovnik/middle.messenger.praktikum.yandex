@@ -1,7 +1,7 @@
 import { ChangePasswordRequest, UserApi, UserRequest } from 'api';
 import { Dispatch } from 'core';
 import { AppState } from 'store';
-import { apiHasError } from 'utils';
+import { apiHasError } from 'helpers';
 import { UserModel } from 'models';
 
 export type EditUserPayload = UserRequest;

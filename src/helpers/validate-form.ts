@@ -22,7 +22,7 @@ export function validateForm(rules: ValidateRule[]): string {
     const { type, value } = rules[i];
     switch (type) {
       case ValidateRuleType.Name: {
-        if (!value?.trim() || /^(\+|[A-ZА-Я])([[A-Za-zА-Яa-z-])+$/.test(value)) {
+        if (!value?.trim() || !/^([A-ZА-Я])([A-Za-zА-Яa-z-])+$/.test(value)) {
           errorMessage =
             'first_name, second_name — латиница или кириллица, первая буква должна быть заглавной, без пробелов и без цифр, нет спецсимволов (допустим только дефис).';
         }

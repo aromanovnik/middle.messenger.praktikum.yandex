@@ -5,12 +5,14 @@ import { validateForm, ValidateRuleType } from 'helpers';
 import './login-form.component.css';
 import { routerHoc, storeHoc } from 'hocs';
 import { AppState } from 'store';
+import { ScreensPath } from 'router';
 
 export interface LoginFormComponentProps {
   router: Router;
   store: Store<AppState>;
   values: SignInPayload;
   onSubmit: (event: MouseEvent) => void;
+  goToRegistration: (event: MouseEvent) => void;
   onBlur: () => void;
   onInput: (event: InputEvent) => void;
   validateRuleType: typeof ValidateRuleType;
@@ -44,10 +46,16 @@ export class LoginFormComponent extends Block<LoginFormComponentProps> {
     this.setProps({
       values: this.formValue,
       onSubmit: this.onSubmit.bind(this),
+      goToRegistration: this.goToRegistration.bind(this),
       onInput: this.onInput.bind(this),
       validateRuleType: ValidateRuleType,
       formError: () => this.props.store.getState().loginFormError,
     });
+  }
+
+  goToRegistration(event: MouseEvent): void {
+    event?.preventDefault();
+    this.props.router.go(ScreensPath.Registration);
   }
 
   onSubmit(event: MouseEvent): void {
@@ -107,7 +115,9 @@ export class LoginFormComponent extends Block<LoginFormComponentProps> {
                                    title='Войти'
                                    onClick=onSubmit}}}
 
-                <a href='#registration'>Ещё не зарегистрированы?</a>
+                {{{ButtonComponent title='Ещё не зарегистрированы?'
+                                   className='button_link'
+                                   onClick=goToRegistration}}}
             </form>
         </div>
     `;

@@ -1,18 +1,17 @@
 import { Block, Router, Store } from 'core';
-import { UserService } from 'services';
-// todo: Only for demo
-import { userInfo, UserResponse, UserUpdateRequest } from 'demo';
+import { EditUserPayload, UserService } from 'services';
 
 import './user-edit.component.css';
 import { validateForm, ValidateRuleType } from 'helpers';
-import { routerHoc, storeHoc } from 'hocs';
+import { routerHoc, storeHoc, userHoc } from 'hocs';
 import { AppState } from 'store';
+import { UserModel } from 'models';
 
 export interface UserEditComponentProps {
   router: Router;
   store: Store<AppState>;
-  user?: UserResponse;
-  values?: UserUpdateRequest;
+  user: UserModel;
+  values?: EditUserPayload;
   onSubmit?: (event: MouseEvent) => void;
   onInput?: (event: InputEvent) => void;
   validateRuleType: typeof ValidateRuleType;
@@ -25,11 +24,11 @@ export class UserEditComponent extends Block<UserEditComponentProps> {
     return !validateForm([
       {
         type: ValidateRuleType.Name,
-        value: this.formValue.firstName,
+        value: this.formValue.first_name,
       },
       {
         type: ValidateRuleType.Name,
-        value: this.formValue.secondName,
+        value: this.formValue.second_name,
       },
       {
         type: ValidateRuleType.Login,
@@ -46,20 +45,19 @@ export class UserEditComponent extends Block<UserEditComponentProps> {
     ]);
   }
 
-  formValue: UserUpdateRequest = {
-    firstName: userInfo.firstName ?? '',
-    secondName: userInfo.secondName ?? '',
-    displayName: userInfo.displayName ?? '',
-    email: userInfo.email ?? '',
-    login: userInfo.login ?? '',
-    phone: userInfo.phone ?? '',
+  formValue: EditUserPayload = {
+    first_name: this.props.user.firstName ?? '',
+    second_name: this.props.user.secondName ?? '',
+    display_name: this.props.user.displayName ?? '',
+    email: this.props.user.email ?? '',
+    login: this.props.user.login ?? '',
+    phone: this.props.user.phone ?? '',
   };
 
-  constructor() {
-    super();
+  constructor(props: UserEditComponentProps) {
+    super(props);
 
     this.setProps({
-      user: userInfo,
       values: this.formValue,
       onSubmit: this.onSubmit.bind(this),
       onInput: this.onInput.bind(this),
@@ -132,7 +130,6 @@ export class UserEditComponent extends Block<UserEditComponentProps> {
                                         id='userEditFirstName'
                                         type='text'
                                         name='first_name'
-                                        dataKey='firstName'
                                         placeholder=''
                                         value=values.firstName
                                         onInput=onInput
@@ -146,7 +143,6 @@ export class UserEditComponent extends Block<UserEditComponentProps> {
                                         id='userEditSecondName'
                                         type='text'
                                         name='second_name'
-                                        dataKey='secondName'
                                         placeholder=''
                                         value=values.secondName
                                         onInput=onInput
@@ -160,7 +156,6 @@ export class UserEditComponent extends Block<UserEditComponentProps> {
                                         id='userEditDisplayName'
                                         type='text'
                                         name='display_name'
-                                        dataKey='displayName'
                                         placeholder=''
                                         value=values.displayName
                                         onInput=onInput
@@ -194,4 +189,4 @@ export class UserEditComponent extends Block<UserEditComponentProps> {
   }
 }
 
-export default routerHoc(storeHoc(UserEditComponent));
+export default userHoc(routerHoc(storeHoc(UserEditComponent)));

@@ -28,7 +28,8 @@
   margin-bottom: 14px;
 }
 
-.login-form .login-form__form a {
+.login-form .login-form__form .button_link {
   display: inline-flex;
   align-self: center;
+  margin: 0;
 }

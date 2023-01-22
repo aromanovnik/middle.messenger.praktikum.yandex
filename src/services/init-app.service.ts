@@ -1,7 +1,7 @@
 import { Dispatch } from 'core';
 import { AppState } from 'store';
 import { AuthApi } from 'api';
-import { apiHasError } from 'utils';
+import { apiHasError } from 'helpers';
 import { UserModel } from 'models';
 
 export async function initAppService(dispatch: Dispatch<AppState>) {

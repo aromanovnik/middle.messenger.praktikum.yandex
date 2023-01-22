@@ -1,6 +1,6 @@
 import { SignInRequest, SignUpRequest, AuthApi } from 'api';
 import { AppState } from 'store';
-import { apiHasError } from 'utils';
+import { apiHasError } from 'helpers';
 import { Dispatch } from 'core';
 import { UserModel } from 'models';
 import router, { ScreensPath } from 'router';
