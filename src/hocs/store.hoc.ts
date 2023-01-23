@@ -4,7 +4,12 @@ import { isEqual } from 'helpers';
 
 type StoreHocProps = { store: Store<AppState> };
 
-export function storeHoc<P extends StoreHocProps>(WrappedBlock: BlockClass<P>) {
+type MapStateToProps<MappedProps> = (state: AppState) => MappedProps;
+
+export function storeHoc<P extends StoreHocProps, MappedProps = any>(
+  WrappedBlock: BlockClass<P>,
+  mapStateToProps?: MapStateToProps<MappedProps>,
+) {
   // @ts-expect-error No base constructor has the specified
   return class extends WrappedBlock<P> {
     public static componentName = WrappedBlock.componentName || WrappedBlock.name;
@@ -18,15 +23,18 @@ export function storeHoc<P extends StoreHocProps>(WrappedBlock: BlockClass<P>) {
         return;
       }
 
-      // const diff = diffObjectsDeep.map(prevState, nextState);
-      // console.log('Store -> ', prevState, nextState);
-      // console.log('Diff -> ', diff);
+      // MapStateToProps
+      if (typeof mapStateToProps === 'function') {
+        const prevPropsFromStore = mapStateToProps(prevState);
+        const nextPropsFromStore = mapStateToProps(nextState);
 
-      /**
-       * TODO: проверить что стор реально обновлен
-       * и прокидывать не целый стор, а необходимые поля
-       * с помощью метода mapStateToProps
-       */
+        if (!isEqual(prevPropsFromStore, nextPropsFromStore)) {
+          // @ts-expect-error this is not typed
+          this.setProps(nextPropsFromStore);
+        }
+        return;
+      }
+
       // @ts-expect-error this is not typed
       this.setProps({ ...this.props, store });
     };

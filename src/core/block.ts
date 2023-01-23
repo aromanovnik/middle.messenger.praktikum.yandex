@@ -31,12 +31,15 @@ export default class Block<P = any> {
 
   protected _element?: Nullable<HTMLElement>;
 
-  protected readonly props: P;
+  protected props: Readonly<P>;
 
   protected children: { [id: string]: Block } = {};
 
   eventBus: () => EventBus<Events>;
 
+  /**
+   * @deprecated Use this.props
+   */
   protected state: any = {};
 
   protected refs: { [key: string]: Block } = {};
@@ -52,7 +55,8 @@ export default class Block<P = any> {
 
     this.getStateFromProps(properties);
 
-    this.props = this._makePropsProxy(properties || ({} as P));
+    // this.props = this._makePropsProxy(properties || ({} as P));
+    this.props = properties || ({} as P);
     this.state = this._makePropsProxy(this.state);
 
     this.eventBus = () => eventBus;
@@ -75,6 +79,9 @@ export default class Block<P = any> {
   }
 
   // @ts-ignore
+  /**
+   * @deprecated
+   */
   protected getStateFromProps(properties: any): void {
     this.state = {};
   }
@@ -111,12 +118,17 @@ export default class Block<P = any> {
     return true;
   }
 
-  setProps = (nextProperties: Partial<P>) => {
-    if (!nextProperties) {
+  setProps = (nextPartialProps: Partial<P>): void => {
+    if (!nextPartialProps) {
       return;
     }
 
-    Object.assign(this.props, nextProperties);
+    const prevProps = this.props;
+    const nextProps = { ...prevProps, ...nextPartialProps };
+
+    this.props = nextProps;
+    this.eventBus().emit(Block.EVENTS.FLOW_CDU, prevProps, nextProps);
+    // Object.assign(this.props, nextProperties);
   };
 
   setState = (nextState: any) => {
