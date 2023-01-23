@@ -5,32 +5,39 @@ import './chat-list.component.css';
 import { routerHoc, storeHoc } from 'hocs';
 import { AppState } from 'store';
 import { ChatModel } from 'models';
+import { ScreensPath } from 'router';
 
 export interface ChatListComponentProps {
   router: Router;
   store: Store<AppState>;
   chats: ChatModel[];
+  links: Record<string, ScreensPath>;
 }
 
 export class ChatListComponent extends Block<ChatListComponentProps> {
   static override componentName = 'ChatListComponent';
 
-  constructor() {
-    super();
+  constructor(props: ChatListComponentProps) {
+    super({
+      ...props,
+      links: {
+        profile: ScreensPath.Profile,
+      },
+    });
   }
 
   protected override render(): string {
+    // @ts-ignore
+    const { links } = this.props;
+
     // language=hbs
     return `
         <div class="chat-list">
 
             <div class='chat-list__header'>
                 <div class='chat-list__profile-link'>
-
-                    <a href='#user-details'>
-                        Профиль
-                    </a>
-
+                    {{{LinkComponent title='Профиль'
+                                     to=links.profile}}}
                 </div>
 
                 <div class='chat-list__search'>

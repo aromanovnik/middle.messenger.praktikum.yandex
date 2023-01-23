@@ -84,19 +84,19 @@ export class UserInfoComponent extends Block<UserInfoComponentProps> {
 
                     <ul>
                         <li class='user-page__item-list'>
-                            {{{ButtonComponent title='Изменить данные'
-                                               className='button_link user-page__item-list'
-                                               onClick=goToEditUser}}}
+                            {{{LinkComponent title='Изменить данные'
+                                             className='user-page__item-list'
+                                             onClick=goToEditUser}}}
                         </li>
                         <li class='user-page__item-list'>
-                            {{{ButtonComponent title='Изменить пароль'
-                                               className='button_link user-page__item-list'
-                                               onClick=goToChangePass}}}
+                            {{{LinkComponent title='Изменить пароль'
+                                             className='user-page__item-list'
+                                             onClick=goToChangePass}}}
                         </li>
                         <li class='user-page__item-list'>
-                            {{{ButtonComponent title='Выйти'
-                                               className='button_link user-page__exit-link'
-                                               onClick=logout}}}
+                            {{{LinkComponent title='Выйти'
+                                             className='user-page__exit-link'
+                                             onClick=logout}}}
                         </li>
                     </ul>
                 </div>

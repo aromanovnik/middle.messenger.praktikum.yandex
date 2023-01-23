@@ -193,9 +193,8 @@ export class RegistrationFormComponent extends Block<RegistrationFormComponentPr
                                    title='Зарегистрироваться'
                                    onClick=onSubmit}}}
 
-                {{{ButtonComponent title='Или войти'
-                                   className='button_link'
-                                   onClick=goToLogin}}}
+                {{{LinkComponent title='Или войти'
+                                 onClick=goToLogin}}}
             </form>
         </div>
     `;

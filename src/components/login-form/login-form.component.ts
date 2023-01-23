@@ -115,9 +115,8 @@ export class LoginFormComponent extends Block<LoginFormComponentProps> {
                                    title='Войти'
                                    onClick=onSubmit}}}
 
-                {{{ButtonComponent title='Ещё не зарегистрированы?'
-                                   className='button_link'
-                                   onClick=goToRegistration}}}
+                {{{LinkComponent title='Ещё не зарегистрированы?'
+                                 onClick=goToRegistration}}}
             </form>
         </div>
     `;
