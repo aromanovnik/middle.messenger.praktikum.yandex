@@ -9,10 +9,9 @@ import { AuthService } from 'services';
 
 export interface UserInfoComponentProps {
   router: Router;
+  links: Record<string, ScreensPath>;
   store: Store<AppState>;
   user: UserModel;
-  goToEditUser: (event: MouseEvent) => void;
-  goToChangePass: (event: MouseEvent) => void;
   logout: (event: MouseEvent) => void;
 }
 
@@ -23,20 +22,8 @@ export class UserInfoComponent extends Block<UserInfoComponentProps> {
     super(props);
 
     this.setProps({
-      goToEditUser: this.goToEditUser.bind(this),
-      goToChangePass: this.goToChangePass.bind(this),
       logout: this.logout.bind(this),
     });
-  }
-
-  goToEditUser(event: MouseEvent): void {
-    event?.preventDefault();
-    this.props.router.go(ScreensPath.Settings);
-  }
-
-  goToChangePass(event: MouseEvent): void {
-    event?.preventDefault();
-    this.props.router.go(ScreensPath.SettingsPass);
   }
 
   logout(event: MouseEvent): void {
@@ -85,17 +72,14 @@ export class UserInfoComponent extends Block<UserInfoComponentProps> {
                     <ul>
                         <li class='user-page__item-list'>
                             {{{LinkComponent title='Изменить данные'
-                                             className='user-page__item-list'
-                                             onClick=goToEditUser}}}
+                                             to=links.settings}}}
                         </li>
                         <li class='user-page__item-list'>
                             {{{LinkComponent title='Изменить пароль'
-                                             className='user-page__item-list'
-                                             onClick=goToChangePass}}}
+                                             to=links.settingsPass}}}
                         </li>
                         <li class='user-page__item-list'>
                             {{{LinkComponent title='Выйти'
-                                             className='user-page__exit-link'
                                              onClick=logout}}}
                         </li>
                     </ul>

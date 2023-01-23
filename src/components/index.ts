@@ -18,3 +18,4 @@ export * from './input-field';
 export * from './input-error';
 export * from './button';
 export * from './link';
+export * from './modal';

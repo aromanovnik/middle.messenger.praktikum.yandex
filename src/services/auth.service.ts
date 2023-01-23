@@ -16,13 +16,26 @@ export class AuthService {
   ): Promise<void> {
     dispatch({ isLoading: true });
 
-    const response = await AuthApi.signIn(action);
+    let response;
+    try {
+      response = await AuthApi.signIn(action);
+    } catch (error) {
+      dispatch({ isLoading: false, loginFormError: error as string });
+    }
+
     if (apiHasError(response)) {
       dispatch({ isLoading: false, loginFormError: response.reason });
       return;
     }
 
-    const user = await AuthApi.user();
+    let user;
+    try {
+      user = await AuthApi.user();
+    } catch (error) {
+      dispatch({ isLoading: false, loginFormError: error as string });
+      return;
+    }
+
     dispatch({ isLoading: false, loginFormError: null });
 
     if (apiHasError(user)) {
@@ -38,7 +51,12 @@ export class AuthService {
   static async logout(dispatch: Dispatch<AppState>): Promise<void> {
     dispatch({ isLoading: true });
 
-    await AuthApi.logout();
+    try {
+      await AuthApi.logout();
+    } catch {
+      dispatch({ isLoading: true });
+      return;
+    }
 
     dispatch({ isLoading: false, user: null });
 
@@ -52,13 +70,26 @@ export class AuthService {
   ): Promise<void> {
     dispatch({ isLoading: true });
 
-    const response = await AuthApi.signUp(action);
+    let response;
+    try {
+      response = await AuthApi.signUp(action);
+    } catch (error) {
+      dispatch({ isLoading: false, registrationFormError: error as string });
+      return;
+    }
+
     if (apiHasError(response)) {
       dispatch({ isLoading: false, registrationFormError: response.reason });
       return;
     }
 
-    const user = await AuthApi.user();
+    let user;
+    try {
+      user = await AuthApi.user();
+    } catch (error) {
+      dispatch({ isLoading: false, loginFormError: error as string });
+      return;
+    }
     dispatch({ isLoading: false, registrationFormError: null });
 
     if (apiHasError(user)) {

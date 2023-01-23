@@ -1,22 +1,20 @@
 import { Block, Router, Store } from 'core';
-import { UserService } from 'services';
-
-// todo: Only for demo
-import { ChangePasswordRequest, userInfo, UserResponse } from 'demo';
-
+import { ChangePasswordPayload, UserService } from 'services';
 import './user-change-pass.component.css';
 import { validateForm, ValidateRuleType } from 'helpers';
-import { routerHoc, storeHoc } from 'hocs';
+import { routerHoc, storeHoc, userHoc } from 'hocs';
 import { AppState } from 'store';
+import { UserModel } from 'models';
 
 export interface UserChangePassComponentProps {
   router: Router;
   store: Store<AppState>;
-  user?: UserResponse;
-  values: ChangePasswordRequest;
+  user: UserModel;
+  values: ChangePasswordPayload;
   onSubmit?: (event: MouseEvent) => void;
   onInput?: (event: InputEvent) => void;
   validateRuleType: typeof ValidateRuleType;
+  formError?: () => string | null;
 }
 
 export class UserChangePassComponent extends Block<UserChangePassComponentProps> {
@@ -35,20 +33,20 @@ export class UserChangePassComponent extends Block<UserChangePassComponentProps>
     ]);
   }
 
-  formValue: ChangePasswordRequest = {
+  formValue: ChangePasswordPayload = {
     oldPassword: '',
     newPassword: '',
   };
 
-  constructor() {
-    super();
+  constructor(props: UserChangePassComponentProps) {
+    super(props);
 
     this.setProps({
-      user: userInfo,
       values: this.formValue,
       onSubmit: this.onSubmit.bind(this),
       onInput: this.onInput.bind(this),
       validateRuleType: ValidateRuleType,
+      formError: () => this.props.store.getState().passwordFormError,
     });
   }
 
@@ -126,6 +124,8 @@ export class UserChangePassComponent extends Block<UserChangePassComponentProps>
                             </li>
                         </ul>
 
+                        {{{InputErrorComponent error=formError}}}
+
                         {{{ButtonComponent onClick=onSubmit
                                            type='submit'
                                            className='user-change-pass__save'
@@ -138,4 +138,4 @@ export class UserChangePassComponent extends Block<UserChangePassComponentProps>
   }
 }
 
-export default routerHoc(storeHoc(UserChangePassComponent));
+export default userHoc(routerHoc(storeHoc(UserChangePassComponent)));

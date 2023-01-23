@@ -26,7 +26,13 @@ export class ChatsApi {
         'Content-Type': 'application/json',
       },
     });
-    return JSON.parse(res.response ?? '[]');
+    let { response } = res;
+    try {
+      response = JSON.parse(response);
+    } catch {
+      response = [];
+    }
+    return response;
   }
 
   public static async createChats(data: CreateChatRequest): Promise<CreateChatsResponseData> {
@@ -36,7 +42,13 @@ export class ChatsApi {
         'Content-Type': 'application/json',
       },
     });
-    return JSON.parse(res.response ?? '{}');
+    let { response } = res;
+    try {
+      response = JSON.parse(response);
+    } catch {
+      response = {};
+    }
+    return response;
   }
 
   public static async deleteChats(data: ChatDeleteRequest): Promise<DeleteChatsResponseData> {
@@ -46,7 +58,13 @@ export class ChatsApi {
         'Content-Type': 'application/json',
       },
     });
-    return JSON.parse(res.response ?? '{}');
+    let { response } = res;
+    try {
+      response = JSON.parse(response);
+    } catch {
+      response = {};
+    }
+    return response;
   }
 
   public static async token(data: { id: number }): Promise<DeleteChatsResponseData> {
@@ -56,7 +74,13 @@ export class ChatsApi {
         'Content-Type': 'application/json',
       },
     });
-    return JSON.parse(res.response ?? '{}');
+    let { response } = res;
+    try {
+      response = JSON.parse(response);
+    } catch {
+      response = {};
+    }
+    return response;
   }
 
   public static async newMessagesCount(data: { id: number }): Promise<UnreadCountResponseData> {
@@ -66,7 +90,13 @@ export class ChatsApi {
         'Content-Type': 'application/json',
       },
     });
-    return JSON.parse(res.response ?? '{}');
+    let { response } = res;
+    try {
+      response = JSON.parse(response);
+    } catch {
+      response = {};
+    }
+    return response;
   }
 
   public static async addUser(data: UsersRequest): Promise<UsersResponseData> {
@@ -76,7 +106,13 @@ export class ChatsApi {
         'Content-Type': 'application/json',
       },
     });
-    return JSON.parse(res.response ?? '{}');
+    let { response } = res;
+    try {
+      response = JSON.parse(response);
+    } catch {
+      response = {};
+    }
+    return response;
   }
 
   public static async removeUser(data: UsersRequest): Promise<UsersResponseData> {
@@ -86,6 +122,12 @@ export class ChatsApi {
         'Content-Type': 'application/json',
       },
     });
-    return JSON.parse(res.response ?? '{}');
+    let { response } = res;
+    try {
+      response = JSON.parse(response);
+    } catch {
+      response = {};
+    }
+    return response;
   }
 }

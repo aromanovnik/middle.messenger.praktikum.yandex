@@ -1,6 +1,4 @@
 import { Block, Router, Store } from 'core';
-// todo: Only for demo
-
 import './chat-list.component.css';
 import { routerHoc, storeHoc } from 'hocs';
 import { AppState } from 'store';
@@ -18,18 +16,10 @@ export class ChatListComponent extends Block<ChatListComponentProps> {
   static override componentName = 'ChatListComponent';
 
   constructor(props: ChatListComponentProps) {
-    super({
-      ...props,
-      links: {
-        profile: ScreensPath.Profile,
-      },
-    });
+    super(props);
   }
 
   protected override render(): string {
-    // @ts-ignore
-    const { links } = this.props;
-
     // language=hbs
     return `
         <div class="chat-list">

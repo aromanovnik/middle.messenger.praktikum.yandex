@@ -9,10 +9,10 @@ import { ScreensPath } from 'router';
 
 export interface RegistrationFormComponentProps {
   router: Router;
+  links: Record<string, ScreensPath>;
   store: Store<AppState>;
   values: SignUpPayload;
   onSubmit: (event: MouseEvent) => void;
-  goToLogin: (event: MouseEvent) => void;
   onInput: (event: InputEvent) => void;
   validateRuleType: typeof ValidateRuleType;
   formError?: () => string | null;
@@ -65,17 +65,10 @@ export class RegistrationFormComponent extends Block<RegistrationFormComponentPr
     this.setProps({
       values: this.formValue,
       onSubmit: this.onSubmit.bind(this),
-      goToLogin: this.goToLogin.bind(this),
       onInput: this.onInput.bind(this),
       validateRuleType: ValidateRuleType,
       formError: () => this.props.store.getState().registrationFormError,
     });
-  }
-
-  goToLogin(event: MouseEvent): void {
-    event?.preventDefault();
-
-    this.props.router.go(ScreensPath.Login);
   }
 
   onSubmit(event: MouseEvent): void {
@@ -194,7 +187,7 @@ export class RegistrationFormComponent extends Block<RegistrationFormComponentPr
                                    onClick=onSubmit}}}
 
                 {{{LinkComponent title='Или войти'
-                                 onClick=goToLogin}}}
+                                 to=links.login}}}
             </form>
         </div>
     `;

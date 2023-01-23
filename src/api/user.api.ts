@@ -21,7 +21,13 @@ export class UserApi {
         'Content-Type': 'application/json',
       },
     });
-    return JSON.parse(res.response ?? '{}');
+    let { response } = res;
+    try {
+      response = JSON.parse(response);
+    } catch {
+      response = {};
+    }
+    return response;
   }
 
   // {avatar}
@@ -32,7 +38,13 @@ export class UserApi {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
     });
-    return JSON.parse(res.response ?? '{}');
+    let { response } = res;
+    try {
+      response = JSON.parse(response);
+    } catch {
+      response = {};
+    }
+    return response;
   }
 
   public static async password(data: ChangePasswordRequest): Promise<PasswordResponseData> {
@@ -42,7 +54,13 @@ export class UserApi {
         'Content-Type': 'application/json',
       },
     });
-    return JSON.parse(res.response ?? '{}');
+    let { response } = res;
+    try {
+      response = JSON.parse(response);
+    } catch {
+      response = {};
+    }
+    return response;
   }
 
   public static async user(data: Pick<UserResponse, 'id'>): Promise<PasswordResponseData> {
@@ -51,7 +69,13 @@ export class UserApi {
         'Content-Type': 'application/json',
       },
     });
-    return JSON.parse(res.response ?? '{}');
+    let { response } = res;
+    try {
+      response = JSON.parse(response);
+    } catch {
+      response = {};
+    }
+    return response;
   }
 
   public static async search(data: FindUserRequest): Promise<SearchUserResponseData> {
@@ -61,6 +85,12 @@ export class UserApi {
         'Content-Type': 'application/json',
       },
     });
-    return JSON.parse(res.response ?? '[]');
+    let { response } = res;
+    try {
+      response = JSON.parse(response);
+    } catch {
+      response = [];
+    }
+    return response;
   }
 }

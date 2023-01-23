@@ -1,4 +1,4 @@
-import { ChangePasswordRequest, UserApi, UserRequest } from 'api';
+import { AuthApi, ChangePasswordRequest, UserApi, UserRequest } from 'api';
 import { Dispatch } from 'core';
 import { AppState } from 'store';
 import { apiHasError } from 'helpers';
@@ -16,7 +16,14 @@ export class UserService {
   ): Promise<void> {
     dispatch({ isLoading: true });
 
-    const response = await UserApi.profile(action);
+    let response;
+    try {
+      response = await UserApi.profile(action);
+    } catch (error) {
+      dispatch({ isLoading: false, profileFormError: error as string });
+      return;
+    }
+
     if (apiHasError(response)) {
       dispatch({ isLoading: false, profileFormError: response.reason });
       return;
@@ -32,7 +39,14 @@ export class UserService {
   ): Promise<void> {
     dispatch({ isLoading: true });
 
-    const response = await UserApi.password(action);
+    let response;
+    try {
+      response = await UserApi.password(action);
+    } catch (error) {
+      dispatch({ isLoading: false, passwordFormError: error as string });
+      return;
+    }
+
     if (apiHasError(response)) {
       dispatch({ isLoading: false, passwordFormError: response.reason });
       return;
@@ -48,7 +62,14 @@ export class UserService {
   ): Promise<void> {
     dispatch({ isLoading: true });
 
-    const response = await UserApi.profileAvatar(action);
+    let response;
+    try {
+      response = await UserApi.profileAvatar(action);
+    } catch (error) {
+      dispatch({ isLoading: false, avatarFormError: error as string });
+      return;
+    }
+
     if (apiHasError(response)) {
       dispatch({ isLoading: false, avatarFormError: response.reason });
       return;

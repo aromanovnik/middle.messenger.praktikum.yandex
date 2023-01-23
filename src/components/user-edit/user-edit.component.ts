@@ -15,6 +15,7 @@ export interface UserEditComponentProps {
   onSubmit?: (event: MouseEvent) => void;
   onInput?: (event: InputEvent) => void;
   validateRuleType: typeof ValidateRuleType;
+  formError?: () => string | null;
 }
 
 export class UserEditComponent extends Block<UserEditComponentProps> {
@@ -62,6 +63,7 @@ export class UserEditComponent extends Block<UserEditComponentProps> {
       onSubmit: this.onSubmit.bind(this),
       onInput: this.onInput.bind(this),
       validateRuleType: ValidateRuleType,
+      formError: () => this.props.store.getState().profileFormError,
     });
   }
 
@@ -85,6 +87,8 @@ export class UserEditComponent extends Block<UserEditComponentProps> {
   }
 
   protected override render(): string {
+    console.log(this.props);
+
     // language=hbs
     return `
         <div class='user-edit'>
@@ -131,7 +135,7 @@ export class UserEditComponent extends Block<UserEditComponentProps> {
                                         type='text'
                                         name='first_name'
                                         placeholder=''
-                                        value=values.firstName
+                                        value=values.first_name
                                         onInput=onInput
                                         validate=validateRuleType.Name
                                 }}}
@@ -144,7 +148,7 @@ export class UserEditComponent extends Block<UserEditComponentProps> {
                                         type='text'
                                         name='second_name'
                                         placeholder=''
-                                        value=values.secondName
+                                        value=values.second_name
                                         onInput=onInput
                                         validate=validateRuleType.Name
                                 }}}
@@ -157,7 +161,7 @@ export class UserEditComponent extends Block<UserEditComponentProps> {
                                         type='text'
                                         name='display_name'
                                         placeholder=''
-                                        value=values.displayName
+                                        value=values.display_name
                                         onInput=onInput
                                 }}}
                             </li>
@@ -175,6 +179,8 @@ export class UserEditComponent extends Block<UserEditComponentProps> {
                                 }}}
                             </li>
                         </ul>
+
+                        {{{InputErrorComponent error=formError}}}
 
                         {{{ButtonComponent type='submit'
                                            onClick=onSubmit

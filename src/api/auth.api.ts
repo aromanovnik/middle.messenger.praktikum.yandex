@@ -16,7 +16,13 @@ export class AuthApi {
       },
     });
 
-    return JSON.parse(res.response ?? '{}');
+    let { response } = res;
+    try {
+      response = JSON.parse(response);
+    } catch {
+      response = {};
+    }
+    return response;
   }
 
   public static async signUp(data: SignUpRequest): Promise<SignUpResponseData> {
@@ -26,7 +32,13 @@ export class AuthApi {
         'Content-Type': 'application/json',
       },
     });
-    return JSON.parse(res.response ?? '{}');
+    let { response } = res;
+    try {
+      response = JSON.parse(response);
+    } catch {
+      response = {};
+    }
+    return response;
   }
 
   public static async user(): Promise<UserResponseData> {
@@ -35,7 +47,13 @@ export class AuthApi {
         'Content-Type': 'application/json',
       },
     });
-    return JSON.parse(res.response ?? '{}');
+    let { response } = res;
+    try {
+      response = JSON.parse(response);
+    } catch {
+      response = {};
+    }
+    return response;
   }
 
   public static async logout(): Promise<SignUpResponseData> {
@@ -44,6 +62,12 @@ export class AuthApi {
         'Content-Type': 'application/json',
       },
     });
-    return JSON.parse(res.response ?? '{}');
+    let { response } = res;
+    try {
+      response = JSON.parse(response);
+    } catch {
+      response = {};
+    }
+    return response;
   }
 }

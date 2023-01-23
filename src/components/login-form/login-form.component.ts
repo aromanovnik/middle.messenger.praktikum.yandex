@@ -12,11 +12,11 @@ export interface LoginFormComponentProps {
   store: Store<AppState>;
   values: SignInPayload;
   onSubmit: (event: MouseEvent) => void;
-  goToRegistration: (event: MouseEvent) => void;
   onBlur: () => void;
   onInput: (event: InputEvent) => void;
   validateRuleType: typeof ValidateRuleType;
   formError?: () => string | null;
+  links: Record<string, ScreensPath>;
 }
 
 export class LoginFormComponent extends Block<LoginFormComponentProps> {
@@ -46,16 +46,10 @@ export class LoginFormComponent extends Block<LoginFormComponentProps> {
     this.setProps({
       values: this.formValue,
       onSubmit: this.onSubmit.bind(this),
-      goToRegistration: this.goToRegistration.bind(this),
       onInput: this.onInput.bind(this),
       validateRuleType: ValidateRuleType,
       formError: () => this.props.store.getState().loginFormError,
     });
-  }
-
-  goToRegistration(event: MouseEvent): void {
-    event?.preventDefault();
-    this.props.router.go(ScreensPath.Registration);
   }
 
   onSubmit(event: MouseEvent): void {
@@ -116,7 +110,7 @@ export class LoginFormComponent extends Block<LoginFormComponentProps> {
                                    onClick=onSubmit}}}
 
                 {{{LinkComponent title='Ещё не зарегистрированы?'
-                                 onClick=goToRegistration}}}
+                                 to=links.registration}}}
             </form>
         </div>
     `;
