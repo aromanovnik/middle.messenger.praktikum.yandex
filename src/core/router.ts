@@ -1,3 +1,7 @@
+import { isEqual } from '../helpers';
+
+type Params = Record<string, string>;
+
 export interface CoreRouter {
   start(): void;
 
@@ -8,14 +12,35 @@ export interface CoreRouter {
   back(): void;
 
   forward(): void;
-}
 
-type Params = Record<string, string>;
+  getParams(): Params;
+
+  wasChangeParams?: () => void;
+}
 
 export class Router implements CoreRouter {
   private routes: Record<string, Function> = {};
 
   private isStarted = false;
+
+  private _params: Params = {};
+
+  private set params(p: Params) {
+    this._params = p;
+
+    // ... call was update
+    if (typeof this.wasChangeParams === 'function') {
+      this.wasChangeParams();
+    }
+  }
+
+  private get params(): Params {
+    return this._params;
+  }
+
+  wasChangeParams: undefined | (() => void) = (): void => {
+    console.log('wasChangeParams');
+  };
 
   start() {
     if (!this.isStarted) {
@@ -68,7 +93,11 @@ export class Router implements CoreRouter {
     const found = Object.entries(this.routes).some(([routeHash, callback]) => {
       if (this.comparePath(routeHash, pathname)) {
         const params = this.getVariablesFromRoutePath(routeHash, pathname);
-        callback(params);
+        if (!isEqual(params, this.params)) {
+          this.params = params;
+        }
+
+        callback(this.params);
         return true;
       }
       return false;
@@ -95,5 +124,9 @@ export class Router implements CoreRouter {
 
   forward() {
     window.history.forward();
+  }
+
+  getParams(): Params {
+    return this.params;
   }
 }

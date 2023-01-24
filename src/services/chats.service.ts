@@ -56,8 +56,6 @@ export class ChatsService {
   ): Promise<void> {
     dispatch({ isLoading: true });
 
-    console.log('! -> ', action, func);
-
     let response;
     try {
       response = await func(action);
@@ -85,23 +83,6 @@ export class ChatsService {
       action,
       ChatsApi.createChats,
     );
-
-    // dispatch({ isLoading: true });
-    //
-    // let response;
-    // try {
-    //   response = await ChatsApi.createChats(action);
-    // } catch (error) {
-    //   dispatch({ isLoading: false, chatsError: error as string });
-    //   return;
-    // }
-    //
-    // if (apiHasError(response)) {
-    //   dispatch({ isLoading: false, chatsError: response.reason });
-    //   return;
-    // }
-    //
-    // dispatch(ChatsService.getChats);
   }
 
   static async deleteChats(
@@ -115,22 +96,6 @@ export class ChatsService {
       action,
       ChatsApi.deleteChats,
     );
-    // dispatch({ isLoading: true });
-    //
-    // let response;
-    // try {
-    //   response = await ChatsApi.deleteChats(action);
-    // } catch (error) {
-    //   dispatch({ isLoading: false, chatsError: error as string });
-    //   return;
-    // }
-    //
-    // if (apiHasError(response)) {
-    //   dispatch({ isLoading: false, chatsError: response.reason });
-    //   return;
-    // }
-    //
-    // dispatch(ChatsService.getChats);
   }
 
   static async token(
@@ -171,22 +136,6 @@ export class ChatsService {
       action,
       ChatsApi.addUser,
     );
-    // dispatch({ isLoading: true });
-    //
-    // let response;
-    // try {
-    //   response = await ChatsApi.addUser(action);
-    // } catch (error) {
-    //   dispatch({ isLoading: false, chatsError: error as string });
-    //   return;
-    // }
-    //
-    // if (apiHasError(response)) {
-    //   dispatch({ isLoading: false, chatsError: response.reason });
-    //   return;
-    // }
-    //
-    // dispatch(ChatsService.getChats);
   }
 
   static async removeUser(

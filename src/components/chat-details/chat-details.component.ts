@@ -1,21 +1,43 @@
 import { Block } from 'core';
-// todo: Only for demo
-import { ChatMessage, ChatsResponse } from 'demo';
 
 import './chat-details.component.css';
-import { routerHoc, RouterHocProps, storeHoc, StoreHocProps } from 'hocs';
+import { chatsHoc, ChatsHocProps, routerHoc, RouterHocProps, storeHoc, StoreHocProps } from 'hocs';
+import { ChatModel, MessageModel } from 'models';
 
 export type ChatDetailsComponentProps = RouterHocProps &
+  ChatsHocProps &
   StoreHocProps & {
-    messages: ChatMessage[];
-    chat: ChatsResponse;
+    messages: MessageModel[];
+    chat: ChatModel | undefined;
+    isEmpty: boolean;
   };
 
 export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
   static override componentName = 'ChatDetailsComponent';
 
-  constructor() {
-    super();
+  constructor(props: ChatDetailsComponentProps) {
+    super(props);
+
+    this.props.router.wasChangeParams = () => {
+      this.setActiveChat();
+    };
+  }
+
+  setActiveChat(): void {
+    const chatId = this.props.router.getParams()['id-chat'];
+    console.log('setActiveChat -> ', chatId);
+    this.setProps({
+      isEmpty: !chatId,
+      chat: !chatId ? undefined : this.props.chats?.find((el) => el.id === parseInt(chatId, 10)),
+    });
+  }
+
+  override componentDidMount() {
+    this.setActiveChat();
+  }
+
+  override componentWillUnmount() {
+    this.props.router.wasChangeParams = undefined;
   }
 
   protected override render(): string {
@@ -32,7 +54,7 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
 
             <div class="chat-details__chat">
                 <div class="chat-details__header">
-                    <a href='#user-details'
+                    <a href='#'
                        class="chat-details__avatar">
                         {{{UserAvatarComponent image=chat.avatar}}}
                     </a>
@@ -61,4 +83,4 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
   }
 }
 
-export default routerHoc(storeHoc(ChatDetailsComponent));
+export default routerHoc(chatsHoc(storeHoc(ChatDetailsComponent)));
