@@ -3,17 +3,31 @@ import './chat-list.component.css';
 import { chatsHoc, ChatsHocProps, routerHoc, RouterHocProps, storeHoc, StoreHocProps } from 'hocs';
 import { ChatsService } from 'services';
 
-export type ChatListComponentProps = RouterHocProps & StoreHocProps & ChatsHocProps & {};
+export type ChatListComponentProps = RouterHocProps &
+  StoreHocProps &
+  ChatsHocProps & {
+    onModalOpen?: () => void;
+    modalIsOpened?: boolean;
+  };
 
 export class ChatListComponent extends Block<ChatListComponentProps> {
   static override componentName = 'ChatListComponent';
 
   constructor(props: ChatListComponentProps) {
     super(props);
+
+    this.setProps({
+      onModalOpen: this.onModalOpen.bind(this),
+    });
   }
 
   override componentDidMount() {
     this.props.store.dispatch(ChatsService.getChats);
+  }
+
+  onModalOpen() {
+    console.log('!!!');
+    this.setProps({ modalIsOpened: true });
   }
 
   protected override render(): string {
@@ -27,7 +41,7 @@ export class ChatListComponent extends Block<ChatListComponentProps> {
                     {{{ButtonComponent type='button'
                                        className='button_link'
                                        title='Добавить чат'
-                                       onClick=onSubmit}}}
+                                       onClick=onModalOpen}}}
 
                     {{{LinkComponent title='Профиль'
                                      to=links.Profile}}}
@@ -47,6 +61,11 @@ export class ChatListComponent extends Block<ChatListComponentProps> {
 
                 {{{InputErrorComponent error=chatsError}}}
             </nav>
+
+
+            {{#ModalComponent isOpened=modalIsOpened }}
+                Base modal 123
+            {{/ModalComponent}}
         </div>
     `;
   }

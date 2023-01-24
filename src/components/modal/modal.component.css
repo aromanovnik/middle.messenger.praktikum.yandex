@@ -1,13 +1,22 @@
 .modal {
-  background: #000;
+  background: var(--white);
   width: 400px;
   height: 200px;
-  color: #fff;
-  border-radius: 32px;
+  border-radius: 16px;
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  display: flex;
+  z-index: 100;
+}
+
+.modal .modal__button-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: var(--trasnp);
+  color: var(--black);
 }
 
 .modal_hidden {
@@ -20,7 +29,8 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: black;
+  background: var(--black);
   opacity: 0.5;
   cursor: pointer;
+  z-index: 99;
 }

@@ -1,6 +1,7 @@
 import { Block } from 'core';
 
 import './modal.component.css';
+// Modal: https://github.com/noveogroup-amorgunov/practicum-screencasts/blob/084fcd3e797bcc293ee013e3c12bd1eb0eb9025f/sprint-4-tests/src/components/modal/modal.ts
 
 export type ModalComponentProps = {
   isOpened?: boolean;
@@ -25,12 +26,13 @@ export class ModalComponent extends Block<ModalComponentProps> {
   onClose(event: MouseEvent | undefined) {
     const target = event?.target as HTMLElement;
     if (target) {
-      if (target.classList?.contains('modal-overlay')) {
+      if (
+        target.classList?.contains('modal-overlay') ||
+        target.classList?.contains('modal__button-close')
+      ) {
         this.setProps({ isOpened: false });
       }
-      return;
     }
-    this.setProps({ isOpened: false });
   }
 
   override render() {
@@ -45,7 +47,7 @@ export class ModalComponent extends Block<ModalComponentProps> {
             <div class='modal-overlay'></div>
             <div class='modal'>
                 <div data-slot='1'></div>
-                {{{ButtonComponent onClick=onClose title='Close' }}}
+                {{{ButtonComponent className='modal__button-close' title='x' }}}
             </div>
         </div>
     `;
