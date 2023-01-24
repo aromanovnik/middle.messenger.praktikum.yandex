@@ -79,7 +79,7 @@ export class ChatsService {
     state: AppState,
     action: CreateChatPayload,
   ): Promise<void> {
-    await this.requestChatsHandler<CreateChatPayload, CreateChatsResponseData>(
+    await ChatsService.requestChatsHandler<CreateChatPayload, CreateChatsResponseData>(
       dispatch,
       state,
       action,
@@ -109,7 +109,7 @@ export class ChatsService {
     state: AppState,
     action: DeleteChatPayload,
   ): Promise<void> {
-    await this.requestChatsHandler<DeleteChatPayload, DeleteChatsResponseData>(
+    await ChatsService.requestChatsHandler<DeleteChatPayload, DeleteChatsResponseData>(
       dispatch,
       state,
       action,
@@ -165,7 +165,7 @@ export class ChatsService {
     state: AppState,
     action: UserPayload,
   ): Promise<void> {
-    await this.requestChatsHandler<UserPayload, UsersResponseData>(
+    await ChatsService.requestChatsHandler<UserPayload, UsersResponseData>(
       dispatch,
       state,
       action,
@@ -194,7 +194,7 @@ export class ChatsService {
     state: AppState,
     action: UserPayload,
   ): Promise<void> {
-    await this.requestChatsHandler<UserPayload, UsersResponseData>(
+    await ChatsService.requestChatsHandler<UserPayload, UsersResponseData>(
       dispatch,
       state,
       action,

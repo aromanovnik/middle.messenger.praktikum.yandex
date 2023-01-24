@@ -262,10 +262,14 @@ export default class Block<P = any> {
       /**
        * Ищем элемент layout-а, куда вставлять детей
        */
-      const layoutContent = content.querySelector('[data-layout="1"]');
-
-      if (layoutContent && stubChilds.length > 0) {
-        layoutContent.append(...stubChilds);
+      // const layoutContent = content.querySelector('[data-layout="1"]');
+      // if (layoutContent && stubChilds.length > 0) {
+      //   layoutContent.append(...stubChilds);
+      // }
+      const slotContent = content.querySelector('[data-slot="1"]') as HTMLDivElement;
+      if (slotContent && stubChilds.length) {
+        slotContent.append(...stubChilds);
+        delete slotContent.dataset['slot'];
       }
     }
 

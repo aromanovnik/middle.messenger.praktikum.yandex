@@ -46,7 +46,7 @@ export class ModalComponent extends Block<ModalComponentProps> {
         <div>
             <div class='modal-overlay'></div>
             <div class='modal'>
-                <div data-slot='1'></div>
+                <div data-slot='1' class='modal__content'></div>
                 {{{ButtonComponent className='modal__button-close' title='x' }}}
             </div>
         </div>
