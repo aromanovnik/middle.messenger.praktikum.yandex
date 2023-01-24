@@ -1,4 +1,4 @@
-import { AuthApi, ChangePasswordRequest, UserApi, UserRequest } from 'api';
+import { ChangePasswordRequest, UserApi, UserRequest } from 'api';
 import { Dispatch } from 'core';
 import { AppState } from 'store';
 import { apiHasError } from 'helpers';

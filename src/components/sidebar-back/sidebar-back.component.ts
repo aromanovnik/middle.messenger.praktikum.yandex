@@ -1,13 +1,9 @@
-import { Block, Router, Store } from 'core';
+import { Block } from 'core';
 
 import './sidebar-back.component.css';
-import { AppState } from 'store';
-import { routerHoc } from 'hocs';
+import { routerHoc, RouterHocProps } from 'hocs';
 
-export interface SidebarBackComponentProps {
-  router: Router;
-  store: Store<AppState>;
-}
+export type SidebarBackComponentProps = RouterHocProps & {};
 
 export class SidebarBackComponent extends Block<SidebarBackComponentProps> {
   static override componentName = 'SidebarBackComponent';
@@ -20,7 +16,7 @@ export class SidebarBackComponent extends Block<SidebarBackComponentProps> {
     // language=hbs
     return `
         {{{LinkComponent className='sidebar-back'
-                         to=links.messenger}}}
+                         to=links.Messenger}}}
     `;
   }
 }

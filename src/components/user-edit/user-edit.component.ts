@@ -87,8 +87,6 @@ export class UserEditComponent extends Block<UserEditComponentProps> {
   }
 
   protected override render(): string {
-    console.log(this.props);
-
     // language=hbs
     return `
         <div class='user-edit'>

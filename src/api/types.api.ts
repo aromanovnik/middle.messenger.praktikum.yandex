@@ -291,6 +291,10 @@ export interface ChatsMessagesTokenResponse {
   token: string;
 }
 
+export interface TokenRequest {
+  id: number;
+}
+
 /**
  *
  * @export

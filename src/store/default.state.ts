@@ -8,10 +8,16 @@ export const defaultState: AppState = {
   // User
   user: null,
 
+  // Chats
+  chats: null,
+  token: null,
+
   // Errors
   loginFormError: null,
   registrationFormError: null,
   profileFormError: null,
   passwordFormError: null,
   avatarFormError: null,
+
+  chatsError: null,
 };

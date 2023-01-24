@@ -1,22 +1,20 @@
-import { Block, Router, Store } from 'core';
+import { Block } from 'core';
 import { validateForm, ValidateRuleType } from 'helpers';
 import { AuthService, SignUpPayload } from 'services';
 
 import './registration-form.component.css';
-import { routerHoc, storeHoc } from 'hocs';
-import { AppState } from 'store';
-import { ScreensPath } from 'router';
+import { routerHoc, RouterHocProps, storeHoc, StoreHocProps, userHoc, UserHocProps } from 'hocs';
+import { UserModel } from 'models';
 
-export interface RegistrationFormComponentProps {
-  router: Router;
-  links: Record<string, ScreensPath>;
-  store: Store<AppState>;
-  values: SignUpPayload;
-  onSubmit: (event: MouseEvent) => void;
-  onInput: (event: InputEvent) => void;
-  validateRuleType: typeof ValidateRuleType;
-  formError?: () => string | null;
-}
+export type RegistrationFormComponentProps = RouterHocProps &
+  UserHocProps &
+  StoreHocProps & {
+    values: SignUpPayload;
+    onSubmit: (event: MouseEvent) => void;
+    onInput: (event: InputEvent) => void;
+    validateRuleType: typeof ValidateRuleType;
+    formError?: () => string | null;
+  };
 
 export class RegistrationFormComponent extends Block<RegistrationFormComponentProps> {
   static override componentName = 'RegistrationFormComponent';
@@ -69,6 +67,12 @@ export class RegistrationFormComponent extends Block<RegistrationFormComponentPr
       validateRuleType: ValidateRuleType,
       formError: () => this.props.store.getState().registrationFormError,
     });
+  }
+
+  override componentDidMount() {
+    if (this.props.user instanceof UserModel && this.props.links) {
+      this.props.router.go(this.props.links.Messenger);
+    }
   }
 
   onSubmit(event: MouseEvent): void {
@@ -187,11 +191,11 @@ export class RegistrationFormComponent extends Block<RegistrationFormComponentPr
                                    onClick=onSubmit}}}
 
                 {{{LinkComponent title='Или войти'
-                                 to=links.login}}}
+                                 to=links.Login}}}
             </form>
         </div>
     `;
   }
 }
 
-export default routerHoc(storeHoc(RegistrationFormComponent));
+export default userHoc(routerHoc(storeHoc(RegistrationFormComponent)));

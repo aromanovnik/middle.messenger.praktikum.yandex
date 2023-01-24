@@ -1,7 +1,7 @@
 import { Block } from 'core';
 import { validateForm, ValidateRuleType } from 'helpers';
 
-export interface InputComponentProps {
+export type InputComponentProps = {
   className?: string;
   onChange?: (event: InputEvent) => void;
   onBlur?: (event: InputEvent) => void;
@@ -16,7 +16,7 @@ export interface InputComponentProps {
   dataKey?: string;
   id?: string;
   validate?: ValidateRuleType;
-}
+};
 
 export class InputComponent extends Block<InputComponentProps> {
   static override componentName = 'InputComponent';

@@ -2,12 +2,12 @@ import { Block } from 'core';
 
 import './error.component.css';
 
-export interface ErrorComponentProps {
+export type ErrorComponentProps = {
   title: string;
   subtitle?: string;
   actionHref?: string;
   actionText?: string;
-}
+};
 
 export class ErrorComponent extends Block<ErrorComponentProps> {
   static override componentName = 'ErrorComponent';

@@ -19,7 +19,7 @@
 
 .chat-list .chat-list__profile-link {
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
   margin-top: 10px;
 }
 

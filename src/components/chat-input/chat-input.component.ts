@@ -4,7 +4,7 @@ import { validateForm, ValidateRuleType } from 'helpers';
 
 import './chat-input.component.css';
 
-export interface ChatInputComponentProps {
+export type ChatInputComponentProps = {
   error?: string;
   values: {
     message: string;
@@ -12,7 +12,7 @@ export interface ChatInputComponentProps {
   onSubmit?: (event: MouseEvent) => void;
   onBlur?: () => void;
   onInput?: (event: InputEvent) => void;
-}
+};
 
 export class ChatInputComponent extends Block<ChatInputComponentProps> {
   static override componentName = 'ChatInputComponent';

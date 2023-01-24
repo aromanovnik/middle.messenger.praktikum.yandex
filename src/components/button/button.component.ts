@@ -2,13 +2,13 @@ import { Block } from 'core';
 
 import './button.component.css';
 
-export interface ButtonComponentProps {
+export type ButtonComponentProps = {
   onClick?: (event: MouseEvent) => void;
   title?: string;
   className?: string;
   events: object;
   type?: 'button' | 'submit' | 'reset';
-}
+};
 
 export class ButtonComponent extends Block<ButtonComponentProps> {
   static override componentName = 'ButtonComponent';

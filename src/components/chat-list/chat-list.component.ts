@@ -1,22 +1,19 @@
-import { Block, Router, Store } from 'core';
+import { Block } from 'core';
 import './chat-list.component.css';
-import { routerHoc, storeHoc } from 'hocs';
-import { AppState } from 'store';
-import { ChatModel } from 'models';
-import { ScreensPath } from 'router';
+import { chatsHoc, ChatsHocProps, routerHoc, RouterHocProps, storeHoc, StoreHocProps } from 'hocs';
+import { ChatsService } from 'services';
 
-export interface ChatListComponentProps {
-  router: Router;
-  store: Store<AppState>;
-  chats: ChatModel[];
-  links: Record<string, ScreensPath>;
-}
+export type ChatListComponentProps = RouterHocProps & StoreHocProps & ChatsHocProps & {};
 
 export class ChatListComponent extends Block<ChatListComponentProps> {
   static override componentName = 'ChatListComponent';
 
   constructor(props: ChatListComponentProps) {
     super(props);
+  }
+
+  override componentDidMount() {
+    this.props.store.dispatch(ChatsService.getChats);
   }
 
   protected override render(): string {
@@ -26,8 +23,14 @@ export class ChatListComponent extends Block<ChatListComponentProps> {
 
             <div class='chat-list__header'>
                 <div class='chat-list__profile-link'>
+
+                    {{{ButtonComponent type='button'
+                                       className='button_link'
+                                       title='Добавить чат'
+                                       onClick=onSubmit}}}
+
                     {{{LinkComponent title='Профиль'
-                                     to=links.profile}}}
+                                     to=links.Profile}}}
                 </div>
 
                 <div class='chat-list__search'>
@@ -41,10 +44,12 @@ export class ChatListComponent extends Block<ChatListComponentProps> {
                 {{#each chats}}
                     {{{ChatItemComponent chat=this}}}
                 {{/each}}
+
+                {{{InputErrorComponent error=chatsError}}}
             </nav>
         </div>
     `;
   }
 }
 
-export default routerHoc(storeHoc(ChatListComponent));
+export default chatsHoc(routerHoc(storeHoc(ChatListComponent)));

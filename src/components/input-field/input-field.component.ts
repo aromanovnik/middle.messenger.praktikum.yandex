@@ -1,6 +1,6 @@
 import { Block } from 'core';
 
-export interface InputFieldComponentProps {
+export type InputFieldComponentProps = {
   onChange?: (event: InputEvent) => void;
   onBlur?: (event: InputEvent) => void;
   onInput?: (event: InputEvent) => void;
@@ -12,7 +12,7 @@ export interface InputFieldComponentProps {
   id?: string;
   dataKey?: string;
   events?: object;
-}
+};
 
 export class InputFieldComponent extends Block<InputFieldComponentProps> {
   static override componentName = 'InputFieldComponent';

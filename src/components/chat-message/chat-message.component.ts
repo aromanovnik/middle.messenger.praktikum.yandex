@@ -4,11 +4,11 @@ import { ChatMessage, userInfo, UserResponse } from 'demo';
 
 import './chat-message.component.css';
 
-export interface ChatMessageComponentProps {
+export type ChatMessageComponentProps = {
   message: ChatMessage;
   isMyMessage: boolean;
   user: UserResponse;
-}
+};
 
 export class ChatMessageComponent extends Block<ChatMessageComponentProps> {
   static override componentName = 'ChatMessageComponent';

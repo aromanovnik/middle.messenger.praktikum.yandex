@@ -4,14 +4,14 @@ import './link.component.css';
 import { ScreensPath } from 'router';
 import { routerHoc } from 'hocs';
 
-export interface LinkComponentProps {
+export type LinkComponentProps = {
   router: Router;
   onClick?: (event: MouseEvent) => void;
   title?: string;
   className?: string;
   events: object;
   to?: ScreensPath;
-}
+};
 
 export class LinkComponent extends Block<LinkComponentProps> {
   static override componentName = 'LinkComponent';

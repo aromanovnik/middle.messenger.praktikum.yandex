@@ -2,7 +2,7 @@ import { BlockClass, Store } from 'core';
 import store, { AppState } from 'store';
 import { isEqual } from 'helpers';
 
-type StoreHocProps = { store: Store<AppState> };
+export type StoreHocProps = { store: Store<AppState> };
 
 type MapStateToProps<MappedProps> = (state: AppState) => MappedProps;
 

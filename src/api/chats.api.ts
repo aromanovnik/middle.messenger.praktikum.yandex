@@ -3,18 +3,20 @@ import {
   BadRequestError,
   ChatDeleteRequest,
   ChatDeleteResponse,
+  ChatsMessagesTokenResponse,
   ChatsResponse,
   CreateChatRequest,
   GetChatRequest,
+  TokenRequest,
   UnreadCountResponse,
   UsersRequest,
 } from './types.api';
 
-type GetChatsResponseData = [ChatsResponse] | BadRequestError;
-type CreateChatsResponseData = {} | BadRequestError;
-type DeleteChatsResponseData = ChatDeleteResponse | BadRequestError;
-type UnreadCountResponseData = UnreadCountResponse | BadRequestError;
-type UsersResponseData = {} | BadRequestError;
+export type GetChatsResponseData = [ChatsResponse] | BadRequestError;
+export type CreateChatsResponseData = {} | BadRequestError;
+export type DeleteChatsResponseData = ChatDeleteResponse | BadRequestError;
+export type UnreadCountResponseData = UnreadCountResponse | BadRequestError;
+export type UsersResponseData = {} | BadRequestError;
 
 export class ChatsApi {
   public static path = `${process.env['API_ENDPOINT']}/chats`;
@@ -67,7 +69,7 @@ export class ChatsApi {
     return response;
   }
 
-  public static async token(data: { id: number }): Promise<DeleteChatsResponseData> {
+  public static async token(data: TokenRequest): Promise<ChatsMessagesTokenResponse> {
     const res = await HTTPTransport.post(`${ChatsApi.path}/token/${data.id}`, {
       data,
       headers: {

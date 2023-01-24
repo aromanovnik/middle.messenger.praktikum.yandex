@@ -1,19 +1,14 @@
-import { Block, Router, Store } from 'core';
+import { Block } from 'core';
 
 import './user-info.component.css';
-import { routerHoc, storeHoc, userHoc } from 'hocs';
-import { AppState } from 'store';
-import { UserModel } from 'models';
-import { ScreensPath } from 'router';
+import { routerHoc, RouterHocProps, storeHoc, StoreHocProps, userHoc, UserHocProps } from 'hocs';
 import { AuthService } from 'services';
 
-export interface UserInfoComponentProps {
-  router: Router;
-  links: Record<string, ScreensPath>;
-  store: Store<AppState>;
-  user: UserModel;
-  logout: (event: MouseEvent) => void;
-}
+export type UserInfoComponentProps = RouterHocProps &
+  UserHocProps &
+  StoreHocProps & {
+    logout: (event: MouseEvent) => void;
+  };
 
 export class UserInfoComponent extends Block<UserInfoComponentProps> {
   static override componentName = 'UserInfoComponent';
@@ -72,11 +67,11 @@ export class UserInfoComponent extends Block<UserInfoComponentProps> {
                     <ul>
                         <li class='user-page__item-list'>
                             {{{LinkComponent title='Изменить данные'
-                                             to=links.settings}}}
+                                             to=links.Settings}}}
                         </li>
                         <li class='user-page__item-list'>
                             {{{LinkComponent title='Изменить пароль'
-                                             to=links.settingsPass}}}
+                                             to=links.SettingsPass}}}
                         </li>
                         <li class='user-page__item-list'>
                             {{{LinkComponent title='Выйти'

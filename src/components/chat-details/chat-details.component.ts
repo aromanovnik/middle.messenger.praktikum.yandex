@@ -1,17 +1,15 @@
-import { Block, Router, Store } from 'core';
+import { Block } from 'core';
 // todo: Only for demo
 import { ChatMessage, ChatsResponse } from 'demo';
 
 import './chat-details.component.css';
-import { routerHoc, storeHoc } from 'hocs';
-import { AppState } from 'store';
+import { routerHoc, RouterHocProps, storeHoc, StoreHocProps } from 'hocs';
 
-export interface ChatDetailsComponentProps {
-  router: Router;
-  store: Store<AppState>;
-  messages: ChatMessage[];
-  chat: ChatsResponse;
-}
+export type ChatDetailsComponentProps = RouterHocProps &
+  StoreHocProps & {
+    messages: ChatMessage[];
+    chat: ChatsResponse;
+  };
 
 export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
   static override componentName = 'ChatDetailsComponent';

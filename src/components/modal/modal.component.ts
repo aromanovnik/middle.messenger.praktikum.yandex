@@ -2,11 +2,11 @@ import { Block } from 'core';
 
 import './modal.component.css';
 
-export interface ModalComponentProps {
+export type ModalComponentProps = {
   isOpened?: boolean;
   onClose?: (event: MouseEvent) => void;
   events?: object;
-}
+};
 
 export class ModalComponent extends Block<ModalComponentProps> {
   static override componentName = 'ModalComponent';

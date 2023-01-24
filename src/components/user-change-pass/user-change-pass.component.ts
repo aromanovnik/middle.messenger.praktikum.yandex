@@ -1,21 +1,18 @@
-import { Block, Router, Store } from 'core';
+import { Block } from 'core';
 import { ChangePasswordPayload, UserService } from 'services';
 import './user-change-pass.component.css';
 import { validateForm, ValidateRuleType } from 'helpers';
-import { routerHoc, storeHoc, userHoc } from 'hocs';
-import { AppState } from 'store';
-import { UserModel } from 'models';
+import { routerHoc, RouterHocProps, storeHoc, StoreHocProps, userHoc, UserHocProps } from 'hocs';
 
-export interface UserChangePassComponentProps {
-  router: Router;
-  store: Store<AppState>;
-  user: UserModel;
-  values: ChangePasswordPayload;
-  onSubmit?: (event: MouseEvent) => void;
-  onInput?: (event: InputEvent) => void;
-  validateRuleType: typeof ValidateRuleType;
-  formError?: () => string | null;
-}
+export type UserChangePassComponentProps = RouterHocProps &
+  UserHocProps &
+  StoreHocProps & {
+    values: ChangePasswordPayload;
+    onSubmit?: (event: MouseEvent) => void;
+    onInput?: (event: InputEvent) => void;
+    validateRuleType: typeof ValidateRuleType;
+    formError?: () => string | null;
+  };
 
 export class UserChangePassComponent extends Block<UserChangePassComponentProps> {
   static override componentName = 'UserChangePassComponent';
