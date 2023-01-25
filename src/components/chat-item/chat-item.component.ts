@@ -1,27 +1,28 @@
 import { Block } from 'core';
 
 import './chat-item.component.css';
-import { routerHoc, RouterHocProps, userHoc, UserHocProps } from 'hocs';
+import { routerHoc, RouterHocProps, storeHoc, StoreHocProps, userHoc, UserHocProps } from 'hocs';
 import { ChatModel } from 'models';
 
 export type ChatItemComponentProps = UserHocProps &
+  StoreHocProps &
   RouterHocProps & {
     chat: ChatModel;
     isYou: boolean;
     events: object;
+    activeChatId?: number;
+    isSelected: boolean;
   };
 
 export class ChatItemComponent extends Block<ChatItemComponentProps> {
   static override componentName = 'ChatItemComponent';
 
-  constructor({ chat, ...props }: ChatItemComponentProps) {
-    super({
-      ...props,
-      chat,
-    });
+  constructor(props: ChatItemComponentProps) {
+    super(props);
 
     this.setProps({
-      isYou: this.props.user?.id === chat.lastMessage.user?.id,
+      isYou: this.props.user?.id === this.props.chat.lastMessage.user?.id,
+      isSelected: props.activeChatId === this.props.chat.id,
       events: {
         click: (event: MouseEvent) => {
           event?.preventDefault();
@@ -35,7 +36,7 @@ export class ChatItemComponent extends Block<ChatItemComponentProps> {
   override render(): string {
     // language=hbs
     return `
-        <a href='#' class="chat-item">
+        <a href='#' class="chat-item {{#if isSelected}}chat-item_active{{/if}}">
             <div class='chat-item__avatar'>
                 {{{UserAvatarComponent image=chat.lastMessage.user.avatart}}}
             </div>
@@ -66,4 +67,10 @@ export class ChatItemComponent extends Block<ChatItemComponentProps> {
   }
 }
 
-export default routerHoc(userHoc(ChatItemComponent));
+export default routerHoc(
+  userHoc(
+    storeHoc(ChatItemComponent, (state) => ({
+      user: state.user,
+    })),
+  ),
+);

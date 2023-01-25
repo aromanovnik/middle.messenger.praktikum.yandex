@@ -7,6 +7,8 @@ export default class EventBus<
   private listeners: { [key in E]?: Listener<M[E]>[] } = {};
 
   on(event: E, callback: Listener<M[E]>) {
+    // console.log('ON', this.listeners['changed']);
+
     if (!this.listeners[event]) {
       this.listeners[event] = [];
     }
@@ -18,7 +20,6 @@ export default class EventBus<
     if (!this.listeners[event]) {
       throw new Error(`Нет события: ${event}`);
     }
-
     this.listeners[event] = this.listeners[event]!.filter((listener) => listener !== callback);
   }
 

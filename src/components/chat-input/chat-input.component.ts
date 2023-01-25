@@ -78,7 +78,7 @@ export class ChatInputComponent extends Block<ChatInputComponentProps> {
     return `
         <div class="chat-input">
 
-            <button class="chat-input__button-clip" title="Send file"></button>
+            <!--<button class="chat-input__button-clip" title="Send file"></button>-->
 
             <form class="chat-input__form" action="#">
 

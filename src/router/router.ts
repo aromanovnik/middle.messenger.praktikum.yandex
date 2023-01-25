@@ -1,4 +1,4 @@
-import { BlockClass, renderDOM, Router, Store } from 'core';
+import { BaseActionsStore, BlockClass, renderDOM, Router, Store } from 'core';
 import { AppState } from 'store';
 import {
   AuthPage,
@@ -110,7 +110,7 @@ const routes = [
   },
   {
     path: '*',
-    block: Screens.Onboarding,
+    block: Screens.NotFound,
     shouldAuthorized: false,
   },
 ];
@@ -127,12 +127,12 @@ export function initRouter(router: Router, store: Store<AppState>) {
       }
 
       if (!currentScreen) {
-        store.dispatch({ screen: Screens.Login });
+        router.go(ScreensPath.Login);
       }
     });
   });
 
-  store.on('changed', (prevState, nextState) => {
+  store.on(BaseActionsStore.CHANGED, (prevState, nextState) => {
     if (!prevState.appIsInited && nextState.appIsInited) {
       router.start();
     }

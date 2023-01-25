@@ -1,6 +1,6 @@
 import { Store } from 'core';
-import { defaultState } from './default.state';
+import { defaultStore } from './default.store';
 import { AppState } from './type.store';
 
 export { AppState } from './type.store';
-export default new Store<AppState>(defaultState);
+export default new Store<AppState>(defaultStore);

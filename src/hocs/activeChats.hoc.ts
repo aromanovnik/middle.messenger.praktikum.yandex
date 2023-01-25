@@ -2,12 +2,11 @@ import { BaseActionsStore, BlockClass } from 'core';
 import store, { AppState } from 'store';
 import { ChatModel } from 'models';
 
-export type ChatsHocProps = {
-  chats: ChatModel[] | null;
-  chatsError?: string | null;
+export type ActiveChatHocProps = {
+  activeChat: ChatModel | null;
 };
 
-export function chatsHoc<P extends ChatsHocProps>(WrappedBlock: BlockClass<P>) {
+export function activeChatHoc<P extends ActiveChatHocProps>(WrappedBlock: BlockClass<P>) {
   // @ts-expect-error No base constructor has the specified
   return class extends WrappedBlock<P> {
     public static componentName = WrappedBlock.componentName || WrappedBlock.name;
@@ -15,20 +14,15 @@ export function chatsHoc<P extends ChatsHocProps>(WrappedBlock: BlockClass<P>) {
     constructor(props: P) {
       super({
         ...props,
-        chats: store.getState().chats,
-        chatsError: store.getState().chatsError,
+        activeChat: store.getState().activeChat,
       });
     }
 
     __onChangeUserCallback = (prevState: AppState, nextState: AppState) => {
       const chatsProps = {
-        chats: nextState.chats,
-        chatsError: nextState.chatsError,
+        activeChat: nextState.activeChat,
       };
-      if (
-        JSON.stringify(prevState.chats) !== JSON.stringify(nextState.chats) ||
-        prevState.chatsError !== nextState.chatsError
-      ) {
+      if (JSON.stringify(prevState.activeChat) !== JSON.stringify(nextState.activeChat)) {
         // @ts-expect-error this is not typed
         this.setProps({ ...this.props, ...chatsProps });
       }

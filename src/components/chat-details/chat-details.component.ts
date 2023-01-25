@@ -1,15 +1,20 @@
 import { Block } from 'core';
 
 import './chat-details.component.css';
-import { chatsHoc, ChatsHocProps, routerHoc, RouterHocProps, storeHoc, StoreHocProps } from 'hocs';
-import { ChatModel, MessageModel } from 'models';
+import {
+  activeChatHoc,
+  ActiveChatHocProps,
+  routerHoc,
+  RouterHocProps,
+  storeHoc,
+  StoreHocProps,
+} from 'hocs';
+import { MessageModel } from 'models';
 
 export type ChatDetailsComponentProps = RouterHocProps &
-  ChatsHocProps &
+  ActiveChatHocProps &
   StoreHocProps & {
     messages: MessageModel[];
-    chat: ChatModel | undefined;
-    isEmpty: boolean;
   };
 
 export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
@@ -17,52 +22,40 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
 
   constructor(props: ChatDetailsComponentProps) {
     super(props);
-
-    this.props.router.wasChangeParams = () => {
-      this.setActiveChat();
-    };
   }
 
-  setActiveChat(): void {
-    const chatId = this.props.router.getParams()['id-chat'];
-    console.log('setActiveChat -> ', chatId);
-    this.setProps({
-      isEmpty: !chatId,
-      chat: !chatId ? undefined : this.props.chats?.find((el) => el.id === parseInt(chatId, 10)),
-    });
-  }
-
-  override componentDidMount() {
-    this.setActiveChat();
+  override componentDidMount(props: ChatDetailsComponentProps) {
+    super.componentDidMount(props);
   }
 
   override componentWillUnmount() {
-    this.props.router.wasChangeParams = undefined;
+    super.componentWillUnmount();
   }
 
   protected override render(): string {
-    // language=hbs
-    return `
-        <div class="chat-details">
-
-            {{#if isEmpty}}
+    if (!this.props.activeChat) {
+      // language=hbs
+      return `
+          <div class="chat-details">
                 <span class='chat-details__empty-message'>
                   Выберите чат, чтобы отправить сообщение
                 </span>
-            {{/if}}
+          </div>
+      `;
+    }
 
-
+    // language=hbs
+    return `
+        <div class="chat-details">
             <div class="chat-details__chat">
                 <div class="chat-details__header">
-                    <a href='#'
-                       class="chat-details__avatar">
-                        {{{UserAvatarComponent image=chat.avatar}}}
-                    </a>
+                    <span class="chat-details__avatar">
+                        {{{UserAvatarComponent image=activeChat.avatar}}}
+                    </span>
 
-                    <a href='#user-details'
-                       class="chat-details__user-name">
-                        {{chat.title}}
-                    </a>
+                    <span class="chat-details__user-name">
+                        {{activeChat.title}}
+                    </span>
 
                     <button class="chat-details__menu" title="menu"></button>
                 </div>
@@ -83,4 +76,10 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
   }
 }
 
-export default routerHoc(chatsHoc(storeHoc(ChatDetailsComponent)));
+export default routerHoc(
+  activeChatHoc(
+    storeHoc(ChatDetailsComponent, (state) => ({
+      activeChat: state.activeChat,
+    })),
+  ),
+);

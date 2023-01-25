@@ -1,6 +1,6 @@
 import { AppState } from './type.store';
 
-export const defaultState: AppState = {
+export const defaultStore: AppState = {
   appIsInited: false,
   isLoading: false,
   screen: null,
@@ -11,6 +11,7 @@ export const defaultState: AppState = {
   // Chats
   chats: null,
   token: null,
+  activeChat: null,
 
   // Errors
   loginFormError: null,

@@ -135,4 +135,10 @@ export class UserChangePassComponent extends Block<UserChangePassComponentProps>
   }
 }
 
-export default userHoc(routerHoc(storeHoc(UserChangePassComponent)));
+export default userHoc(
+  routerHoc(
+    storeHoc(UserChangePassComponent, (state) => ({
+      user: state.user,
+    })),
+  ),
+);

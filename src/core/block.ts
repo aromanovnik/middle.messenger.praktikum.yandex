@@ -3,10 +3,6 @@ import { nanoid } from 'nanoid';
 import Handlebars from 'handlebars';
 import EventBus from './event-bus';
 
-interface BlockMeta<P = any> {
-  props: P;
-}
-
 export interface BlockClass<P> extends Function {
   new (props: P): Block<P>;
 
@@ -25,9 +21,6 @@ export default class Block<P = any> {
   } as const;
 
   public id = nanoid(6);
-
-  // @ts-ignore
-  private readonly _meta: BlockMeta;
 
   protected _element?: Nullable<HTMLElement>;
 
@@ -49,10 +42,6 @@ export default class Block<P = any> {
   public constructor(properties?: P) {
     const eventBus = new EventBus<Events>();
 
-    this._meta = {
-      props: properties,
-    };
-
     this.getStateFromProps(properties);
 
     // this.props = this._makePropsProxy(properties || ({} as P));
@@ -64,6 +53,26 @@ export default class Block<P = any> {
     this._registerEvents(eventBus);
 
     eventBus.emit(Block.EVENTS.INIT, this.props);
+  }
+
+  /**
+   * Хелпер, который проверяет, находится ли элемент в DOM дереве
+   * И есть нет, триггерит событие COMPONENT_WILL_UNMOUNT
+   */
+  _checkInDom() {
+    if (!this._element) {
+      this.eventBus().emit(Block.EVENTS.FLOW_CWU, this.props);
+      return;
+    }
+
+    const elementInDOM = document.body.contains(this._element);
+
+    if (elementInDOM) {
+      setTimeout(() => this._checkInDom(), 1000);
+      return;
+    }
+
+    this.eventBus().emit(Block.EVENTS.FLOW_CWU, this.props);
   }
 
   _registerEvents(eventBus: EventBus<Events>) {
@@ -92,6 +101,7 @@ export default class Block<P = any> {
   }
 
   _componentDidMount(properties: P) {
+    this._checkInDom();
     this.componentDidMount(properties);
   }
 
@@ -115,7 +125,7 @@ export default class Block<P = any> {
 
   // @ts-ignore
   componentDidUpdate(oldProperties: P, newProperties: P) {
-    return true;
+    return JSON.stringify(oldProperties) !== JSON.stringify(newProperties);
   }
 
   setProps = (nextPartialProps: Partial<P>): void => {
@@ -128,7 +138,6 @@ export default class Block<P = any> {
 
     this.props = nextProps;
     this.eventBus().emit(Block.EVENTS.FLOW_CDU, prevProps, nextProps);
-    // Object.assign(this.props, nextProperties);
   };
 
   setState = (nextState: any) => {

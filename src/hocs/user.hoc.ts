@@ -1,4 +1,4 @@
-import { BlockClass } from 'core';
+import { BaseActionsStore, BlockClass } from 'core';
 import store, { AppState } from 'store';
 import { UserModel } from 'models';
 
@@ -22,12 +22,12 @@ export function userHoc<P extends UserHocProps>(WrappedBlock: BlockClass<P>) {
 
     componentDidMount(props: P) {
       super.componentDidMount(props);
-      store.on('changed', this.__onChangeUserCallback);
+      store.on(BaseActionsStore.CHANGED, this.__onChangeUserCallback);
     }
 
     componentWillUnmount() {
       super.componentWillUnmount();
-      store.off('changed', this.__onChangeUserCallback);
+      store.off(BaseActionsStore.CHANGED, this.__onChangeUserCallback);
     }
   } as BlockClass<Omit<P, 'user'>>;
 }

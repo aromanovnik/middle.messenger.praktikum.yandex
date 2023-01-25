@@ -193,4 +193,10 @@ export class UserEditComponent extends Block<UserEditComponentProps> {
   }
 }
 
-export default userHoc(routerHoc(storeHoc(UserEditComponent)));
+export default userHoc(
+  routerHoc(
+    storeHoc(UserEditComponent, (state) => ({
+      user: state.user,
+    })),
+  ),
+);

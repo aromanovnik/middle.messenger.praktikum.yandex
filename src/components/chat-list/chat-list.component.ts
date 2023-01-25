@@ -1,11 +1,21 @@
 import { Block } from 'core';
 import './chat-list.component.css';
-import { chatsHoc, ChatsHocProps, routerHoc, RouterHocProps, storeHoc, StoreHocProps } from 'hocs';
+import {
+  activeChatHoc,
+  ActiveChatHocProps,
+  chatsHoc,
+  ChatsHocProps,
+  routerHoc,
+  RouterHocProps,
+  storeHoc,
+  StoreHocProps,
+} from 'hocs';
 import { ChatsService, CreateChatPayload } from 'services';
 import { validateForm, ValidateRuleType } from 'helpers';
 
 export type ChatListComponentProps = RouterHocProps &
   StoreHocProps &
+  ActiveChatHocProps &
   ChatsHocProps & {
     onModalOpen?: () => void;
     modalIsOpened?: boolean;
@@ -43,10 +53,6 @@ export class ChatListComponent extends Block<ChatListComponentProps> {
     });
   }
 
-  override componentDidMount() {
-    this.props.store.dispatch(ChatsService.getChats);
-  }
-
   onCreateChat(event: MouseEvent): void {
     event?.preventDefault();
 
@@ -71,6 +77,8 @@ export class ChatListComponent extends Block<ChatListComponentProps> {
   }
 
   protected override render(): string {
+    const activeChatId = this.props.activeChat?.id ?? null;
+
     // language=hbs
     return `
         <div class="chat-list">
@@ -96,7 +104,7 @@ export class ChatListComponent extends Block<ChatListComponentProps> {
 
             <nav class='chat-list__list'>
                 {{#each chats}}
-                    {{{ChatItemComponent chat=this}}}
+                    {{{ChatItemComponent activeChatId=${activeChatId} chat=this}}}
                 {{/each}}
 
                 {{{InputErrorComponent error=chatsError}}}
@@ -126,4 +134,4 @@ export class ChatListComponent extends Block<ChatListComponentProps> {
   }
 }
 
-export default chatsHoc(routerHoc(storeHoc(ChatListComponent)));
+export default activeChatHoc(chatsHoc(routerHoc(storeHoc(ChatListComponent))));

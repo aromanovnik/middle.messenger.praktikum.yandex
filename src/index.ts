@@ -3,7 +3,7 @@ import { initAppService } from 'services';
 require('babel-core/register');
 
 import * as components from 'components';
-import { registerComponent, BlockConstructable } from 'core';
+import { registerComponent, BlockConstructable, BaseActionsStore } from 'core';
 
 import router, { initRouter } from 'router';
 import store from 'store';
@@ -16,7 +16,7 @@ Object.values(components).forEach((Component: BlockConstructable<any>) => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-  store.on('changed', (prevState, nextState) => {
+  store.on(BaseActionsStore.CHANGED, (prevState, nextState) => {
     console.log('%cstore updated', 'background: #222; color: #bada55', prevState, nextState);
   });
 

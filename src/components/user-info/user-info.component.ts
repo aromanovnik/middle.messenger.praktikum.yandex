@@ -86,4 +86,10 @@ export class UserInfoComponent extends Block<UserInfoComponentProps> {
   }
 }
 
-export default userHoc(routerHoc(storeHoc(UserInfoComponent)));
+export default userHoc(
+  routerHoc(
+    storeHoc(UserInfoComponent, (state) => ({
+      user: state.user,
+    })),
+  ),
+);

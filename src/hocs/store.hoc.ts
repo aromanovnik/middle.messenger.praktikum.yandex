@@ -1,4 +1,4 @@
-import { BlockClass, Store } from 'core';
+import { BaseActionsStore, BlockClass, Store } from 'core';
 import store, { AppState } from 'store';
 import { isEqual } from 'helpers';
 
@@ -41,12 +41,12 @@ export function storeHoc<P extends StoreHocProps, MappedProps = any>(
 
     componentDidMount(props: P) {
       super.componentDidMount(props);
-      store.on('changed', this.__onChangeStoreCallback);
+      store.on(BaseActionsStore.CHANGED, this.__onChangeStoreCallback);
     }
 
     componentWillUnmount() {
       super.componentWillUnmount();
-      store.off('changed', this.__onChangeStoreCallback);
+      store.off(BaseActionsStore.CHANGED, this.__onChangeStoreCallback);
     }
   } as BlockClass<Omit<P, 'store'>>;
 }
