@@ -25,6 +25,6 @@ export class UserModel {
     this.login = user.login ?? '';
     this.email = user.email ?? '';
     this.phone = user.phone ?? '';
-    this.avatar = user.avatar ?? '';
+    this.avatar = user.avatar ? `${process.env['API_ENDPOINT']}/resources${user.avatar}` : '';
   }
 }

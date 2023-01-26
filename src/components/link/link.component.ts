@@ -6,30 +6,33 @@ import { routerHoc } from 'hocs';
 
 export type LinkComponentProps = {
   router: Router;
-  onClick?: (event: MouseEvent) => void;
+  onClick: (event: MouseEvent) => void;
   title?: string;
   className?: string;
   events: object;
   to?: ScreensPath;
+  onlyBack?: boolean;
 };
 
 export class LinkComponent extends Block<LinkComponentProps> {
   static override componentName = 'LinkComponent';
 
-  constructor({ onClick, title = '', className, to, router }: LinkComponentProps) {
+  constructor(props: LinkComponentProps) {
     super({
-      router,
-      title,
-      className,
-      to,
+      ...props,
       events: {
         click: (event: MouseEvent) => {
-          if (typeof to !== 'undefined') {
-            event?.preventDefault();
-            this.props.router.go(to);
+          if (props.onlyBack) {
+            this.props.router.back();
+            return;
           }
-          if (onClick) {
-            onClick(event);
+
+          if (typeof props.to !== 'undefined') {
+            event?.preventDefault();
+            this.props.router.go(props.to);
+          }
+          if (props.onClick) {
+            props.onClick(event);
           }
         },
       },

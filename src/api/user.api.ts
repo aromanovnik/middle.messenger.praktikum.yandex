@@ -16,7 +16,7 @@ export class UserApi {
 
   public static async profile(data: UserRequest): Promise<ProfileResponseData> {
     const res = await HTTPTransport.put(`${UserApi.path}/profile`, {
-      data,
+      data: JSON.stringify(data),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -34,9 +34,6 @@ export class UserApi {
   public static async profileAvatar(data: FormData): Promise<ProfileResponseData> {
     const res = await HTTPTransport.put(`${UserApi.path}/profile/avatar`, {
       data,
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
     });
     let { response } = res;
     try {
@@ -49,7 +46,7 @@ export class UserApi {
 
   public static async password(data: ChangePasswordRequest): Promise<PasswordResponseData> {
     const res = await HTTPTransport.put(`${UserApi.path}/password`, {
-      data,
+      data: JSON.stringify(data),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -80,7 +77,7 @@ export class UserApi {
 
   public static async search(data: FindUserRequest): Promise<SearchUserResponseData> {
     const res = await HTTPTransport.post(`${UserApi.path}/search`, {
-      data,
+      data: JSON.stringify(data),
       headers: {
         'Content-Type': 'application/json',
       },

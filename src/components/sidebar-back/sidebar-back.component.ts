@@ -16,7 +16,7 @@ export class SidebarBackComponent extends Block<SidebarBackComponentProps> {
     // language=hbs
     return `
         {{{LinkComponent className='sidebar-back'
-                         to=links.Messenger}}}
+                         onlyBack=true}}}
     `;
   }
 }

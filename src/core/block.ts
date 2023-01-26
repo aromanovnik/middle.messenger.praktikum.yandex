@@ -1,6 +1,7 @@
 import { nanoid } from 'nanoid';
 // @ts-ignore
 import Handlebars from 'handlebars';
+import { isEqual } from 'helpers';
 import EventBus from './event-bus';
 
 export interface BlockClass<P> extends Function {
@@ -125,7 +126,8 @@ export default class Block<P = any> {
 
   // @ts-ignore
   componentDidUpdate(oldProperties: P, newProperties: P) {
-    return JSON.stringify(oldProperties) !== JSON.stringify(newProperties);
+    // return JSON.stringify(oldProperties) !== JSON.stringify(newProperties);
+    return !isEqual(oldProperties, newProperties);
   }
 
   setProps = (nextPartialProps: Partial<P>): void => {

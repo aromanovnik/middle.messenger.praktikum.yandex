@@ -19,9 +19,10 @@ function isArrayOrObject(value: unknown): value is [] | PlainObject {
   return isPlainObject(value) || isArray(value);
 }
 
-// function isFunction(value: unknown): boolean {
-//   return typeof value === 'function';
-// }
+// ??? Testing
+function isFunction(value: unknown): boolean {
+  return typeof value === 'function';
+}
 
 export function isEqual(lhs: PlainObject, rhs: PlainObject): boolean {
   if (Object.keys(lhs).length !== Object.keys(rhs).length) {
@@ -37,9 +38,9 @@ export function isEqual(lhs: PlainObject, rhs: PlainObject): boolean {
       return false;
     }
 
-    // if (isFunction(value)) {
-    //   return false;
-    // }
+    if (isFunction(value)) {
+      return false;
+    }
 
     if (value !== rightValue) {
       return false;

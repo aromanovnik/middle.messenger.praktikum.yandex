@@ -21,8 +21,7 @@ export class UserInfoComponent extends Block<UserInfoComponentProps> {
     });
   }
 
-  logout(event: MouseEvent): void {
-    event?.preventDefault();
+  logout(): void {
     this.props.store.dispatch(AuthService.logout);
   }
 
@@ -30,57 +29,53 @@ export class UserInfoComponent extends Block<UserInfoComponentProps> {
     // language=hbs
     return `
         <div class='user-info'>
-            {{#if user}}
+            {{{UserInfoHeadComponent isShowName=true
+                                     avatar=user.avatar
+                                     firstName=user.firstName}}}
 
-                {{{UserInfoHeadComponent isShowName=true
-                                         avatar=user.avatar
-                                         firstName=user.firstName}}}
+            <div class='user-info__list user-page__list'>
+                <ul>
+                    <li class='user-page__item-list'>
+                        <span>Почта</span>
+                        <span>{{user.email}}</span>
+                    </li>
+                    <li class='user-page__item-list'>
+                        <span>Логин</span>
+                        <span>{{user.login}}</span>
+                    </li>
+                    <li class='user-page__item-list'>
+                        <span>Имя</span>
+                        <span>{{user.firstName}}</span>
+                    </li>
+                    <li class='user-page__item-list'>
+                        <span>Фамилия</span>
+                        <span>{{user.secondName}}</span>
+                    </li>
+                    <li class='user-page__item-list'>
+                        <span>Имя в чате</span>
+                        <span>{{user.displayName}}</span>
+                    </li>
+                    <li class='user-page__item-list'>
+                        <span>Телефон</span>
+                        <span>{{user.phone}}</span>
+                    </li>
+                </ul>
 
-                <div class='user-info__list user-page__list'>
-                    <ul>
-                        <li class='user-page__item-list'>
-                            <span>Почта</span>
-                            <span>{{user.email}}</span>
-                        </li>
-                        <li class='user-page__item-list'>
-                            <span>Логин</span>
-                            <span>{{user.login}}</span>
-                        </li>
-                        <li class='user-page__item-list'>
-                            <span>Имя</span>
-                            <span>{{user.firstName}}</span>
-                        </li>
-                        <li class='user-page__item-list'>
-                            <span>Фамилия</span>
-                            <span>{{user.secondName}}</span>
-                        </li>
-                        <li class='user-page__item-list'>
-                            <span>Имя в чате</span>
-                            <span>{{user.displayName}}</span>
-                        </li>
-                        <li class='user-page__item-list'>
-                            <span>Телефон</span>
-                            <span>{{user.phone}}</span>
-                        </li>
-                    </ul>
-
-                    <ul>
-                        <li class='user-page__item-list'>
-                            {{{LinkComponent title='Изменить данные'
-                                             to=links.Settings}}}
-                        </li>
-                        <li class='user-page__item-list'>
-                            {{{LinkComponent title='Изменить пароль'
-                                             to=links.SettingsPass}}}
-                        </li>
-                        <li class='user-page__item-list'>
-                            {{{LinkComponent title='Выйти'
-                                             onClick=logout}}}
-                        </li>
-                    </ul>
-                </div>
-
-            {{/if}}
+                <ul>
+                    <li class='user-page__item-list'>
+                        {{{LinkComponent title='Изменить данные'
+                                         to=links.Settings}}}
+                    </li>
+                    <li class='user-page__item-list'>
+                        {{{LinkComponent title='Изменить пароль'
+                                         to=links.SettingsPass}}}
+                    </li>
+                    <li class='user-page__item-list'>
+                        {{{LinkComponent title='Выйти'
+                                         onClick=logout}}}
+                    </li>
+                </ul>
+            </div>
         </div>
     `;
   }

@@ -23,7 +23,7 @@ export class ChatsApi {
 
   public static async getChats(data: GetChatRequest): Promise<GetChatsResponseData> {
     const res = await HTTPTransport.get(`${ChatsApi.path}`, {
-      data,
+      data: JSON.stringify(data),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -39,7 +39,7 @@ export class ChatsApi {
 
   public static async createChats(data: CreateChatRequest): Promise<CreateChatsResponseData> {
     const res = await HTTPTransport.post(`${ChatsApi.path}`, {
-      data,
+      data: JSON.stringify(data),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -55,7 +55,7 @@ export class ChatsApi {
 
   public static async deleteChats(data: ChatDeleteRequest): Promise<DeleteChatsResponseData> {
     const res = await HTTPTransport.delete(`${ChatsApi.path}`, {
-      data,
+      data: JSON.stringify(data),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -71,7 +71,7 @@ export class ChatsApi {
 
   public static async token(data: TokenRequest): Promise<ChatsMessagesTokenResponse> {
     const res = await HTTPTransport.post(`${ChatsApi.path}/token/${data.id}`, {
-      data,
+      data: JSON.stringify(data),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -87,7 +87,7 @@ export class ChatsApi {
 
   public static async newMessagesCount(data: { id: number }): Promise<UnreadCountResponseData> {
     const res = await HTTPTransport.get(`${ChatsApi.path}/new/${data.id}`, {
-      data,
+      data: JSON.stringify(data),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -103,7 +103,7 @@ export class ChatsApi {
 
   public static async addUser(data: UsersRequest): Promise<UsersResponseData> {
     const res = await HTTPTransport.put(`${ChatsApi.path}/users`, {
-      data,
+      data: JSON.stringify(data),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -119,7 +119,7 @@ export class ChatsApi {
 
   public static async removeUser(data: UsersRequest): Promise<UsersResponseData> {
     const res = await HTTPTransport.delete(`${ChatsApi.path}/users`, {
-      data,
+      data: JSON.stringify(data),
       headers: {
         'Content-Type': 'application/json',
       },

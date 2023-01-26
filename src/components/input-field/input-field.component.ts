@@ -17,26 +17,15 @@ export type InputFieldComponentProps = {
 export class InputFieldComponent extends Block<InputFieldComponentProps> {
   static override componentName = 'InputFieldComponent';
 
-  constructor({
-    onInput,
-    onFocus,
-    onChange,
-    onBlur,
-    type = 'text',
-    name,
-    dataKey,
-    ...props
-  }: InputFieldComponentProps) {
+  constructor(props: InputFieldComponentProps) {
     super({
       ...props,
-      type,
-      dataKey: dataKey || name,
-      name,
+      dataKey: props.dataKey || props.name,
       events: {
-        input: onInput,
-        focus: onFocus,
-        change: onChange,
-        blur: onBlur,
+        input: props.onInput,
+        focus: props.onFocus,
+        change: props.onChange,
+        blur: props.onBlur,
       },
     });
   }

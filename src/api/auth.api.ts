@@ -10,7 +10,7 @@ export class AuthApi {
 
   public static async signIn(data: SignInRequest): Promise<SignInResponseData> {
     const res = await HTTPTransport.post(`${AuthApi.path}/signin`, {
-      data,
+      data: JSON.stringify(data),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -27,7 +27,7 @@ export class AuthApi {
 
   public static async signUp(data: SignUpRequest): Promise<SignUpResponseData> {
     const res = await HTTPTransport.post(`${AuthApi.path}/signup`, {
-      data,
+      data: JSON.stringify(data),
       headers: {
         'Content-Type': 'application/json',
       },
