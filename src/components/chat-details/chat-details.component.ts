@@ -10,11 +10,16 @@ import {
   StoreHocProps,
 } from 'hocs';
 import { MessageModel } from 'models';
+import { ChatsService } from 'services';
 
 export type ChatDetailsComponentProps = RouterHocProps &
   ActiveChatHocProps &
   StoreHocProps & {
     messages: MessageModel[];
+    onPopupOpen: () => void;
+    popupIsOpened?: boolean;
+
+    deleteChats: () => void;
   };
 
 export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
@@ -22,6 +27,32 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
 
   constructor(props: ChatDetailsComponentProps) {
     super(props);
+
+    this.setProps({
+      onPopupOpen: this.onPopupOpen.bind(this),
+      deleteChats: this.deleteChats.bind(this),
+    });
+  }
+
+  onPopupOpen(): void {
+    this.setProps({
+      popupIsOpened: true,
+    });
+  }
+
+  onPopupClose(): void {
+    this.setProps({
+      popupIsOpened: false,
+    });
+  }
+
+  deleteChats(): void {
+    if (!this.props.activeChat?.id) {
+      return;
+    }
+    this.props.store.dispatch(ChatsService.deleteChats, {
+      chatId: this.props.activeChat.id,
+    });
   }
 
   override componentDidMount(props: ChatDetailsComponentProps) {
@@ -57,7 +88,24 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
                         {{activeChat.title}}
                     </span>
 
-                    <button class="chat-details__menu" title="menu"></button>
+
+                    <div class="chat-details__header-menu">
+                        {{{ButtonComponent type='submit'
+                                           className='chat-details__menu'
+                                           onClick=onPopupOpen}}}
+
+                        {{#PopupComponent isOpened=popupIsOpened }}
+
+                            {{{ButtonComponent className=''
+                                               title='Участники'}}}
+
+                            {{{ButtonComponent className=''
+                                               title='Удалить чат'
+                                               onClick=deleteChats}}}
+
+                        {{/PopupComponent}}
+                    </div>
+
                 </div>
 
                 <div class="chat-details__messages">
