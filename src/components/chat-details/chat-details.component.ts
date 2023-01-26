@@ -9,7 +9,7 @@ import {
   storeHoc,
   StoreHocProps,
 } from 'hocs';
-import { MessageModel } from 'models';
+import { MessageModel, UserModel } from 'models';
 import { ChatsService } from 'services';
 
 export type ChatDetailsComponentProps = RouterHocProps &
@@ -19,7 +19,13 @@ export type ChatDetailsComponentProps = RouterHocProps &
     onPopupOpen: () => void;
     popupIsOpened?: boolean;
 
+    onModalChatUsersOpen: () => void;
+    modalChatUsersIsOpened?: boolean;
+    chatUsers: () => UserModel[] | null;
+
     deleteChats: () => void;
+    deleteUser: (event: MouseEvent) => void;
+    addUserInChat: () => void;
   };
 
 export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
@@ -31,25 +37,66 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
     this.setProps({
       onPopupOpen: this.onPopupOpen.bind(this),
       deleteChats: this.deleteChats.bind(this),
-    });
+      deleteUser: this.deleteUser.bind(this),
 
-    // test
-    if (this.props.activeChat?.id) {
+      onModalChatUsersOpen: this.onModalChatUsersOpen.bind(this),
+
+      chatUsers: () => this.props.store.getState().chatUsers,
+    });
+  }
+
+  override propertiesWillUpdate(
+    prevProps: ChatDetailsComponentProps,
+    nextProps: ChatDetailsComponentProps,
+  ) {
+    if (prevProps.activeChat?.id !== nextProps.activeChat?.id && nextProps.activeChat?.id) {
+      // Load chat users
       this.props.store.dispatch(ChatsService.getUsersChats, {
         id: this.props.activeChat?.id,
       });
     }
   }
 
+  override _componentWillUnmount() {
+    super._componentWillUnmount();
+
+    this.closeAllModalsAndPopups();
+  }
+
+  closeAllModalsAndPopups() {
+    this.setProps({
+      popupIsOpened: false,
+      modalChatUsersIsOpened: false,
+    });
+  }
+
   onPopupOpen(): void {
     this.setProps({
       popupIsOpened: true,
+      modalChatUsersIsOpened: false,
     });
   }
 
   onPopupClose(): void {
     this.setProps({
       popupIsOpened: false,
+    });
+  }
+
+  addUserInChat(): void {}
+
+  removeUserInChat(): void {}
+
+  onModalChatUsersOpen(): void {
+    this.setProps({
+      modalChatUsersIsOpened: true,
+      popupIsOpened: false,
+    });
+  }
+
+  onModalChatUsersClose(): void {
+    this.setProps({
+      modalChatUsersIsOpened: false,
     });
   }
 
@@ -60,6 +107,12 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
     this.props.store.dispatch(ChatsService.deleteChats, {
       chatId: this.props.activeChat.id,
     });
+  }
+
+  deleteUser(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    console.log(event, target?.parentNode);
+    console.dir(target?.parentNode);
   }
 
   override componentDidMount(props: ChatDetailsComponentProps) {
@@ -103,11 +156,12 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
 
                         {{#PopupComponent isOpened=popupIsOpened }}
 
-                            {{{ButtonComponent className=''
-                                               title='Участники'}}}
+                            {{{ButtonComponent title='Добавить участника'}}}
 
-                            {{{ButtonComponent className=''
-                                               title='Удалить чат'
+                            {{{ButtonComponent title='Участники'
+                                               onClick=onModalChatUsersOpen}}}
+
+                            {{{ButtonComponent title='Удалить чат'
                                                onClick=deleteChats}}}
 
                         {{/PopupComponent}}
@@ -126,6 +180,23 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
                 </div>
             </div>
 
+            <!--Modals-->
+            {{#ModalComponent isOpened=modalChatUsersIsOpened }}
+                <div class='modal-chat-users'>
+                    {{#each chatUsers}}
+                        <div class='chat-user' data-user-id='{{this.id}}'>
+                            <div class='chat-user__avatar'>
+                                {{{UserAvatarComponent avatar=this.avatar}}}
+                            </div>
+                            <span>{{this.firstName}} {{this.secondName}}</span>
+
+                            {{{ButtonComponent title='Удалить'
+                                               onClick=deleteUser}}}
+                        </div>
+                    {{/each}}
+                </div>
+            {{/ModalComponent}}
+
         </div>
     `;
   }
@@ -135,6 +206,7 @@ export default routerHoc(
   activeChatHoc(
     storeHoc(ChatDetailsComponent, (state) => ({
       activeChat: state.activeChat,
+      chatUsers: state.chatUsers,
     })),
   ),
 );

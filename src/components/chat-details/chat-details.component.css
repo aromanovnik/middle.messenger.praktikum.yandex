@@ -94,3 +94,21 @@
   position: relative;
   align-items: center;
 }
+
+.chat-details .modal-chat-users {
+  width: 100%;
+}
+
+.chat-details .chat-user {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.chat-details .chat-user .chat-user__avatar {
+  margin-right: 10px;
+}
+
+.chat-details .chat-user button {
+  margin-left: auto;
+}

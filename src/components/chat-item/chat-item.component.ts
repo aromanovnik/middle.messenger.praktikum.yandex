@@ -38,7 +38,7 @@ export class ChatItemComponent extends Block<ChatItemComponentProps> {
     return `
         <a href='#' class="chat-item {{#if isSelected}}chat-item_active{{/if}}">
             <div class='chat-item__avatar'>
-                {{{UserAvatarComponent image=chat.lastMessage.user.avatart}}}
+                {{{UserAvatarComponent avatar=chat.lastMessage.user.avatar}}}
             </div>
 
             <div class='chat-item__content'>
