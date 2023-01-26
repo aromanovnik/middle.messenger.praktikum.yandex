@@ -12,6 +12,7 @@ export const defaultStore: AppState = {
   chats: null,
   token: null,
   activeChat: null,
+  chatUsers: null,
 
   // Errors
   loginFormError: null,

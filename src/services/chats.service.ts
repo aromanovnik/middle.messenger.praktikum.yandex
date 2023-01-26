@@ -10,15 +10,17 @@ import {
   CreateChatsResponseData,
   DeleteChatsResponseData,
   UsersResponseData,
+  AddUserRequest,
 } from 'api';
 import { apiHasError } from '../helpers';
-import { ChatModel } from '../models';
+import { ChatModel, UserModel } from '../models';
 
 export type GetChatsPayload = GetChatRequest;
 export type CreateChatPayload = CreateChatRequest;
 export type DeleteChatPayload = ChatDeleteRequest;
 export type TokenPayload = TokenRequest;
 export type UserPayload = UsersRequest;
+export type GetUsersPayload = AddUserRequest;
 
 export class ChatsService {
   static async getChats(
@@ -45,6 +47,33 @@ export class ChatsService {
       isLoading: false,
       chatsError: null,
       chats: response.map<ChatModel>((el) => new ChatModel(el)),
+    });
+  }
+
+  static async getUsersChats(
+    dispatch: Dispatch<AppState>,
+    state: AppState,
+    action: GetUsersPayload,
+  ): Promise<void> {
+    dispatch({ isLoading: true });
+
+    let response;
+    try {
+      response = await ChatsApi.getUsers(action);
+    } catch (error) {
+      dispatch({ isLoading: false, chatsError: error as string });
+      return;
+    }
+
+    if (apiHasError(response)) {
+      dispatch({ isLoading: false, chatsError: response.reason });
+      return;
+    }
+
+    dispatch({
+      isLoading: false,
+      chatsError: null,
+      chatUsers: response.map<UserModel>((el) => new UserModel(el)),
     });
   }
 

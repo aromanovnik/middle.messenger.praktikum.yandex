@@ -13,6 +13,7 @@ export type AppState = {
   chats: ChatModel[] | null;
   token: string | null;
   activeChat: ChatModel | null;
+  chatUsers: UserModel[] | null;
 
   // Errors
   loginFormError: string | null;

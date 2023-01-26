@@ -9,14 +9,17 @@ import {
   GetChatRequest,
   TokenRequest,
   UnreadCountResponse,
+  UserResponse,
   UsersRequest,
 } from './types.api';
 
+export type AddUserRequest = { id: number };
 export type GetChatsResponseData = [ChatsResponse] | BadRequestError;
 export type CreateChatsResponseData = {} | BadRequestError;
 export type DeleteChatsResponseData = ChatDeleteResponse | BadRequestError;
 export type UnreadCountResponseData = UnreadCountResponse | BadRequestError;
 export type UsersResponseData = {} | BadRequestError;
+export type GetUsersResponseData = [UserResponse] | BadRequestError;
 
 export class ChatsApi {
   public static path = `${process.env['API_ENDPOINT']}/chats`;
@@ -120,6 +123,21 @@ export class ChatsApi {
   public static async removeUser(data: UsersRequest): Promise<UsersResponseData> {
     const res = await HTTPTransport.delete(`${ChatsApi.path}/users`, {
       data: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    let { response } = res;
+    try {
+      response = JSON.parse(response);
+    } catch {
+      response = {};
+    }
+    return response;
+  }
+
+  public static async getUsers(data: AddUserRequest): Promise<GetUsersResponseData> {
+    const res = await HTTPTransport.get(`${ChatsApi.path}/${data.id}/users`, {
       headers: {
         'Content-Type': 'application/json',
       },

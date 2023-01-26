@@ -32,6 +32,13 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
       onPopupOpen: this.onPopupOpen.bind(this),
       deleteChats: this.deleteChats.bind(this),
     });
+
+    // test
+    if (this.props.activeChat?.id) {
+      this.props.store.dispatch(ChatsService.getUsersChats, {
+        id: this.props.activeChat?.id,
+      });
+    }
   }
 
   onPopupOpen(): void {

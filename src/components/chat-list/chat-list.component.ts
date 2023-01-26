@@ -95,11 +95,11 @@ export class ChatListComponent extends Block<ChatListComponentProps> {
                                      to=links.Profile}}}
                 </div>
 
-                <div class='chat-list__search'>
-                    <form action='#'>
-                        <input name='chat_search' type='text' placeholder='Поиск'>
-                    </form>
-                </div>
+                <!--                <div class='chat-list__search'>-->
+                <!--                    <form action='#'>-->
+                <!--                        <input name='chat_search' type='text' placeholder='Поиск'>-->
+                <!--                    </form>-->
+                <!--                </div>-->
             </div>
 
             <nav class='chat-list__list'>
