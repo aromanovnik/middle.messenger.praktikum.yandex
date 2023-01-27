@@ -11,10 +11,24 @@ export type PopupComponentProps = {
 export class PopupComponent extends Block<PopupComponentProps> {
   static override componentName = 'PopupComponent';
 
-  constructor({ isOpened }: PopupComponentProps) {
+  constructor(props: PopupComponentProps) {
     super({
-      isOpened,
-      events: { click: (event: MouseEvent) => this.onClose(event) },
+      ...props,
+      events: {
+        click: (event: MouseEvent) => {
+          const target = event?.target as HTMLElement;
+          if (!target || !target.classList?.contains('popup-overlay')) {
+            return;
+          }
+
+          if (typeof props.onClose === 'function') {
+            props.onClose(event);
+            return;
+          }
+
+          this.onClose(event);
+        },
+      },
     });
 
     this.setProps({
@@ -22,13 +36,8 @@ export class PopupComponent extends Block<PopupComponentProps> {
     });
   }
 
-  onClose(event: MouseEvent | undefined) {
-    const target = event?.target as HTMLElement;
-    if (target) {
-      if (target.classList?.contains('popup-overlay')) {
-        this.setProps({ isOpened: false });
-      }
-    }
+  onClose(event: MouseEvent) {
+    this.setProps({ isOpened: false });
   }
 
   override render() {

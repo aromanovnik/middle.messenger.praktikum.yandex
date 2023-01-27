@@ -17,9 +17,11 @@ export type ChatDetailsComponentProps = RouterHocProps &
   StoreHocProps & {
     messages: MessageModel[];
     onPopupOpen: () => void;
+    onPopupClose: () => void;
     popupIsOpened?: boolean;
 
     onModalChatUsersOpen: () => void;
+    onModalChatUsersClose: () => void;
     modalChatUsersIsOpened?: boolean;
     chatUsers: () => UserModel[] | null;
 
@@ -36,10 +38,13 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
 
     this.setProps({
       onPopupOpen: this.onPopupOpen.bind(this),
+      onPopupClose: this.onPopupClose.bind(this),
+
       deleteChats: this.deleteChats.bind(this),
       deleteUser: this.deleteUser.bind(this),
 
       onModalChatUsersOpen: this.onModalChatUsersOpen.bind(this),
+      onModalChatUsersClose: this.onModalChatUsersClose.bind(this),
 
       chatUsers: () => this.props.store.getState().chatUsers,
     });
@@ -59,21 +64,11 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
 
   override _componentWillUnmount() {
     super._componentWillUnmount();
-
-    this.closeAllModalsAndPopups();
-  }
-
-  closeAllModalsAndPopups() {
-    this.setProps({
-      popupIsOpened: false,
-      modalChatUsersIsOpened: false,
-    });
   }
 
   onPopupOpen(): void {
     this.setProps({
       popupIsOpened: true,
-      modalChatUsersIsOpened: false,
     });
   }
 
@@ -90,7 +85,6 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
   onModalChatUsersOpen(): void {
     this.setProps({
       modalChatUsersIsOpened: true,
-      popupIsOpened: false,
     });
   }
 
@@ -111,8 +105,20 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
 
   deleteUser(event: MouseEvent): void {
     const target = event.target as HTMLElement;
-    console.log(event, target?.parentNode);
-    console.dir(target?.parentNode);
+    const parent = target?.parentNode as HTMLDivElement;
+    if (!parent) {
+      return;
+    }
+
+    const userId = parseInt(parent.dataset['userId'] ?? '0', 10);
+    if (!userId || Number.isNaN(userId)) {
+      return;
+    }
+
+    this.props.store.dispatch(ChatsService.removeUser, {
+      users: [userId],
+      chatId: this.props.activeChat?.id,
+    });
   }
 
   override componentDidMount(props: ChatDetailsComponentProps) {
@@ -154,7 +160,9 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
                                            className='chat-details__menu'
                                            onClick=onPopupOpen}}}
 
-                        {{#PopupComponent isOpened=popupIsOpened }}
+                        {{#PopupComponent ref='menuPopup'
+                                          isOpened=popupIsOpened
+                                          onClose=onPopupClose }}
 
                             {{{ButtonComponent title='Добавить участника'}}}
 
@@ -181,7 +189,9 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
             </div>
 
             <!--Modals-->
-            {{#ModalComponent isOpened=modalChatUsersIsOpened }}
+            {{#ModalComponent ref='chatUsersModal'
+                              isOpened=modalChatUsersIsOpened
+                              onClose=onModalChatUsersClose}}
                 <div class='modal-chat-users'>
                     {{#each chatUsers}}
                         <div class='chat-user' data-user-id='{{this.id}}'>
@@ -191,7 +201,7 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
                             <span>{{this.firstName}} {{this.secondName}}</span>
 
                             {{{ButtonComponent title='Удалить'
-                                               onClick=deleteUser}}}
+                                               onClick=../deleteUser}}}
                         </div>
                     {{/each}}
                 </div>

@@ -18,6 +18,7 @@ export type ChatListComponentProps = RouterHocProps &
   ActiveChatHocProps &
   ChatsHocProps & {
     onModalOpen?: () => void;
+    onModalClose?: () => void;
     modalIsOpened?: boolean;
     createChatForm: {
       onCreateChat: (event: MouseEvent) => void;
@@ -46,6 +47,7 @@ export class ChatListComponent extends Block<ChatListComponentProps> {
 
     this.setProps({
       onModalOpen: this.onModalOpen.bind(this),
+      onModalClose: this.onModalClose.bind(this),
       createChatForm: {
         onCreateChat: this.onCreateChat.bind(this),
         onInputChatName: this.onInputChatName.bind(this),
@@ -77,7 +79,7 @@ export class ChatListComponent extends Block<ChatListComponentProps> {
   }
 
   protected override render(): string {
-    const activeChatId = this.props.activeChat?.id ?? null;
+    // const activeChatId = this.props.activeChat?.id ?? null;
 
     // language=hbs
     return `
@@ -104,14 +106,14 @@ export class ChatListComponent extends Block<ChatListComponentProps> {
 
             <nav class='chat-list__list'>
                 {{#each chats}}
-                    {{{ChatItemComponent activeChatId=${activeChatId} chat=this}}}
+                    {{{ChatItemComponent activeChatId=../activeChat.id chat=this}}}
                 {{/each}}
 
                 {{{InputErrorComponent error=chatsError}}}
             </nav>
 
 
-            {{#ModalComponent isOpened=modalIsOpened }}
+            {{#ModalComponent isOpened=modalIsOpened onClose=onModalClose}}
                 <form action='#' class='form'>
                     {{{InputComponent
                             label='Название чата'

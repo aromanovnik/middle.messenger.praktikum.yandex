@@ -12,10 +12,30 @@ export type ModalComponentProps = {
 export class ModalComponent extends Block<ModalComponentProps> {
   static override componentName = 'ModalComponent';
 
-  constructor({ isOpened }: ModalComponentProps) {
+  constructor(props: ModalComponentProps) {
     super({
-      isOpened,
-      events: { click: (event: MouseEvent) => this.onClose(event) },
+      ...props,
+      events: {
+        click: (event: MouseEvent) => {
+          const target = event?.target as HTMLElement;
+          if (
+            !target ||
+            !(
+              target.classList?.contains('modal-overlay') ||
+              target.classList?.contains('modal__button-close')
+            )
+          ) {
+            return;
+          }
+
+          if (typeof props.onClose === 'function') {
+            props.onClose(event);
+            return;
+          }
+
+          this.onClose(event);
+        },
+      },
     });
 
     this.setProps({
@@ -24,15 +44,7 @@ export class ModalComponent extends Block<ModalComponentProps> {
   }
 
   onClose(event: MouseEvent | undefined) {
-    const target = event?.target as HTMLElement;
-    if (target) {
-      if (
-        target.classList?.contains('modal-overlay') ||
-        target.classList?.contains('modal__button-close')
-      ) {
-        this.setProps({ isOpened: false });
-      }
-    }
+    this.setProps({ isOpened: false });
   }
 
   override render() {
