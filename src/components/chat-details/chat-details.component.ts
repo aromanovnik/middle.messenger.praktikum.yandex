@@ -10,7 +10,7 @@ import {
   StoreHocProps,
 } from 'hocs';
 import { MessageModel, UserModel } from 'models';
-import { ChatsService } from 'services';
+import { ChatsService, UserService } from 'services';
 
 export type ChatDetailsComponentProps = RouterHocProps &
   ActiveChatHocProps &
@@ -25,13 +25,23 @@ export type ChatDetailsComponentProps = RouterHocProps &
     modalChatUsersIsOpened?: boolean;
     chatUsers: () => UserModel[] | null;
 
+    onModalAddUserOpen: () => void;
+    onModalAddUserClose: () => void;
+    modalAddUserIsOpened?: boolean;
+
+    searchUsers: () => UserModel[] | null;
+    addUser: (event: MouseEvent) => void;
+    onInputSearchUser: (event: InputEvent) => void;
+    onSearchUser: (event: MouseEvent) => void;
+
     deleteChats: () => void;
     deleteUser: (event: MouseEvent) => void;
-    addUserInChat: () => void;
   };
 
 export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
   static override componentName = 'ChatDetailsComponent';
+
+  inputSearchUser: string | undefined;
 
   constructor(props: ChatDetailsComponentProps) {
     super(props);
@@ -42,11 +52,18 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
 
       deleteChats: this.deleteChats.bind(this),
       deleteUser: this.deleteUser.bind(this),
+      addUser: this.addUser.bind(this),
+      onInputSearchUser: this.onInputSearchUser.bind(this),
+      onSearchUser: this.onSearchUser.bind(this),
 
       onModalChatUsersOpen: this.onModalChatUsersOpen.bind(this),
       onModalChatUsersClose: this.onModalChatUsersClose.bind(this),
 
+      onModalAddUserOpen: this.onModalAddUserOpen.bind(this),
+      onModalAddUserClose: this.onModalAddUserClose.bind(this),
+
       chatUsers: () => this.props.store.getState().chatUsers,
+      searchUsers: () => this.props.store.getState().searchUsers,
     });
   }
 
@@ -66,6 +83,14 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
     super._componentWillUnmount();
   }
 
+  override componentDidMount(props: ChatDetailsComponentProps) {
+    super.componentDidMount(props);
+  }
+
+  override componentWillUnmount() {
+    super.componentWillUnmount();
+  }
+
   onPopupOpen(): void {
     this.setProps({
       popupIsOpened: true,
@@ -78,19 +103,29 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
     });
   }
 
-  addUserInChat(): void {}
-
-  removeUserInChat(): void {}
-
   onModalChatUsersOpen(): void {
     this.setProps({
       modalChatUsersIsOpened: true,
+      popupIsOpened: false,
     });
   }
 
   onModalChatUsersClose(): void {
     this.setProps({
       modalChatUsersIsOpened: false,
+    });
+  }
+
+  onModalAddUserOpen(): void {
+    this.setProps({
+      modalAddUserIsOpened: true,
+      popupIsOpened: false,
+    });
+  }
+
+  onModalAddUserClose(): void {
+    this.setProps({
+      modalAddUserIsOpened: false,
     });
   }
 
@@ -121,12 +156,42 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
     });
   }
 
-  override componentDidMount(props: ChatDetailsComponentProps) {
-    super.componentDidMount(props);
+  addUser(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    const parent = target?.parentNode as HTMLDivElement;
+    if (!parent) {
+      return;
+    }
+
+    const userId = parseInt(parent.dataset['userId'] ?? '0', 10);
+    if (!userId || Number.isNaN(userId)) {
+      return;
+    }
+
+    console.log('Add User -> ', userId);
+    this.props.store.dispatch(ChatsService.addUser, {
+      users: [userId],
+      chatId: this.props.activeChat?.id,
+    });
   }
 
-  override componentWillUnmount() {
-    super.componentWillUnmount();
+  onInputSearchUser(event: InputEvent): void {
+    console.log('InputEvent -> ', event);
+    const target = event.target as HTMLInputElement;
+    if (!target) {
+      return;
+    }
+
+    this.inputSearchUser = target.value;
+  }
+
+  onSearchUser(event: MouseEvent): void {
+    event?.preventDefault();
+    // searchUser
+    this.props.store.dispatch(UserService.searchUser, {
+      login: this.inputSearchUser,
+    });
+    console.log('MouseEvent -> ', event);
   }
 
   protected override render(): string {
@@ -164,7 +229,8 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
                                           isOpened=popupIsOpened
                                           onClose=onPopupClose }}
 
-                            {{{ButtonComponent title='Добавить участника'}}}
+                            {{{ButtonComponent title='Добавить участника'
+                                               onClick=onModalAddUserOpen}}}
 
                             {{{ButtonComponent title='Участники'
                                                onClick=onModalChatUsersOpen}}}
@@ -188,14 +254,14 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
                 </div>
             </div>
 
-            <!--Modals-->
+            <!--Modals chat users-->
             {{#ModalComponent ref='chatUsersModal'
                               isOpened=modalChatUsersIsOpened
                               onClose=onModalChatUsersClose}}
-                <div class='modal-chat-users'>
+                <div class='list-users'>
                     {{#each chatUsers}}
-                        <div class='chat-user' data-user-id='{{this.id}}'>
-                            <div class='chat-user__avatar'>
+                        <div class='list-users__user' data-user-id='{{this.id}}'>
+                            <div class='list-users__avatar'>
                                 {{{UserAvatarComponent avatar=this.avatar}}}
                             </div>
                             <span>{{this.firstName}} {{this.secondName}}</span>
@@ -205,6 +271,45 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
                         </div>
                     {{/each}}
                 </div>
+            {{/ModalComponent}}
+
+            <!--Modals add user-->
+            {{#ModalComponent ref='addUserModal'
+                              isOpened=modalAddUserIsOpened
+                              onClose=onModalAddUserClose}}
+
+                <form action='#' class='form'>
+                    {{{InputComponent
+                            label='Логин'
+                            className='form__input'
+                            id='addUserInput'
+                            type='text'
+                            name='login'
+                            placeholder=''
+                            onInput=onInputSearchUser
+                            validate=validateRuleType.Message
+                    }}}
+
+                    {{{ButtonComponent type='submit'
+                                       title='Найти'
+                                       onClick=onSearchUser}}}
+
+
+                    <div class='list-users'>
+                        {{#each searchUsers}}
+                            <div class='list-users__user' data-user-id='{{this.id}}'>
+                                <div class='list-users__avatar'>
+                                    {{{UserAvatarComponent avatar=this.avatar}}}
+                                </div>
+                                <span>{{this.firstName}} {{this.secondName}}</span>
+
+                                {{{ButtonComponent title='Добавить'
+                                                   onClick=../addUser}}}
+                            </div>
+                        {{/each}}
+                    </div>
+                </form>
+
             {{/ModalComponent}}
 
         </div>
@@ -217,6 +322,8 @@ export default routerHoc(
     storeHoc(ChatDetailsComponent, (state) => ({
       activeChat: state.activeChat,
       chatUsers: state.chatUsers,
+      searchUsers: state.searchUsers,
+      searchUsersFormError: state.searchUsersFormError,
     })),
   ),
 );

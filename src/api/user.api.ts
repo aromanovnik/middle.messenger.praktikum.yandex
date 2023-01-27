@@ -9,7 +9,7 @@ import {
 
 type ProfileResponseData = UserResponse | BadRequestError;
 type PasswordResponseData = {} | BadRequestError;
-type SearchUserResponseData = [UserResponse] | BadRequestError;
+type SearchUserResponseData = UserResponse[] | BadRequestError;
 
 export class UserApi {
   public static path = `${process.env['API_ENDPOINT']}/user`;

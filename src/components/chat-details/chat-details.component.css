@@ -95,20 +95,21 @@
   align-items: center;
 }
 
-.chat-details .modal-chat-users {
+.chat-details .list-users {
   width: 100%;
 }
 
-.chat-details .chat-user {
+.chat-details .list-users__user {
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  margin-top: 4px;
 }
 
-.chat-details .chat-user .chat-user__avatar {
+.chat-details .list-users__avatar {
   margin-right: 10px;
 }
 
-.chat-details .chat-user button {
+.chat-details .list-users__user button {
   margin-left: auto;
 }

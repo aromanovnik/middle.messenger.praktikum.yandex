@@ -14,6 +14,7 @@ export type AppState = {
   token: string | null;
   activeChat: ChatModel | null;
   chatUsers: UserModel[] | null;
+  searchUsers: UserModel[] | null;
 
   // Errors
   loginFormError: string | null;
@@ -21,6 +22,6 @@ export type AppState = {
   profileFormError: string | null;
   passwordFormError: string | null;
   avatarFormError: string | null;
-
+  searchUsersFormError: string | null;
   chatsError: string | null;
 };

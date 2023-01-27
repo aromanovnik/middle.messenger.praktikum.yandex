@@ -1,7 +1,7 @@
 .popup {
   background: var(--bright-gray-2);
   width: auto;
-  min-width: 150px;
+  min-width: 200px;
   height: auto;
   border-radius: 16px;
   position: absolute;

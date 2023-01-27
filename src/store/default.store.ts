@@ -13,6 +13,7 @@ export const defaultStore: AppState = {
   token: null,
   activeChat: null,
   chatUsers: null,
+  searchUsers: null,
 
   // Errors
   loginFormError: null,
@@ -20,6 +21,6 @@ export const defaultStore: AppState = {
   profileFormError: null,
   passwordFormError: null,
   avatarFormError: null,
-
+  searchUsersFormError: null,
   chatsError: null,
 };

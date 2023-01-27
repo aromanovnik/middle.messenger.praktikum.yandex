@@ -165,6 +165,11 @@ export class ChatsService {
       action,
       ChatsApi.addUser,
     );
+
+    // Сразу обновим
+    await ChatsService.getUsersChats(dispatch, state, {
+      id: action.chatId,
+    });
   }
 
   static async removeUser(
@@ -178,5 +183,10 @@ export class ChatsService {
       action,
       ChatsApi.removeUser,
     );
+
+    // Сразу обновим
+    await ChatsService.getUsersChats(dispatch, state, {
+      id: action.chatId,
+    });
   }
 }

@@ -1,4 +1,4 @@
-import { ChangePasswordRequest, UserApi, UserRequest } from 'api';
+import { ChangePasswordRequest, FindUserRequest, UserApi, UserRequest } from 'api';
 import { Dispatch } from 'core';
 import { AppState } from 'store';
 import { apiHasError } from 'helpers';
@@ -6,7 +6,8 @@ import { UserModel } from 'models';
 
 export type EditUserPayload = UserRequest;
 export type ChangePasswordPayload = ChangePasswordRequest;
-export type ChangeAvatartPayload = FormData;
+export type ChangeAvatarPayload = FormData;
+export type SearchUserPayload = FindUserRequest;
 
 export class UserService {
   static async editUser(
@@ -58,7 +59,7 @@ export class UserService {
   static async changeAvatar(
     dispatch: Dispatch<AppState>,
     state: AppState,
-    action: ChangeAvatartPayload,
+    action: ChangeAvatarPayload,
   ): Promise<void> {
     dispatch({ isLoading: true });
 
@@ -76,6 +77,33 @@ export class UserService {
     }
 
     dispatch({ isLoading: false, avatarFormError: null, user: new UserModel(response) });
+  }
+
+  static async searchUser(
+    dispatch: Dispatch<AppState>,
+    state: AppState,
+    action: SearchUserPayload,
+  ): Promise<void> {
+    dispatch({ isLoading: true });
+
+    let response;
+    try {
+      response = await UserApi.search(action);
+    } catch (error) {
+      dispatch({ isLoading: false, searchUsersFormError: error as string });
+      return;
+    }
+
+    if (apiHasError(response)) {
+      dispatch({ isLoading: false, searchUsersFormError: response.reason });
+      return;
+    }
+
+    dispatch({
+      isLoading: false,
+      searchUsersFormError: null,
+      searchUsers: response.map((user) => new UserModel(user)),
+    });
   }
 }
 
