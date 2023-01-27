@@ -16,6 +16,8 @@ export class ChatModel {
     content?: string;
   };
 
+  token?: string;
+
   constructor(chat: ChatsResponse) {
     this.id = chat.id ?? 0;
     this.title = chat.title ?? '';
@@ -26,5 +28,10 @@ export class ChatModel {
       time: chat?.last_message?.time,
       content: chat?.last_message?.content,
     };
+  }
+
+  addToken(token: string): ChatModel {
+    this.token = token;
+    return this;
   }
 }

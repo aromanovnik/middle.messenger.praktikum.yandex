@@ -10,7 +10,6 @@ export const defaultStore: AppState = {
 
   // Chats
   chats: null,
-  token: null,
   activeChat: null,
   chatUsers: null,
   searchUsers: null,

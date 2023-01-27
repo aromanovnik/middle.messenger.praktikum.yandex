@@ -57,7 +57,19 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
       this.props.store.dispatch(ChatsService.getUsersChats, {
         id: this.props.activeChat?.id,
       });
+
+      this.getToken();
     }
+  }
+
+  getToken(): void {
+    if (!this.props.activeChat?.id) {
+      return;
+    }
+
+    this.props.store.dispatch(ChatsService.token, {
+      id: this.props.activeChat.id,
+    });
   }
 
   onPopupOpen(): void {
@@ -144,11 +156,7 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
 
                 </div>
 
-                <div class="chat-details__messages">
-                    {{#each messages}}
-                        {{{ChatMessageComponent message=this}}}
-                    {{/each}}
-                </div>
+                {{{MessagesComponent}}}
 
                 <div class="chat-details__footer">
                     {{{ChatInputComponent}}}

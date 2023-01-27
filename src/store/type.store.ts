@@ -11,7 +11,6 @@ export type AppState = {
 
   // Chats
   chats: ChatModel[] | null;
-  token: string | null;
   activeChat: ChatModel | null;
   chatUsers: UserModel[] | null;
   searchUsers: UserModel[] | null;

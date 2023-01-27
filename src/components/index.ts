@@ -22,3 +22,4 @@ export * from './modal';
 export * from './popup';
 export * from './modal-add-user';
 export * from './modal-chat-users';
+export * from './messages';

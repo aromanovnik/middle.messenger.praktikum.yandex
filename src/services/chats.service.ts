@@ -150,7 +150,7 @@ export class ChatsService {
     dispatch({
       isLoading: false,
       chatsError: null,
-      token: response.token,
+      activeChat: state.activeChat?.addToken(response.token),
     });
   }
 
