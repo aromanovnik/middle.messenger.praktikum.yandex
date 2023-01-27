@@ -147,10 +147,18 @@ export class ChatsService {
       return;
     }
 
+    if (!state.activeChat) {
+      dispatch({
+        isLoading: false,
+        chatsError: null,
+      });
+      return;
+    }
+
     dispatch({
       isLoading: false,
       chatsError: null,
-      activeChat: state.activeChat?.addToken(response.token),
+      activeChat: state.activeChat.addToken(response.token),
     });
   }
 

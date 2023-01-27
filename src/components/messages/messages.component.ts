@@ -14,18 +14,6 @@ export class MessagesComponent extends Block<MessagesComponentProps> {
 
   constructor(props: MessagesComponentProps) {
     super(props);
-
-    console.log('0 🍆');
-  }
-
-  override propertiesWillUpdate(
-    prevProps: MessagesComponentProps,
-    nextProps: MessagesComponentProps,
-  ) {
-    if (prevProps.activeChat?.id !== nextProps.activeChat?.id && nextProps.activeChat?.id) {
-      // Update connect
-      console.log('1 🍆');
-    }
   }
 
   protected override render(): string {
@@ -43,6 +31,5 @@ export class MessagesComponent extends Block<MessagesComponentProps> {
 export default activeChatHoc(
   storeHoc(MessagesComponent, (state) => ({
     activeChat: state.activeChat,
-    token: state.token,
   })),
 );

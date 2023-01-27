@@ -8,13 +8,16 @@ import {
   RouterHocProps,
   storeHoc,
   StoreHocProps,
+  userHoc,
+  UserHocProps,
 } from 'hocs';
 import { MessageModel } from 'models';
-import { ChatsService } from 'services';
+import { ChatsService, MessagesService } from 'services';
 import { ModalAddUserComponent } from '../modal-add-user/modal-add-user.component';
 import { ModalChatUsersComponent } from '../modal-chat-users/modal-chat-users.component';
 
 export type ChatDetailsComponentProps = RouterHocProps &
+  UserHocProps &
   ActiveChatHocProps &
   StoreHocProps & {
     messages: MessageModel[];
@@ -35,6 +38,10 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
 
   inputSearchUser: string | undefined;
 
+  chatToken?: string;
+
+  messagesService?: MessagesService;
+
   constructor(props: ChatDetailsComponentProps) {
     super(props);
 
@@ -52,6 +59,8 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
     prevProps: ChatDetailsComponentProps,
     nextProps: ChatDetailsComponentProps,
   ) {
+    console.log('🍒', this.chatToken, nextProps.activeChat?.token);
+
     if (prevProps.activeChat?.id !== nextProps.activeChat?.id && nextProps.activeChat?.id) {
       // Load chat users
       this.props.store.dispatch(ChatsService.getUsersChats, {
@@ -59,6 +68,20 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
       });
 
       this.getToken();
+    }
+
+    if (this.chatToken !== nextProps.activeChat?.token) {
+      this.chatToken = nextProps.activeChat?.token;
+
+      console.log('🍒');
+
+      if (this.chatToken) {
+        this.messagesService = new MessagesService({
+          userId: this.props.user!.id,
+          chatId: this.props.activeChat!.id,
+          token: this.chatToken,
+        });
+      }
     }
   }
 
@@ -174,10 +197,12 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
   }
 }
 
-export default routerHoc(
-  activeChatHoc(
-    storeHoc(ChatDetailsComponent, (state) => ({
-      activeChat: state.activeChat,
-    })),
+export default userHoc(
+  routerHoc(
+    activeChatHoc(
+      storeHoc(ChatDetailsComponent, (state) => ({
+        activeChat: state.activeChat,
+      })),
+    ),
   ),
 );
