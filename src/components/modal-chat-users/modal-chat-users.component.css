@@ -1,0 +1,22 @@
+.chat-users-modal .modal__content {
+  flex-direction: column;
+}
+
+.list-users {
+  width: 100%;
+}
+
+.list-users__user {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.list-users__avatar {
+  margin-right: 10px;
+}
+
+.list-users__user button {
+  margin-left: auto;
+}

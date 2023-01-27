@@ -12,8 +12,8 @@ import {
   UsersResponseData,
   AddUserRequest,
 } from 'api';
-import { apiHasError } from '../helpers';
-import { ChatModel, UserModel } from '../models';
+import { apiHasError } from 'helpers';
+import { ChatModel, UserModel } from 'models';
 
 export type GetChatsPayload = GetChatRequest;
 export type CreateChatPayload = CreateChatRequest;

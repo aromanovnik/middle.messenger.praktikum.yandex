@@ -20,3 +20,5 @@ export * from './button';
 export * from './link';
 export * from './modal';
 export * from './popup';
+export * from './modal-add-user';
+export * from './modal-chat-users';
