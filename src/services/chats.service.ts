@@ -169,8 +169,17 @@ export class ChatsService {
   ): Promise<void> {
     const chat = state.chats?.find((ch) => ch.id === action.id);
     if (!chat) {
+      // dispatch({
+      //   chatsError: 'Chat not found',
+      // });
+      return;
+    }
+
+    if (chat.token) {
+      console.log('Select chat -> ', chat);
       dispatch({
-        chatsError: 'Chat not found',
+        chatsError: null,
+        activeChat: chat,
       });
       return;
     }
