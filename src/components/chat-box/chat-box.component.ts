@@ -43,6 +43,12 @@ export class ChatBoxComponent extends Block<ChatBoxComponentProps> {
       chatId = parseInt(this.props.router.getParams()['id-chat'], 10);
     }
 
+    if (!chatId) {
+      this.props.store.dispatch({
+        activeChat: null,
+      });
+    }
+
     if (this.chatId === chatId) {
       return;
     }

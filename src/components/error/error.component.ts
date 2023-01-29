@@ -1,8 +1,9 @@
 import { Block } from 'core';
 
 import './error.component.css';
+import { routerHoc, RouterHocProps } from 'hocs';
 
-export type ErrorComponentProps = {
+export type ErrorComponentProps = RouterHocProps & {
   title: string;
   subtitle?: string;
   actionHref?: string;
@@ -12,11 +13,15 @@ export type ErrorComponentProps = {
 export class ErrorComponent extends Block<ErrorComponentProps> {
   static override componentName = 'ErrorComponent';
 
-  constructor({ title, subtitle, actionHref, actionText }: ErrorComponentProps) {
-    super({ title, subtitle, actionHref, actionText });
+  constructor(props: ErrorComponentProps) {
+    super({
+      ...props,
+      actionHref: props.actionHref ?? props.links.Messenger,
+    });
   }
 
   override render(): string {
+    console.log('Props -> ', this.props);
     // language=hbs
     return `
         <div class='error'>
@@ -25,9 +30,13 @@ export class ErrorComponent extends Block<ErrorComponentProps> {
                 <p class='error__desc'>{{subtitle}}</p>
             {{/if}}
             {{#if actionText}}
-                <a class='error__link' href='{{actionHref}}'>{{actionText}}</a>
+                {{{LinkComponent className='error__link'
+                                 title=actionText
+                                 to=actionHref}}}
             {{/if}}
         </div>
     `;
   }
 }
+
+export default routerHoc(ErrorComponent);

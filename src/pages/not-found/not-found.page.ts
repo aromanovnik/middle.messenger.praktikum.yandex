@@ -1,9 +1,11 @@
 import { Block } from 'core';
-import { routerHoc } from 'hocs';
+import { routerHoc, RouterHocProps } from 'hocs';
 
-export class NotFoundPage extends Block {
-  constructor() {
-    super();
+export type NotFoundPageProps = RouterHocProps;
+
+export class NotFoundPage extends Block<NotFoundPageProps> {
+  constructor(props: NotFoundPageProps) {
+    super(props);
   }
 
   override render() {
@@ -12,7 +14,6 @@ export class NotFoundPage extends Block {
         <main class="not-found-page page">
             {{{ErrorComponent  title='404'
                                subtitle='Не туда попали'
-                               actionHref='/'
                                actionText='Назад к чатам'}}}
         </main>
     `;

@@ -88,6 +88,8 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
     this.props.store.dispatch(ChatsService.deleteChats, {
       chatId: this.props.activeChat.id,
     });
+
+    this.props.router.go(this.props.links!.Messenger);
   }
 
   // Add user
