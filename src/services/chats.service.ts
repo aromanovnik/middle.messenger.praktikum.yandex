@@ -168,6 +168,7 @@ export class ChatsService {
     action: TokenPayload,
   ): Promise<void> {
     const chat = state.chats?.find((ch) => ch.id === action.id);
+
     if (!chat) {
       // dispatch({
       //   chatsError: 'Chat not found',
@@ -176,7 +177,6 @@ export class ChatsService {
     }
 
     if (chat.token) {
-      console.log('Select chat -> ', chat);
       dispatch({
         chatsError: null,
         activeChat: chat,

@@ -1,9 +1,8 @@
-import { BaseActionsStore, Block } from 'core';
+import { Block } from 'core';
 
 import './chat-box.component.css';
 import { chatsHoc, ChatsHocProps, routerHoc, RouterHocProps, storeHoc, StoreHocProps } from 'hocs';
 import { ChatsService } from 'services';
-import { AppState } from 'store';
 
 export type ChatBoxComponentProps = ChatsHocProps & StoreHocProps & RouterHocProps & {};
 
@@ -12,8 +11,30 @@ export class ChatBoxComponent extends Block<ChatBoxComponentProps> {
 
   chatId: number | null = null;
 
-  onChangeActiveChat = (prevState: AppState, nextState: AppState): void => {
-    if (!nextState.chats) {
+  constructor(props: ChatBoxComponentProps) {
+    super(props);
+  }
+
+  override componentDidMount(props: ChatBoxComponentProps) {
+    super.componentDidMount(props);
+    this.props.store.dispatch(ChatsService.getChats);
+
+    // Router
+    this.props.router.wasChangeParams = this.selectChat.bind(this);
+  }
+
+  override componentWillUnmount() {
+    super.componentWillUnmount();
+
+    this.props.router.wasChangeParams = undefined;
+  }
+
+  override propertiesWillUpdate() {
+    this.selectChat();
+  }
+
+  selectChat(): void {
+    if (!this.props.chats?.length) {
       return;
     }
 
@@ -27,33 +48,16 @@ export class ChatBoxComponent extends Block<ChatBoxComponentProps> {
     }
     this.chatId = chatId;
 
-    const activeChat = nextState.chats?.find((el) => el.id === chatId);
+    const activeChat = this.props.chats?.find((el) => el.id === chatId);
     if (chatId && !activeChat) {
       this.props.router.go(this.props.links!.NotFound);
     }
 
-    if (activeChat?.id !== nextState.activeChat?.id) {
+    if (activeChat?.id !== this.props.store.getState().activeChat?.id) {
       this.props.store.dispatch(ChatsService.selectChat, {
         id: chatId,
       });
     }
-  };
-
-  constructor(props: ChatBoxComponentProps) {
-    super(props);
-  }
-
-  override componentDidMount(props: ChatBoxComponentProps) {
-    super.componentDidMount(props);
-
-    this.props.store.on(BaseActionsStore.CHANGED, this.onChangeActiveChat);
-    this.props.store.dispatch(ChatsService.getChats);
-  }
-
-  override componentWillUnmount() {
-    super.componentWillUnmount();
-
-    this.props.store.off(BaseActionsStore.CHANGED, this.onChangeActiveChat);
   }
 
   override render(): string {
@@ -76,6 +80,7 @@ export default routerHoc(
   chatsHoc(
     storeHoc(ChatBoxComponent, (state) => ({
       chats: state.chats,
+      activeChat: state.activeChat,
     })),
   ),
 );
