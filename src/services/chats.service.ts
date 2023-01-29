@@ -162,6 +162,40 @@ export class ChatsService {
     });
   }
 
+  static async selectChat(
+    dispatch: Dispatch<AppState>,
+    state: AppState,
+    action: TokenPayload,
+  ): Promise<void> {
+    const chat = state.chats?.find((ch) => ch.id === action.id);
+    if (!chat) {
+      dispatch({
+        chatsError: 'Chat not found',
+      });
+      return;
+    }
+
+    dispatch({ isLoading: true });
+    let response;
+    try {
+      response = await ChatsApi.token(action);
+    } catch (error) {
+      dispatch({ isLoading: false, chatsError: error as string });
+      return;
+    }
+
+    if (apiHasError(response)) {
+      dispatch({ isLoading: false, chatsError: response.reason });
+      return;
+    }
+
+    dispatch({
+      isLoading: false,
+      chatsError: null,
+      activeChat: chat.addToken(response.token),
+    });
+  }
+
   static async addUser(
     dispatch: Dispatch<AppState>,
     state: AppState,

@@ -9,8 +9,6 @@ export type ActiveChatHocProps = {
 export function activeChatHoc<P extends ActiveChatHocProps>(WrappedBlock: BlockClass<P>) {
   // @ts-expect-error No base constructor has the specified
   return class extends WrappedBlock<P> {
-    token?: string;
-
     public static componentName = WrappedBlock.componentName || WrappedBlock.name;
 
     constructor(props: P) {
@@ -24,14 +22,7 @@ export function activeChatHoc<P extends ActiveChatHocProps>(WrappedBlock: BlockC
       const chatsProps = {
         activeChat: nextState.activeChat,
       };
-      if (
-        JSON.stringify(prevState.activeChat) !== JSON.stringify(nextState.activeChat) ||
-        this.token !== nextState.activeChat?.token
-      ) {
-        this.token = nextState.activeChat?.token;
-
-        console.log('🍓');
-
+      if (JSON.stringify(prevState.activeChat) !== JSON.stringify(nextState.activeChat)) {
         // @ts-expect-error this is not typed
         this.setProps({ ...this.props, ...chatsProps });
       }

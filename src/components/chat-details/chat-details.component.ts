@@ -38,12 +38,12 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
 
   inputSearchUser: string | undefined;
 
-  chatToken?: string;
-
   messagesService?: MessagesService;
 
   constructor(props: ChatDetailsComponentProps) {
     super(props);
+
+    console.log('🤘');
 
     this.setProps({
       onPopupOpen: this.onPopupOpen.bind(this),
@@ -59,40 +59,14 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
     prevProps: ChatDetailsComponentProps,
     nextProps: ChatDetailsComponentProps,
   ) {
-    console.log('🍒', this.chatToken, nextProps.activeChat?.token);
+    console.log('🍒', nextProps.activeChat);
 
     if (prevProps.activeChat?.id !== nextProps.activeChat?.id && nextProps.activeChat?.id) {
       // Load chat users
       this.props.store.dispatch(ChatsService.getUsersChats, {
         id: this.props.activeChat?.id,
       });
-
-      this.getToken();
     }
-
-    if (this.chatToken !== nextProps.activeChat?.token) {
-      this.chatToken = nextProps.activeChat?.token;
-
-      console.log('🍒');
-
-      if (this.chatToken) {
-        this.messagesService = new MessagesService({
-          userId: this.props.user!.id,
-          chatId: this.props.activeChat!.id,
-          token: this.chatToken,
-        });
-      }
-    }
-  }
-
-  getToken(): void {
-    if (!this.props.activeChat?.id) {
-      return;
-    }
-
-    this.props.store.dispatch(ChatsService.token, {
-      id: this.props.activeChat.id,
-    });
   }
 
   onPopupOpen(): void {
@@ -131,7 +105,7 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
   }
 
   protected override render(): string {
-    if (!this.props.activeChat) {
+    if (!this.props.activeChat?.id) {
       // language=hbs
       return `
           <div class="chat-details">

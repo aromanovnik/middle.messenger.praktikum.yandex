@@ -10,6 +10,8 @@ export type ChatBoxComponentProps = ChatsHocProps & StoreHocProps & RouterHocPro
 export class ChatBoxComponent extends Block<ChatBoxComponentProps> {
   static override componentName = 'ChatBoxComponent';
 
+  chatId: number | null = null;
+
   onChangeActiveChat = (prevState: AppState, nextState: AppState): void => {
     if (!nextState.chats) {
       return;
@@ -19,11 +21,20 @@ export class ChatBoxComponent extends Block<ChatBoxComponentProps> {
     if (this.props?.router.getParams()['id-chat']) {
       chatId = parseInt(this.props.router.getParams()['id-chat'], 10);
     }
+
+    if (this.chatId === chatId) {
+      return;
+    }
+    this.chatId = chatId;
+
     const activeChat = nextState.chats?.find((el) => el.id === chatId);
+    if (chatId && !activeChat) {
+      this.props.router.go(this.props.links!.NotFound);
+    }
 
     if (activeChat?.id !== nextState.activeChat?.id) {
-      this.props.store.dispatch({
-        activeChat,
+      this.props.store.dispatch(ChatsService.selectChat, {
+        id: chatId,
       });
     }
   };
