@@ -38,8 +38,6 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
 
   inputSearchUser: string | undefined;
 
-  messagesService?: MessagesService;
-
   constructor(props: ChatDetailsComponentProps) {
     super(props);
 
@@ -59,12 +57,17 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
     prevProps: ChatDetailsComponentProps,
     nextProps: ChatDetailsComponentProps,
   ) {
-    console.log('🍒', nextProps.activeChat);
-
     if (prevProps.activeChat?.id !== nextProps.activeChat?.id && nextProps.activeChat?.id) {
       // Load chat users
       this.props.store.dispatch(ChatsService.getUsersChats, {
         id: this.props.activeChat?.id,
+      });
+
+      // Load messages
+      this.props.store.dispatch(MessagesService.connect, {
+        userId: this.props.user!.id,
+        chatId: this.props.activeChat!.id,
+        token: this.props.activeChat!.token,
       });
     }
   }

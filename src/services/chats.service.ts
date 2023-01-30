@@ -198,10 +198,12 @@ export class ChatsService {
       return;
     }
 
+    chat.token = response.token;
+
     dispatch({
       isLoading: false,
       chatsError: null,
-      activeChat: chat.addToken(response.token),
+      activeChat: chat,
     });
   }
 

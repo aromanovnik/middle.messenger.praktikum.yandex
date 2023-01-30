@@ -21,7 +21,6 @@ export class ErrorComponent extends Block<ErrorComponentProps> {
   }
 
   override render(): string {
-    console.log('Props -> ', this.props);
     // language=hbs
     return `
         <div class='error'>

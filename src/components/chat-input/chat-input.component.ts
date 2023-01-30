@@ -1,5 +1,5 @@
 import { Block } from 'core';
-import { messagesService } from 'services';
+import { MessagesService } from 'services';
 import { validateForm, ValidateRuleType } from 'helpers';
 
 import './chat-input.component.css';
@@ -16,8 +16,6 @@ export type ChatInputComponentProps = {
 
 export class ChatInputComponent extends Block<ChatInputComponentProps> {
   static override componentName = 'ChatInputComponent';
-
-  messagesService = messagesService;
 
   formValue = {
     message: '',
@@ -57,7 +55,7 @@ export class ChatInputComponent extends Block<ChatInputComponentProps> {
       return;
     }
 
-    this.messagesService.sendMessage(this.formValue.message);
+    MessagesService.sendMessage({ content: this.formValue.message });
   }
 
   onBlur(): void {

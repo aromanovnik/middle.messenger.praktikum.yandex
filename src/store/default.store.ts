@@ -14,6 +14,9 @@ export const defaultStore: AppState = {
   chatUsers: null,
   searchUsers: null,
 
+  // Messages
+  messages: {},
+
   // Errors
   loginFormError: null,
   registrationFormError: null,
@@ -22,4 +25,5 @@ export const defaultStore: AppState = {
   avatarFormError: null,
   searchUsersFormError: null,
   chatsError: null,
+  messagesError: null,
 };

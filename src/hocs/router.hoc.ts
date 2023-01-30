@@ -6,8 +6,6 @@ export type RouterHocProps = {
   links: typeof ScreensPath;
 };
 
-console.log('RouterHocProps', ScreensPath);
-
 export function routerHoc<P extends RouterHocProps>(WrappedBlock: BlockClass<P>) {
   const links: RouterHocProps['links'] = ScreensPath;
 
