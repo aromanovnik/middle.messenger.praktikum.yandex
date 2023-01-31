@@ -150,13 +150,13 @@ export interface ChatMessage {
    * @type {number}
    * @memberof ChatMessage
    */
-  userId: number;
+  user_id: number;
   /**
    * Chat id
    * @type {number}
    * @memberof ChatMessage
    */
-  chatId: number;
+  chat_id?: number;
   /**
    * Message sent time
    * @type {Date}
@@ -194,8 +194,12 @@ export namespace ChatMessage {
    * @enum {string}
    */
   export enum TypeEnum {
-    Message = <any>'message',
-    File = <any>'file',
+    Ping = 'ping',
+    Pong = 'pong',
+    UserConnected = 'user connected',
+    GetOld = 'get old',
+    Message = 'message',
+    File = 'file',
   }
 }
 

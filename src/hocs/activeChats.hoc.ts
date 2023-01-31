@@ -1,6 +1,7 @@
 import { BaseActionsStore, BlockClass } from 'core';
 import store, { AppState } from 'store';
 import { ChatModel } from 'models';
+import { isEqual } from '../helpers';
 
 export type ActiveChatHocProps = {
   activeChat: ChatModel | null;
@@ -22,10 +23,10 @@ export function activeChatHoc<P extends ActiveChatHocProps>(WrappedBlock: BlockC
       const chatsProps = {
         activeChat: nextState.activeChat,
       };
-      if (JSON.stringify(prevState.activeChat) !== JSON.stringify(nextState.activeChat)) {
-        // @ts-expect-error this is not typed
-        this.setProps({ ...this.props, ...chatsProps });
-      }
+      // if (!isEqual(prevState.activeChat ?? {}, nextState.activeChat ?? {})) {
+      // @ts-expect-error this is not typed
+      this.setProps({ ...this.props, ...chatsProps });
+      // }
     };
 
     componentDidMount(props: P) {

@@ -1,5 +1,5 @@
 import { Dispatch } from 'core';
-import { AppState } from 'store';
+import store, { AppState } from 'store';
 import {
   ChatDeleteRequest,
   ChatsApi,
@@ -30,6 +30,8 @@ export class ChatsService {
   ): Promise<void> {
     dispatch({ isLoading: true });
 
+    console.log('!!!!');
+
     let response;
     try {
       response = await ChatsApi.getChats(action);
@@ -43,10 +45,34 @@ export class ChatsService {
       return;
     }
 
+    const chatsArray = store.getState().chats
+      ? response.filter((chat) => {
+          return !state.chats!.some((_chat) => _chat.id === chat.id);
+        })
+      : response;
+
+    const chats: ChatModel[] = [];
+    for (let i = 0; i < chatsArray.length; i++) {
+      try {
+        // eslint-disable-next-line no-await-in-loop
+        const token = (await ChatsService.getToken({ id: chatsArray[i].id })) as string;
+
+        chats.push(
+          new ChatModel({
+            ...chatsArray[i],
+            userId: state.user?.id ?? 0,
+            token,
+          }),
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
     dispatch({
       isLoading: false,
       chatsError: null,
-      chats: response.map<ChatModel>((el) => new ChatModel(el)),
+      chats: [...(state.chats ?? []), ...chats],
     });
   }
 
@@ -127,39 +153,18 @@ export class ChatsService {
     );
   }
 
-  static async token(
-    dispatch: Dispatch<AppState>,
-    state: AppState,
-    action: TokenPayload,
-  ): Promise<void> {
-    dispatch({ isLoading: true });
-
+  static async getToken(data: TokenPayload): Promise<string | Error> {
     let response;
     try {
-      response = await ChatsApi.token(action);
+      response = await ChatsApi.token(data);
     } catch (error) {
-      dispatch({ isLoading: false, chatsError: error as string });
-      return;
+      throw new Error(error as string);
     }
 
     if (apiHasError(response)) {
-      dispatch({ isLoading: false, chatsError: response.reason });
-      return;
+      throw new Error(response.reason);
     }
-
-    if (!state.activeChat) {
-      dispatch({
-        isLoading: false,
-        chatsError: null,
-      });
-      return;
-    }
-
-    dispatch({
-      isLoading: false,
-      chatsError: null,
-      activeChat: state.activeChat.addToken(response.token),
-    });
+    return response.token;
   }
 
   static async selectChat(
@@ -170,9 +175,6 @@ export class ChatsService {
     const chat = state.chats?.find((ch) => ch.id === action.id);
 
     if (!chat) {
-      // dispatch({
-      //   chatsError: 'Chat not found',
-      // });
       return;
     }
 
@@ -184,21 +186,21 @@ export class ChatsService {
       return;
     }
 
-    dispatch({ isLoading: true });
-    let response;
-    try {
-      response = await ChatsApi.token(action);
-    } catch (error) {
-      dispatch({ isLoading: false, chatsError: error as string });
-      return;
-    }
-
-    if (apiHasError(response)) {
-      dispatch({ isLoading: false, chatsError: response.reason });
-      return;
-    }
-
-    chat.token = response.token;
+    // dispatch({ isLoading: true });
+    // let response;
+    // try {
+    //   response = await ChatsApi.token(action);
+    // } catch (error) {
+    //   dispatch({ isLoading: false, chatsError: error as string });
+    //   return;
+    // }
+    //
+    // if (apiHasError(response)) {
+    //   dispatch({ isLoading: false, chatsError: response.reason });
+    //   return;
+    // }
+    //
+    // chat.token = response.token;
 
     dispatch({
       isLoading: false,

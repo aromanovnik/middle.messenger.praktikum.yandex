@@ -1,5 +1,7 @@
 import { ChatsResponse } from 'api';
+import { MessagesService } from 'services';
 import { UserModel } from './user.model';
+import { MessageModel } from './message.model';
 
 export class ChatModel {
   id: number;
@@ -16,9 +18,15 @@ export class ChatModel {
     content?: string;
   };
 
-  token?: string;
+  token: string;
 
-  constructor(chat: ChatsResponse) {
+  messages: MessageModel[] = [];
+
+  ws: MessagesService;
+
+  userId: number;
+
+  constructor(chat: ChatsResponse & { userId: number; token: string }) {
     this.id = chat.id ?? 0;
     this.title = chat.title ?? '';
     this.avatar = chat.avatar ?? '';
@@ -28,10 +36,19 @@ export class ChatModel {
       time: chat?.last_message?.time,
       content: chat?.last_message?.content,
     };
+
+    this.userId = chat.userId;
+    this.token = chat.token;
+    this.ws = new MessagesService(this);
+
+    this.ws.connect().then();
   }
 
-  addToken(token: string): ChatModel {
-    this.token = token;
-    return this;
+  addMessage(message: MessageModel, beginning?: boolean): void {
+    if (beginning) {
+      this.messages.unshift(message);
+    } else {
+      this.messages.push(message);
+    }
   }
 }

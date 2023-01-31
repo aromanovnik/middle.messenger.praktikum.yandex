@@ -129,7 +129,8 @@ export default class Block<P = any> {
   // @ts-ignore
   componentDidUpdate(oldProperties: P, newProperties: P) {
     // return JSON.stringify(oldProperties) !== JSON.stringify(newProperties);
-    return !isEqual(oldProperties, newProperties);
+    // return !isEqual(oldProperties, newProperties);
+    return true;
   }
 
   _propertiesWillUpdate(oldProperties: P, newProperties: P) {

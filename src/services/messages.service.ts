@@ -1,102 +1,120 @@
-import { Dispatch } from 'core';
-import { AppState } from 'store';
-import { ChatsApi } from 'api';
-import { apiHasError } from '../helpers';
-
-export type ConnectChatPayload = {
-  userId: number;
-  chatId: number;
-  token: string;
-};
-
-enum MessageType {
-  Ping = 'ping',
-  Pong = 'pong',
-  UserConnected = 'user connected',
-  GetOld = 'get old',
-  Message = 'message',
-  File = 'file',
-}
+import { ChatMessage, ChatsApi } from 'api';
+import { apiHasError, apiHasMessage } from 'helpers';
+import { ChatModel, MessageModel } from 'models';
+import store from 'store';
 
 export type SendMessagePayload = {
   content: string;
-  type?: MessageType;
+  type?: ChatMessage.TypeEnum;
 };
 export type RequestGetCountNewMessagesPayload = { id: number };
 
 export class MessagesService {
-  static path = `${process.env['WS_ENDPOINT']}`;
+  path = `${process.env['WS_ENDPOINT']}`;
 
-  static socket?: WebSocket;
+  socket?: WebSocket;
 
-  static userId: number;
+  isOpen = false;
 
-  static chatId: number;
+  isError = false;
 
-  static token: string;
+  intervalId?: number;
 
-  static dispatch: Dispatch<AppState>;
+  chat: ChatModel;
 
-  static state: AppState;
-
-  static intervalId?: number;
-
-  static connect(dispatch: Dispatch<AppState>, state: AppState, action: ConnectChatPayload): void {
-    MessagesService.disconnect();
-
-    MessagesService.userId = action.userId;
-    MessagesService.chatId = action.chatId;
-    MessagesService.token = action.token;
-    MessagesService.dispatch = dispatch;
-    MessagesService.state = state;
-
-    MessagesService.socket = new WebSocket(
-      `${MessagesService.path}/${MessagesService.userId}/${MessagesService.chatId}/${MessagesService.token}`,
-    );
-
-    MessagesService.listen();
-    MessagesService.ping();
+  constructor(chat: ChatModel) {
+    this.chat = chat;
   }
 
-  static disconnect(): void {
-    MessagesService.socket?.close();
-    MessagesService.socket = undefined;
+  async connect(): Promise<void> {
+    this.disconnect();
 
-    if (MessagesService.intervalId) {
-      clearInterval(MessagesService.intervalId);
+    console.log('🥓', this.chat);
+
+    return new Promise((resolve) => {
+      this.socket = new WebSocket(
+        `${this.path}/${this.chat.userId}/${this.chat.id}/${this.chat.token}`,
+      );
+      this.listen();
+
+      // Open
+      this.socket?.addEventListener('open', () => {
+        this.isOpen = true;
+        this.isError = false;
+
+        console.log('WS OPEN!', this.isOpen);
+
+        resolve();
+      });
+
+      this.ping();
+    });
+  }
+
+  disconnect(): void {
+    console.log(' - disconnect - ');
+    this.socket?.close();
+    this.socket = undefined;
+
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
     }
   }
 
-  static listen(): void {
+  listen(): void {
     // Close
-    MessagesService.socket?.addEventListener('close', (event) => {
+    this.socket?.addEventListener('close', (event) => {
+      console.log('WS CLOSE !', this.isOpen);
+      this.isOpen = false;
       if (event.wasClean) {
         console.log('Соединение закрыто чисто');
       } else {
         console.log('Обрыв соединения, пробуем заново');
-        MessagesService.connect(MessagesService.dispatch, MessagesService.state, {
-          userId: MessagesService.userId,
-          chatId: MessagesService.chatId,
-          token: MessagesService.token,
-        });
+        this.connect().then();
       }
     });
 
     // Error
-    MessagesService.socket?.addEventListener('error', (event) => {
+    this.socket?.addEventListener('error', (event) => {
       console.log('Ошибка', event);
+      this.isError = true;
     });
 
     // Get messages
-    MessagesService.socket?.addEventListener('message', MessagesService.listener);
+    this.socket?.addEventListener('message', this.listener.bind(this));
   }
 
-  static listener(event): void {
+  listener(event: { data: any }): void {
     console.log('Получены данные', event.data);
+    let data;
+    try {
+      data = JSON.parse(event.data);
+    } catch (error) {
+      console.error(error);
+      return;
+    }
+
+    if (apiHasMessage(data)) {
+      this.chat.addMessage(new MessageModel(data));
+      // Тупо для обновления
+      store.dispatch({});
+    }
   }
 
-  static sendMessage({ content, type = MessageType.Message }: SendMessagePayload): void {
-    MessagesService.socket?.send(
+  async sendMessage({
+    content,
+    type = ChatMessage.TypeEnum.Message,
+  }: SendMessagePayload): Promise<void> {
+    if (!this.isOpen && !this.isError) {
+      await this.connect();
+    }
+
+    console.log('WS Send -> ', {
+      content,
+      type,
+    });
+
+    this.socket?.send(
       JSON.stringify({
         content,
         type,
@@ -104,29 +122,23 @@ export class MessagesService {
     );
   }
 
-  static ping(): void {
-    MessagesService.intervalId = window.setInterval(() => {
-      MessagesService.sendMessage({ content: '', type: MessageType.Ping });
-    }, 5000);
+  ping(): void {
+    this.intervalId = window.setInterval(() => {
+      this.sendMessage({ content: '', type: ChatMessage.TypeEnum.Ping }).then();
+    }, 60000);
   }
 
-  static async getNewMessages(data: RequestGetCountNewMessagesPayload): Promise<number> {
-    MessagesService.dispatch({ isLoading: true, messagesError: null });
-
+  async getNewMessages(data: RequestGetCountNewMessagesPayload): Promise<number> {
     let response;
     try {
       response = await ChatsApi.newMessagesCount(data);
     } catch (error) {
-      MessagesService.dispatch({ isLoading: false, messagesError: error as string });
       return 0;
     }
 
     if (apiHasError(response)) {
-      MessagesService.dispatch({ isLoading: false, messagesError: response.reason });
       return 0;
     }
-
-    MessagesService.dispatch({ isLoading: false });
 
     return response.unreadCount;
   }

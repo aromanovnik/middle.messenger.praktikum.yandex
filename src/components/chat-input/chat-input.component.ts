@@ -1,10 +1,10 @@
 import { Block } from 'core';
-import { MessagesService } from 'services';
 import { validateForm, ValidateRuleType } from 'helpers';
 
 import './chat-input.component.css';
+import { activeChatHoc, ActiveChatHocProps } from 'hocs';
 
-export type ChatInputComponentProps = {
+export type ChatInputComponentProps = ActiveChatHocProps & {
   error?: string;
   values: {
     message: string;
@@ -21,8 +21,8 @@ export class ChatInputComponent extends Block<ChatInputComponentProps> {
     message: '',
   };
 
-  constructor() {
-    super();
+  constructor(props: ChatInputComponentProps) {
+    super(props);
 
     this.setProps({
       error: '',
@@ -41,9 +41,9 @@ export class ChatInputComponent extends Block<ChatInputComponentProps> {
       },
     ]);
 
-    this.refs['errorRef']?.setProps({
-      error: message,
-    });
+    // this.refs['errorRef']?.setProps({
+    //   error: message,
+    // });
 
     return message;
   }
@@ -54,8 +54,15 @@ export class ChatInputComponent extends Block<ChatInputComponentProps> {
     if (this.validate()) {
       return;
     }
+    this.props.activeChat?.ws.sendMessage({ content: this.formValue.message });
 
-    MessagesService.sendMessage({ content: this.formValue.message });
+    this.formValue = {
+      message: '',
+    };
+    this.setProps({
+      error: '',
+      values: this.formValue,
+    });
   }
 
   onBlur(): void {
@@ -93,8 +100,10 @@ export class ChatInputComponent extends Block<ChatInputComponentProps> {
                                    onClick=onSubmit}}}
             </form>
 
-            {{{InputErrorComponent ref='errorRef' error=error}}}
+            <!--{{{InputErrorComponent ref='errorRef' error=error}}}-->
         </div>
     `;
   }
 }
+
+export default activeChatHoc(ChatInputComponent);

@@ -1,13 +1,9 @@
 import { Block } from 'core';
 
 import './messages.component.css';
-import { activeChatHoc, ActiveChatHocProps, storeHoc, StoreHocProps } from 'hocs';
-import { MessageModel } from 'models';
+import { activeChatHoc, ActiveChatHocProps } from 'hocs';
 
-export type MessagesComponentProps = ActiveChatHocProps &
-  StoreHocProps & {
-    messages: MessageModel[];
-  };
+export type MessagesComponentProps = ActiveChatHocProps & {};
 
 export class MessagesComponent extends Block<MessagesComponentProps> {
   static override componentName = 'MessagesComponent';
@@ -17,10 +13,11 @@ export class MessagesComponent extends Block<MessagesComponentProps> {
   }
 
   protected override render(): string {
+    console.log('!!! -> ', this.props);
     // language=hbs
     return `
         <div class="messages">
-            {{#each messages}}
+            {{#each activeChat.messages}}
                 {{{ChatMessageComponent message=this}}}
             {{/each}}
         </div>
@@ -28,8 +25,4 @@ export class MessagesComponent extends Block<MessagesComponentProps> {
   }
 }
 
-export default activeChatHoc(
-  storeHoc(MessagesComponent, (state) => ({
-    activeChat: state.activeChat,
-  })),
-);
+export default activeChatHoc(MessagesComponent);

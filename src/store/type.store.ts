@@ -1,5 +1,5 @@
 import { Screens } from 'router/router';
-import { ChatModel, MessageModel, UserModel } from 'models';
+import { ChatModel, UserModel } from 'models';
 
 export type AppState = {
   appIsInited: boolean;
@@ -14,9 +14,6 @@ export type AppState = {
   activeChat: ChatModel | null;
   chatUsers: UserModel[] | null;
   searchUsers: UserModel[] | null;
-
-  // Messages
-  messages: Record<ChatModel['id'], MessageModel[]>;
 
   // Errors
   loginFormError: string | null;

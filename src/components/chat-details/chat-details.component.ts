@@ -12,7 +12,7 @@ import {
   UserHocProps,
 } from 'hocs';
 import { MessageModel } from 'models';
-import { ChatsService, MessagesService } from 'services';
+import { ChatsService } from 'services';
 import { ModalAddUserComponent } from '../modal-add-user/modal-add-user.component';
 import { ModalChatUsersComponent } from '../modal-chat-users/modal-chat-users.component';
 
@@ -41,8 +41,6 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
   constructor(props: ChatDetailsComponentProps) {
     super(props);
 
-    console.log('🤘');
-
     this.setProps({
       onPopupOpen: this.onPopupOpen.bind(this),
       onPopupClose: this.onPopupClose.bind(this),
@@ -51,25 +49,6 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
       onModalAddUserOpen: this.onModalAddUserOpen.bind(this),
       onModalChatUsersOpen: this.onModalChatUsersOpen.bind(this),
     });
-  }
-
-  override propertiesWillUpdate(
-    prevProps: ChatDetailsComponentProps,
-    nextProps: ChatDetailsComponentProps,
-  ) {
-    if (prevProps.activeChat?.id !== nextProps.activeChat?.id && nextProps.activeChat?.id) {
-      // Load chat users
-      this.props.store.dispatch(ChatsService.getUsersChats, {
-        id: this.props.activeChat?.id,
-      });
-
-      // Load messages
-      this.props.store.dispatch(MessagesService.connect, {
-        userId: this.props.user!.id,
-        chatId: this.props.activeChat!.id,
-        token: this.props.activeChat!.token,
-      });
-    }
   }
 
   onPopupOpen(): void {
@@ -110,6 +89,8 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
   }
 
   protected override render(): string {
+    console.log('🍑 ChatDetailsComponentProps');
+
     if (!this.props.activeChat?.id) {
       // language=hbs
       return `
@@ -158,10 +139,11 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
 
                 </div>
 
-                {{{MessagesComponent}}}
+                {{{MessagesComponent  ref='messages'
+                                      chatId=activeChat.id}}}
 
                 <div class="chat-details__footer">
-                    {{{ChatInputComponent}}}
+                    {{{ChatInputComponent ref='chatInput'}}}
                 </div>
             </div>
 

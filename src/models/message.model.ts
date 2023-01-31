@@ -5,7 +5,7 @@ export class MessageModel {
 
   userId: number;
 
-  chatId: number;
+  chatId?: number;
 
   time: Date;
 
@@ -17,8 +17,8 @@ export class MessageModel {
 
   constructor(message: ChatMessage) {
     this.id = message.id;
-    this.userId = message.userId;
-    this.chatId = message.chatId;
+    this.userId = message.user_id;
+    this.chatId = message.chat_id;
     this.time = message.time;
     this.type = message.type;
     this.content = message.content;

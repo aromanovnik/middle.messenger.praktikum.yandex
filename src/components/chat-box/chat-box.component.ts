@@ -3,6 +3,7 @@ import { Block } from 'core';
 import './chat-box.component.css';
 import { chatsHoc, ChatsHocProps, routerHoc, RouterHocProps, storeHoc, StoreHocProps } from 'hocs';
 import { ChatsService } from 'services';
+import { ChatModel } from 'models';
 
 export type ChatBoxComponentProps = ChatsHocProps & StoreHocProps & RouterHocProps & {};
 
@@ -64,10 +65,22 @@ export class ChatBoxComponent extends Block<ChatBoxComponentProps> {
         id: chatId,
       });
     }
+
+    if (activeChat) {
+      this.loadUser(activeChat);
+    }
+  }
+
+  loadUser(chat: ChatModel): void {
+    // Load chat users
+    this.props.store.dispatch(ChatsService.getUsersChats, {
+      id: chat.id,
+    });
   }
 
   override render(): string {
-    console.log('🍊 RENDER!');
+    console.log('🍋 ChatBoxComponent');
+
     // language=hbs
     return `
         <div class='chat-box'>

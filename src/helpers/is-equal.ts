@@ -25,6 +25,10 @@ function isFunction(value: unknown): boolean {
 }
 
 export function isEqual(lhs: PlainObject, rhs: PlainObject): boolean {
+  if (typeof lhs !== typeof rhs) {
+    return false;
+  }
+
   if (Object.keys(lhs).length !== Object.keys(rhs).length) {
     return false;
   }
