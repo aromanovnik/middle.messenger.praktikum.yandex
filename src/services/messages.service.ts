@@ -2,6 +2,7 @@ import { ChatMessage, ChatsApi } from 'api';
 import { apiHasError, apiHasMessage } from 'helpers';
 import { ChatModel, MessageModel } from 'models';
 import store from 'store';
+import { MessagesModel } from '../models/messages.model';
 
 export type SendMessagePayload = {
   content: string;
@@ -20,20 +21,20 @@ export class MessagesService {
 
   intervalId?: number;
 
-  chat: ChatModel;
+  messagesModel: MessagesModel;
 
-  constructor(chat: ChatModel) {
-    this.chat = chat;
+  constructor(messages: MessagesModel) {
+    this.messagesModel = messages;
   }
 
   async connect(): Promise<void> {
     this.disconnect();
 
-    console.log('🥓', this.chat);
+    console.log('🥓', this.messagesModel);
 
     return new Promise((resolve) => {
       this.socket = new WebSocket(
-        `${this.path}/${this.chat.userId}/${this.chat.id}/${this.chat.token}`,
+        `${this.path}/${this.messagesModel.userId}/${this.messagesModel.chatId}/${this.messagesModel.token}`,
       );
       this.listen();
 
@@ -95,7 +96,7 @@ export class MessagesService {
     }
 
     if (apiHasMessage(data)) {
-      this.chat.addMessage(new MessageModel(data));
+      this.messagesModel.addMessage(new MessageModel(data));
       // Тупо для обновления
       store.dispatch({});
     }
@@ -125,7 +126,7 @@ export class MessagesService {
   ping(): void {
     this.intervalId = window.setInterval(() => {
       this.sendMessage({ content: '', type: ChatMessage.TypeEnum.Ping }).then();
-    }, 60000);
+    }, 30000);
   }
 
   async getNewMessages(data: RequestGetCountNewMessagesPayload): Promise<number> {

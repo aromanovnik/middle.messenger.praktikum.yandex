@@ -13,7 +13,7 @@ import {
   AddUserRequest,
 } from 'api';
 import { apiHasError } from 'helpers';
-import { ChatModel, UserModel } from 'models';
+import { ChatModel, MessagesModel, UserModel } from 'models';
 
 export type GetChatsPayload = GetChatRequest;
 export type CreateChatPayload = CreateChatRequest;
@@ -30,8 +30,6 @@ export class ChatsService {
   ): Promise<void> {
     dispatch({ isLoading: true });
 
-    console.log('!!!!');
-
     let response;
     try {
       response = await ChatsApi.getChats(action);
@@ -45,35 +43,41 @@ export class ChatsService {
       return;
     }
 
-    const chatsArray = store.getState().chats
-      ? response.filter((chat) => {
-          return !state.chats!.some((_chat) => _chat.id === chat.id);
-        })
-      : response;
-
-    const chats: ChatModel[] = [];
-    for (let i = 0; i < chatsArray.length; i++) {
-      try {
-        // eslint-disable-next-line no-await-in-loop
-        const token = (await ChatsService.getToken({ id: chatsArray[i].id })) as string;
-
-        chats.push(
-          new ChatModel({
-            ...chatsArray[i],
-            userId: state.user?.id ?? 0,
-            token,
-          }),
-        );
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
     dispatch({
       isLoading: false,
       chatsError: null,
-      chats: [...(state.chats ?? []), ...chats],
+      chats: response.map<ChatModel>((el) => new ChatModel(el)),
     });
+
+    // const chatsArray = store.getState().chats
+    //   ? response.filter((chat) => {
+    //       return !state.chats!.some((_chat) => _chat.id === chat.id);
+    //     })
+    //   : response;
+    //
+    // const chats: ChatModel[] = [];
+    // for (let i = 0; i < chatsArray.length; i++) {
+    //   try {
+    //     // eslint-disable-next-line no-await-in-loop
+    //     const token = (await ChatsService.getToken({ id: chatsArray[i].id })) as string;
+    //
+    //     chats.push(
+    //       new ChatModel({
+    //         ...chatsArray[i],
+    //         userId: state.user?.id ?? 0,
+    //         token,
+    //       }),
+    //     );
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // }
+    //
+    // dispatch({
+    //   isLoading: false,
+    //   chatsError: null,
+    //   chats: [...(state.chats ?? []), ...chats],
+    // });
   }
 
   static async getUsersChats(
@@ -99,7 +103,10 @@ export class ChatsService {
     dispatch({
       isLoading: false,
       chatsError: null,
-      chatUsers: response.map<UserModel>((el) => new UserModel(el)),
+      chatUsers: {
+        ...state.chatUsers,
+        [action.id]: response.map<UserModel>((el) => new UserModel(el)),
+      },
     });
   }
 
@@ -178,35 +185,36 @@ export class ChatsService {
       return;
     }
 
-    if (chat.token) {
+    if (state.messages[action.id]) {
       dispatch({
+        isLoading: false,
         chatsError: null,
         activeChat: chat,
       });
       return;
     }
 
-    // dispatch({ isLoading: true });
-    // let response;
-    // try {
-    //   response = await ChatsApi.token(action);
-    // } catch (error) {
-    //   dispatch({ isLoading: false, chatsError: error as string });
-    //   return;
-    // }
-    //
-    // if (apiHasError(response)) {
-    //   dispatch({ isLoading: false, chatsError: response.reason });
-    //   return;
-    // }
-    //
-    // chat.token = response.token;
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      const token = (await ChatsService.getToken({ id: action.id })) as string;
+      const messages = new MessagesModel({
+        chatId: action.id,
+        userId: state.user?.id ?? 0,
+        token,
+      });
 
-    dispatch({
-      isLoading: false,
-      chatsError: null,
-      activeChat: chat,
-    });
+      dispatch({
+        isLoading: false,
+        chatsError: null,
+        activeChat: chat,
+        messages: {
+          ...state.messages,
+          [action.id]: messages,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   static async addUser(

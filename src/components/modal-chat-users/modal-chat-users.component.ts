@@ -26,7 +26,7 @@ export class ModalChatUsersComponent extends Block<ModalChatUsersComponentProps>
       onModalChatUsersOpen: this.onModalChatUsersOpen.bind(this),
       onModalChatUsersClose: this.onModalChatUsersClose.bind(this),
 
-      chatUsers: () => this.props.store.getState().chatUsers,
+      chatUsers: () => this.props.store.getState().chatUsers[this.props.activeChat!.id] ?? [],
     });
   }
 

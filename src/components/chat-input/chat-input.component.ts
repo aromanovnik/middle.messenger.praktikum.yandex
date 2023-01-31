@@ -2,17 +2,18 @@ import { Block } from 'core';
 import { validateForm, ValidateRuleType } from 'helpers';
 
 import './chat-input.component.css';
-import { activeChatHoc, ActiveChatHocProps } from 'hocs';
+import { activeChatHoc, ActiveChatHocProps, storeHoc, StoreHocProps } from 'hocs';
 
-export type ChatInputComponentProps = ActiveChatHocProps & {
-  error?: string;
-  values: {
-    message: string;
+export type ChatInputComponentProps = ActiveChatHocProps &
+  StoreHocProps & {
+    error?: string;
+    values: {
+      message: string;
+    };
+    onSubmit?: (event: MouseEvent) => void;
+    onBlur?: () => void;
+    onInput?: (event: InputEvent) => void;
   };
-  onSubmit?: (event: MouseEvent) => void;
-  onBlur?: () => void;
-  onInput?: (event: InputEvent) => void;
-};
 
 export class ChatInputComponent extends Block<ChatInputComponentProps> {
   static override componentName = 'ChatInputComponent';
@@ -54,7 +55,13 @@ export class ChatInputComponent extends Block<ChatInputComponentProps> {
     if (this.validate()) {
       return;
     }
-    this.props.activeChat?.ws.sendMessage({ content: this.formValue.message });
+    if (!this.props.activeChat?.id) {
+      return;
+    }
+
+    this.props.store
+      .getState()
+      .messages[this.props.activeChat?.id]?.ws.sendMessage({ content: this.formValue.message });
 
     this.formValue = {
       message: '',
@@ -106,4 +113,4 @@ export class ChatInputComponent extends Block<ChatInputComponentProps> {
   }
 }
 
-export default activeChatHoc(ChatInputComponent);
+export default storeHoc(activeChatHoc(ChatInputComponent));
