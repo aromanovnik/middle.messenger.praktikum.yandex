@@ -48,36 +48,6 @@ export class ChatsService {
       chatsError: null,
       chats: response.map<ChatModel>((el) => new ChatModel(el)),
     });
-
-    // const chatsArray = store.getState().chats
-    //   ? response.filter((chat) => {
-    //       return !state.chats!.some((_chat) => _chat.id === chat.id);
-    //     })
-    //   : response;
-    //
-    // const chats: ChatModel[] = [];
-    // for (let i = 0; i < chatsArray.length; i++) {
-    //   try {
-    //     // eslint-disable-next-line no-await-in-loop
-    //     const token = (await ChatsService.getToken({ id: chatsArray[i].id })) as string;
-    //
-    //     chats.push(
-    //       new ChatModel({
-    //         ...chatsArray[i],
-    //         userId: state.user?.id ?? 0,
-    //         token,
-    //       }),
-    //     );
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // }
-    //
-    // dispatch({
-    //   isLoading: false,
-    //   chatsError: null,
-    //   chats: [...(state.chats ?? []), ...chats],
-    // });
   }
 
   static async getUsersChats(

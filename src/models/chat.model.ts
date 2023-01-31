@@ -26,7 +26,7 @@ export class ChatModel {
     this.unreadCount = chat.unreadCount ?? 0;
     this.lastMessage = {
       user: chat?.last_message?.user ? new UserModel(chat.last_message.user) : undefined,
-      time: chat?.last_message?.time,
+      time: new Date(chat?.last_message?.time ?? '').toLocaleDateString(),
       content: chat?.last_message?.content,
     };
   }

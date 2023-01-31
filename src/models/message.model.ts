@@ -7,7 +7,7 @@ export class MessageModel {
 
   chatId?: number;
 
-  time: Date;
+  time: string;
 
   type: ChatMessage.TypeEnum;
 
@@ -19,7 +19,7 @@ export class MessageModel {
     this.id = message.id;
     this.userId = message.user_id;
     this.chatId = message.chat_id;
-    this.time = message.time;
+    this.time = new Date(message.time).toLocaleDateString();
     this.type = message.type;
     this.content = message.content;
     this.file = message.file;

@@ -89,8 +89,6 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
   }
 
   protected override render(): string {
-    console.log('🍑 ChatDetailsComponentProps');
-
     if (!this.props.activeChat?.id) {
       // language=hbs
       return `

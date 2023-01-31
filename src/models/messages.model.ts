@@ -26,7 +26,11 @@ export class MessagesModel {
     this.token = props.token;
 
     this.ws = new MessagesService(this);
-    this.ws.connect().then();
+    this.ws.connect().then(() => {
+      setTimeout(() => {
+        this.ws.getOldMessages();
+      }, 100);
+    });
   }
 
   addMessage(message: MessageModel, beginning?: boolean): void {

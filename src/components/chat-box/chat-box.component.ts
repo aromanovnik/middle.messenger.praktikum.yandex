@@ -79,8 +79,6 @@ export class ChatBoxComponent extends Block<ChatBoxComponentProps> {
   }
 
   override render(): string {
-    console.log('🍋 ChatBoxComponent');
-
     // language=hbs
     return `
         <div class='chat-box'>
