@@ -1,1 +1,1 @@
-export * from './login-form.component';
+export { default as LoginFormComponentProps } from './login-form.component';

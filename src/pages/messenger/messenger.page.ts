@@ -1,6 +1,7 @@
 import { Block } from 'core';
+import { routerHoc } from 'hocs';
 
-export class HomePage extends Block {
+export class MessengerPage extends Block {
   constructor() {
     super();
   }
@@ -8,9 +9,11 @@ export class HomePage extends Block {
   protected override render(): string {
     // language=hbs
     return `
-        <main class="home-page page">
+        <main class="messenger-page page">
             {{{ChatBoxComponent}}}
         </main>
     `;
   }
 }
+
+export default routerHoc(MessengerPage);

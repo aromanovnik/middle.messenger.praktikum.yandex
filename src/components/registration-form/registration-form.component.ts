@@ -1,16 +1,20 @@
 import { Block } from 'core';
 import { validateForm, ValidateRuleType } from 'helpers';
-import { authService } from 'services';
-import { SignUpRequest } from 'demo';
+import { AuthService, SignUpPayload } from 'services';
 
 import './registration-form.component.css';
+import { routerHoc, RouterHocProps, storeHoc, StoreHocProps, userHoc, UserHocProps } from 'hocs';
+import { UserModel } from 'models';
 
-export interface RegistrationFormComponentProps {
-  values?: SignUpRequest;
-  onSubmit?: (event: MouseEvent) => void;
-  onInput?: (event: InputEvent) => void;
-  validateRuleType: typeof ValidateRuleType;
-}
+export type RegistrationFormComponentProps = RouterHocProps &
+  UserHocProps &
+  StoreHocProps & {
+    values: SignUpPayload;
+    onSubmit: (event: MouseEvent) => void;
+    onInput: (event: InputEvent) => void;
+    validateRuleType: typeof ValidateRuleType;
+    formError?: () => string | null;
+  };
 
 export class RegistrationFormComponent extends Block<RegistrationFormComponentProps> {
   static override componentName = 'RegistrationFormComponent';
@@ -19,11 +23,11 @@ export class RegistrationFormComponent extends Block<RegistrationFormComponentPr
     return !validateForm([
       {
         type: ValidateRuleType.Name,
-        value: this.formValue.firstName,
+        value: this.formValue.first_name,
       },
       {
         type: ValidateRuleType.Name,
-        value: this.formValue.secondName,
+        value: this.formValue.second_name,
       },
       {
         type: ValidateRuleType.Email,
@@ -44,26 +48,32 @@ export class RegistrationFormComponent extends Block<RegistrationFormComponentPr
     ]);
   }
 
-  authService = authService;
-
-  formValue: SignUpRequest = {
-    firstName: '',
-    secondName: '',
+  formValue: SignUpPayload = {
+    first_name: '',
+    second_name: '',
     email: '',
     login: '',
     password: '',
     phone: '',
   };
 
-  constructor() {
-    super();
+  constructor(props: RegistrationFormComponentProps) {
+    super(props);
 
     this.setProps({
       values: this.formValue,
       onSubmit: this.onSubmit.bind(this),
       onInput: this.onInput.bind(this),
       validateRuleType: ValidateRuleType,
+      formError: () => this.props.store.getState().registrationFormError,
     });
+  }
+
+  override componentDidMount(props: RegistrationFormComponentProps) {
+    super.componentDidMount(props);
+    if (this.props.user instanceof UserModel && this.props.links) {
+      this.props.router.go(this.props.links.Messenger);
+    }
   }
 
   onSubmit(event: MouseEvent): void {
@@ -72,8 +82,7 @@ export class RegistrationFormComponent extends Block<RegistrationFormComponentPr
     if (!this.isValid) {
       return;
     }
-
-    this.authService.auth(this.formValue);
+    this.props.store.dispatch(AuthService.signUp, this.formValue);
   }
 
   onInput(event: InputEvent): void {
@@ -99,9 +108,8 @@ export class RegistrationFormComponent extends Block<RegistrationFormComponentPr
                         id='registrationFirstName'
                         type='text'
                         name='first_name'
-                        dataKey='firstName'
                         placeholder=''
-                        value=values.firstName
+                        value=values.first_name
                         onInput=onInput
                         validate=validateRuleType.Name
                 }}}
@@ -112,9 +120,8 @@ export class RegistrationFormComponent extends Block<RegistrationFormComponentPr
                         id='registrationSecondName'
                         type='text'
                         name='second_name'
-                        dataKey='secondName'
                         placeholder=''
-                        value=values.secondName
+                        value=values.second_name
                         onInput=onInput
                         validate=validateRuleType.Name
                 }}}
@@ -178,12 +185,18 @@ export class RegistrationFormComponent extends Block<RegistrationFormComponentPr
                         validate=validateRuleType.Password
                 }}}
 
+                {{{InputErrorComponent error=formError}}}
+
                 {{{ButtonComponent type='submit'
                                    title='Зарегистрироваться'
                                    onClick=onSubmit}}}
-                <a href='#auth'>Или войти</a>
+
+                {{{LinkComponent title='Или войти'
+                                 to=links.Login}}}
             </form>
         </div>
     `;
   }
 }
+
+export default userHoc(routerHoc(storeHoc(RegistrationFormComponent)));

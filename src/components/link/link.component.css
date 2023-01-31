@@ -1,0 +1,10 @@
+.link {
+  cursor: pointer;
+  background: var(--trasnp);
+  color: var(--blue);
+  padding: 0;
+}
+
+.link:hover {
+  text-decoration: underline;
+}

@@ -1,23 +1,25 @@
 import { Block } from 'core';
-// todo: Only for demo
-import { ChatMessage, userInfo, UserResponse } from 'demo';
 
 import './chat-message.component.css';
+import { MessageModel } from 'models';
+import { userHoc, UserHocProps } from 'hocs';
 
-export interface ChatMessageComponentProps {
-  message: ChatMessage;
+export type ChatMessageComponentProps = UserHocProps & {
+  message: MessageModel;
   isMyMessage: boolean;
-  user: UserResponse;
-}
+};
 
 export class ChatMessageComponent extends Block<ChatMessageComponentProps> {
   static override componentName = 'ChatMessageComponent';
 
-  constructor({ message }: ChatMessageComponentProps) {
+  constructor({ message, ...props }: ChatMessageComponentProps) {
     super({
+      ...props,
       message,
-      user: userInfo,
-      isMyMessage: userInfo.id === message.userId,
+    });
+
+    this.setProps({
+      isMyMessage: this.props.user?.id === message.userId,
     });
   }
 
@@ -37,3 +39,5 @@ export class ChatMessageComponent extends Block<ChatMessageComponentProps> {
     `;
   }
 }
+
+export default userHoc(ChatMessageComponent);

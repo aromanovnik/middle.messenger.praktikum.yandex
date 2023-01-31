@@ -1,1 +1,1 @@
-export * from './user-edit.component';
+export { default as UserEditComponent } from './user-edit.component';

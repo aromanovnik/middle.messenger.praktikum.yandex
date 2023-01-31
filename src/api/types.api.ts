@@ -150,13 +150,13 @@ export interface ChatMessage {
    * @type {number}
    * @memberof ChatMessage
    */
-  userId: number;
+  user_id: number;
   /**
    * Chat id
    * @type {number}
    * @memberof ChatMessage
    */
-  chatId: number;
+  chat_id?: number;
   /**
    * Message sent time
    * @type {Date}
@@ -194,8 +194,12 @@ export namespace ChatMessage {
    * @enum {string}
    */
   export enum TypeEnum {
-    Message = <any>'message',
-    File = <any>'file',
+    Ping = 'ping',
+    Pong = 'pong',
+    UserConnected = 'user connected',
+    GetOld = 'get old',
+    Message = 'message',
+    File = 'file',
   }
 }
 
@@ -216,19 +220,19 @@ export interface ChatUserResponse {
    * @type {string}
    * @memberof ChatUserResponse
    */
-  firstName: string;
+  first_name: string;
   /**
    * Second name
    * @type {string}
    * @memberof ChatUserResponse
    */
-  secondName: string;
+  second_name: string;
   /**
    * Display name
    * @type {string}
    * @memberof ChatUserResponse
    */
-  displayName: string;
+  display_name: string;
   /**
    * User login - unique
    * @type {string}
@@ -291,6 +295,10 @@ export interface ChatsMessagesTokenResponse {
   token: string;
 }
 
+export interface TokenRequest {
+  id: number;
+}
+
 /**
  *
  * @export
@@ -326,7 +334,7 @@ export interface ChatsResponse {
    * @type {ChatsResponseLastMessage}
    * @memberof ChatsResponse
    */
-  lastMessage: ChatsResponseLastMessage;
+  last_message: ChatsResponseLastMessage;
 }
 
 /**
@@ -598,13 +606,13 @@ export interface SignUpRequest {
    * @type {string}
    * @memberof SignUpRequest
    */
-  firstName: string;
+  first_name: string;
   /**
    * Second name
    * @type {string}
    * @memberof SignUpRequest
    */
-  secondName: string;
+  second_name: string;
   /**
    * User login - unique
    * @type {string}
@@ -789,19 +797,19 @@ export interface UserRequest {
    * @type {string}
    * @memberof UserRequest
    */
-  firstName: string;
+  first_name: string;
   /**
    * Second name
    * @type {string}
    * @memberof UserRequest
    */
-  secondName: string;
+  second_name: string;
   /**
    * Display Name
    * @type {string}
    * @memberof UserRequest
    */
-  displayName: string;
+  display_name: string;
   /**
    * User login - unique
    * @type {string}
@@ -839,19 +847,19 @@ export interface UserResponse {
    * @type {string}
    * @memberof UserResponse
    */
-  firstName: string;
+  first_name: string;
   /**
    * Second name
    * @type {string}
    * @memberof UserResponse
    */
-  secondName: string;
+  second_name: string;
   /**
    * Display name
    * @type {string}
    * @memberof UserResponse
    */
-  displayName: string;
+  display_name: string;
   /**
    * User login - unique
    * @type {string}
@@ -889,19 +897,19 @@ export interface UserUpdateRequest {
    * @type {string}
    * @memberof UserUpdateRequest
    */
-  firstName: string;
+  first_name: string;
   /**
    * Second name
    * @type {string}
    * @memberof UserUpdateRequest
    */
-  secondName: string;
+  second_name: string;
   /**
    * Display Name
    * @type {string}
    * @memberof UserUpdateRequest
    */
-  displayName: string;
+  display_name: string;
   /**
    * User login - unique
    * @type {string}
@@ -954,4 +962,10 @@ export interface VideoInfoResponse {
    * @memberof VideoInfoResponse
    */
   size: number;
+}
+
+export interface GetChatRequest {
+  offset?: number;
+  limit?: number;
+  title?: number;
 }

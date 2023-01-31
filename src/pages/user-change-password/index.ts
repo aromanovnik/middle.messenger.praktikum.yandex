@@ -1,1 +1,1 @@
-export * from './user-change-password.page';
+export { default as UserChangePasswordPage } from './user-change-password.page';

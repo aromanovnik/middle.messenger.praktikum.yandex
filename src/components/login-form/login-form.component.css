@@ -31,4 +31,5 @@
 .login-form .login-form__form a {
   display: inline-flex;
   align-self: center;
+  margin: 0;
 }

@@ -1,71 +1,132 @@
-import Block from 'core/block';
-import renderDOM from 'core/render-dom';
+import { isEqual } from '../helpers';
 
-export interface RouterItem {
-  to: string;
-  page: Block;
+type Params = Record<string, string>;
+
+export interface CoreRouter {
+  start(): void;
+
+  use(path: string, callback: () => void): CoreRouter;
+
+  go(path: string): void;
+
+  back(): void;
+
+  forward(): void;
+
+  getParams(): Params;
+
+  wasChangeParams?: () => void;
 }
 
-export interface RouterItemActive extends RouterItem {
-  path?: string;
-  params?: string[];
-}
+export class Router implements CoreRouter {
+  private routes: Record<string, Function> = {};
 
-export default class Router {
-  public pages: RouterItem[] = [];
+  private isStarted = false;
 
-  private _page!: RouterItemActive;
+  private _params: Params = {};
 
-  public set page(item: RouterItem) {
-    const pathArr = this.hash.split('/');
-    this._page = {
-      ...item,
-      path: pathArr.shift(),
-      params: pathArr ?? [],
-    };
-  }
+  private set params(p: Params) {
+    this._params = p;
 
-  public get page(): RouterItemActive {
-    return this._page;
-  }
-
-  public get hash(): string {
-    return window.location.hash;
-  }
-
-  public get path(): string {
-    return this.hash.split('/')[0];
-  }
-
-  private get notFound(): RouterItem {
-    const item: RouterItem | undefined = this.pages.find((el) => el.to === '*');
-    if (!item) {
-      throw new Error('Error: Page "Not found" not found');
+    // ... call was update
+    if (typeof this.wasChangeParams === 'function') {
+      this.wasChangeParams();
     }
-    return item;
   }
 
-  constructor(routers: RouterItem[]) {
-    this.pages = routers;
-    this.navigation();
-
-    window.addEventListener('hashchange', this.navigation.bind(this));
+  private get params(): Params {
+    return this._params;
   }
 
-  public addRouters(routers: RouterItem[]): void {
-    this.pages = [...this.pages, ...routers];
+  wasChangeParams: undefined | (() => void) = (): void => {
+    console.log('wasChangeParams');
+  };
+
+  start() {
+    if (!this.isStarted) {
+      this.isStarted = true;
+
+      // event: PopStateEvent
+      window.onpopstate = () => {
+        this.onRouteChange.call(this);
+      };
+
+      this.onRouteChange();
+    }
   }
 
-  public navigation() {
-    renderDOM(this.getPage(this.path));
+  private comparePath(routeHash: string, pathName: string): boolean {
+    const rHash = routeHash.split('/');
+    const pName = pathName.split('/');
+
+    if (rHash.length !== pName.length) {
+      return false;
+    }
+
+    return rHash.every((piece, index) => {
+      if (piece.startsWith(':')) {
+        return true;
+      }
+
+      return piece === pName[index];
+    });
   }
 
-  public getPage(to: string): RouterItem['page'] {
-    this.page =
-      this.pages.find((el) => {
-        return el.to === to.replace('#', '');
-      }) ?? this.notFound;
+  private getVariablesFromRoutePath(routeHash: string, pathName: string): Params {
+    const params: Params = {};
+    const rHash = routeHash.split('/');
+    const pName = pathName.split('/');
 
-    return this.page.page;
+    rHash.forEach((item, index) => {
+      if (!item.startsWith(':')) {
+        return;
+      }
+
+      const variableName = item.substring(1);
+      params[variableName] = pName[index];
+    });
+
+    return params;
+  }
+
+  private onRouteChange(pathname: string = window.location.pathname) {
+    const found = Object.entries(this.routes).some(([routeHash, callback]) => {
+      if (this.comparePath(routeHash, pathname)) {
+        const params = this.getVariablesFromRoutePath(routeHash, pathname);
+        if (!isEqual(params, this.params)) {
+          this.params = params;
+        }
+
+        callback(this.params);
+        return true;
+      }
+      return false;
+    });
+
+    if (!found && this.routes['*']) {
+      this.routes['*']();
+    }
+  }
+
+  use(hash: string, callback: Function) {
+    this.routes[hash] = callback;
+    return this;
+  }
+
+  go(pathname: string) {
+    window.history.pushState({}, '', pathname);
+    this.onRouteChange(pathname);
+  }
+
+  back() {
+    window.history.back();
+  }
+
+  forward() {
+    window.history.forward();
+  }
+
+  getParams(): Params {
+    return this.params;
   }
 }

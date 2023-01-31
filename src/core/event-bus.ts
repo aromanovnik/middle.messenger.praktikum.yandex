@@ -18,7 +18,6 @@ export default class EventBus<
     if (!this.listeners[event]) {
       throw new Error(`Нет события: ${event}`);
     }
-
     this.listeners[event] = this.listeners[event]!.filter((listener) => listener !== callback);
   }
 
@@ -31,5 +30,9 @@ export default class EventBus<
     for (const listener of this.listeners[event]!) {
       listener(...arguments_);
     }
+  }
+
+  destroy() {
+    this.listeners = {};
   }
 }

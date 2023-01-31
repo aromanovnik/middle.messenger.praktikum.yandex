@@ -1,32 +1,44 @@
 import { Block } from 'core';
-// todo: Only for demo
-import { ChatsResponse, userInfo, UserResponse } from 'demo';
 
 import './chat-item.component.css';
+import { routerHoc, RouterHocProps, storeHoc, StoreHocProps, userHoc, UserHocProps } from 'hocs';
+import { ChatModel } from 'models';
 
-export interface ChatItemComponentProps {
-  chat: ChatsResponse;
-  user: UserResponse;
-  isYou: boolean;
-}
+export type ChatItemComponentProps = UserHocProps &
+  StoreHocProps &
+  RouterHocProps & {
+    chat: ChatModel;
+    isYou: boolean;
+    events: object;
+    activeChatId?: number;
+    isSelected: boolean;
+  };
 
 export class ChatItemComponent extends Block<ChatItemComponentProps> {
   static override componentName = 'ChatItemComponent';
 
-  constructor({ chat }: ChatItemComponentProps) {
-    super({
-      chat,
-      user: userInfo,
-      isYou: userInfo.id === chat.lastMessage.user?.id,
+  constructor(props: ChatItemComponentProps) {
+    super(props);
+
+    this.setProps({
+      isYou: this.props.user?.id === this.props.chat.lastMessage.user?.id,
+      isSelected: props.activeChatId === this.props.chat.id,
+      events: {
+        click: (event: MouseEvent) => {
+          event?.preventDefault();
+          const link = `${this.props.links!.Messenger}/${this.props.chat.id}`;
+          this.props.router.go(link);
+        },
+      },
     });
   }
 
   override render(): string {
     // language=hbs
     return `
-        <a href='#home/{{chat.id}}' class="chat-item">
+        <a href='#' class="chat-item {{#if isSelected}}chat-item_active{{/if}}">
             <div class='chat-item__avatar'>
-                {{{UserAvatarComponent image=chat.lastMessage.user.avatart}}}
+                {{{UserAvatarComponent avatar=chat.avatar}}}
             </div>
 
             <div class='chat-item__content'>
@@ -54,3 +66,11 @@ export class ChatItemComponent extends Block<ChatItemComponentProps> {
     `;
   }
 }
+
+export default routerHoc(
+  userHoc(
+    storeHoc(ChatItemComponent, (state) => ({
+      user: state.user,
+    })),
+  ),
+);

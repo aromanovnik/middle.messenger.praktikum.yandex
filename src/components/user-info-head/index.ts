@@ -1,1 +1,1 @@
-export * from './user-info-head.component';
+export { default as UserInfoHeadComponent } from './user-info-head.component';

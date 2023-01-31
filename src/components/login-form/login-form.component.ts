@@ -1,17 +1,21 @@
 import { Block } from 'core';
-import { SignInRequest } from 'demo';
-import { authService } from 'services';
+import { AuthService, SignInPayload } from 'services';
 import { validateForm, ValidateRuleType } from 'helpers';
 
 import './login-form.component.css';
+import { routerHoc, RouterHocProps, storeHoc, StoreHocProps, userHoc, UserHocProps } from 'hocs';
+import { UserModel } from '../../models';
 
-export interface LoginFormComponentProps {
-  values?: SignInRequest;
-  onSubmit?: (event: MouseEvent) => void;
-  onBlur?: () => void;
-  onInput?: (event: InputEvent) => void;
-  validateRuleType: typeof ValidateRuleType;
-}
+export type LoginFormComponentProps = RouterHocProps &
+  UserHocProps &
+  StoreHocProps & {
+    values: SignInPayload;
+    onSubmit: (event: MouseEvent) => void;
+    onBlur: () => void;
+    onInput: (event: InputEvent) => void;
+    validateRuleType: typeof ValidateRuleType;
+    formError?: () => string | null;
+  };
 
 export class LoginFormComponent extends Block<LoginFormComponentProps> {
   static override componentName = 'LoginFormComponent';
@@ -29,22 +33,28 @@ export class LoginFormComponent extends Block<LoginFormComponentProps> {
     ]);
   }
 
-  authService = authService;
-
-  formValue: SignInRequest = {
+  formValue: SignInPayload = {
     login: '',
     password: '',
   };
 
-  constructor() {
-    super();
+  constructor(props: LoginFormComponentProps) {
+    super(props);
 
     this.setProps({
       values: this.formValue,
       onSubmit: this.onSubmit.bind(this),
       onInput: this.onInput.bind(this),
       validateRuleType: ValidateRuleType,
+      formError: () => this.props.store.getState().loginFormError,
     });
+  }
+
+  override componentDidMount(props: LoginFormComponentProps) {
+    super.componentDidMount(props);
+    if (this.props.user instanceof UserModel && this.props.links) {
+      this.props.router.go(this.props.links.Messenger);
+    }
   }
 
   onSubmit(event: MouseEvent): void {
@@ -54,7 +64,7 @@ export class LoginFormComponent extends Block<LoginFormComponentProps> {
       return;
     }
 
-    this.authService.auth(this.formValue);
+    this.props.store.dispatch(AuthService.signIn, this.formValue);
   }
 
   onInput(event: InputEvent): void {
@@ -98,12 +108,18 @@ export class LoginFormComponent extends Block<LoginFormComponentProps> {
                         onInput=onInput
                 }}}
 
+                {{{InputErrorComponent error=formError}}}
+
                 {{{ButtonComponent type='submit'
                                    title='Войти'
                                    onClick=onSubmit}}}
-                <a href='#registration'>Ещё не зарегистрированы?</a>
+
+                {{{LinkComponent title='Ещё не зарегистрированы?'
+                                 to=links.Registration}}}
             </form>
         </div>
     `;
   }
 }
+
+export default userHoc(routerHoc(storeHoc(LoginFormComponent)));

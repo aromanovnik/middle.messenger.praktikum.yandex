@@ -1,1 +1,1 @@
-export * from './user-change-pass.component';
+export { default as UserChangePassComponent } from './user-change-pass.component';

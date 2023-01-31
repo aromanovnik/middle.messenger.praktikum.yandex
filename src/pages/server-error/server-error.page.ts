@@ -1,8 +1,11 @@
 import { Block } from 'core';
+import { routerHoc, RouterHocProps } from 'hocs';
 
-export class ServerErrorPage extends Block {
-  constructor() {
-    super();
+export type ServerErrorPageProps = RouterHocProps;
+
+export class ServerErrorPage extends Block<ServerErrorPageProps> {
+  constructor(props: ServerErrorPageProps) {
+    super(props);
   }
 
   protected override render(): string {
@@ -12,10 +15,11 @@ export class ServerErrorPage extends Block {
             {{{ErrorComponent
                     title="500"
                     subtitle="Мы уже фиксим"
-                    actionHref="/"
                     actionText="Назад к чатам"
             }}}
         </main>
     `;
   }
 }
+
+export default routerHoc(ServerErrorPage);

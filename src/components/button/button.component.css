@@ -11,3 +11,13 @@
   /* width: 280px; */
   max-width: 100%;
 }
+
+.button_link {
+  background: var(--trasnp);
+  color: var(--blue);
+  padding: 0;
+}
+
+.button_link:hover {
+  text-decoration: underline;
+}
