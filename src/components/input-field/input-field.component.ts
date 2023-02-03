@@ -1,6 +1,6 @@
 import { Block } from 'core';
 
-export interface InputFieldComponentProps {
+export type InputFieldComponentProps = {
   onChange?: (event: InputEvent) => void;
   onBlur?: (event: InputEvent) => void;
   onInput?: (event: InputEvent) => void;
@@ -12,30 +12,20 @@ export interface InputFieldComponentProps {
   id?: string;
   dataKey?: string;
   events?: object;
-}
+};
 
 export class InputFieldComponent extends Block<InputFieldComponentProps> {
   static override componentName = 'InputFieldComponent';
 
-  constructor({
-    onInput,
-    onFocus,
-    onChange,
-    onBlur,
-    type = 'text',
-    name,
-    dataKey,
-    ...props
-  }: InputFieldComponentProps) {
+  constructor(props: InputFieldComponentProps) {
     super({
       ...props,
-      dataKey: dataKey || name,
-      name,
+      dataKey: props.dataKey || props.name,
       events: {
-        input: onInput,
-        focus: onFocus,
-        change: onChange,
-        blur: onBlur,
+        input: props.onInput,
+        focus: props.onFocus,
+        change: props.onChange,
+        blur: props.onBlur,
       },
     });
   }
@@ -50,6 +40,7 @@ export class InputFieldComponent extends Block<InputFieldComponentProps> {
                placeholder='{{placeholder}}'
                value='{{value}}'
                data-key='{{dataKey}}'
+               type='{{type}}'
         />
     `;
   }

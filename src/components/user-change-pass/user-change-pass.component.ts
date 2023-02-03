@@ -1,19 +1,18 @@
 import { Block } from 'core';
-import { userService } from 'services';
-
-// todo: Only for demo
-import { ChangePasswordRequest, userInfo, UserResponse } from 'demo';
-
+import { ChangePasswordPayload, UserService } from 'services';
 import './user-change-pass.component.css';
 import { validateForm, ValidateRuleType } from 'helpers';
+import { routerHoc, RouterHocProps, storeHoc, StoreHocProps, userHoc, UserHocProps } from 'hocs';
 
-export interface UserChangePassComponentProps {
-  user?: UserResponse;
-  values: ChangePasswordRequest;
-  onSubmit?: (event: MouseEvent) => void;
-  onInput?: (event: InputEvent) => void;
-  validateRuleType: typeof ValidateRuleType;
-}
+export type UserChangePassComponentProps = RouterHocProps &
+  UserHocProps &
+  StoreHocProps & {
+    values: ChangePasswordPayload;
+    onSubmit?: (event: MouseEvent) => void;
+    onInput?: (event: InputEvent) => void;
+    validateRuleType: typeof ValidateRuleType;
+    formError?: () => string | null;
+  };
 
 export class UserChangePassComponent extends Block<UserChangePassComponentProps> {
   static override componentName = 'UserChangePassComponent';
@@ -31,22 +30,20 @@ export class UserChangePassComponent extends Block<UserChangePassComponentProps>
     ]);
   }
 
-  userService = userService;
-
-  formValue: ChangePasswordRequest = {
+  formValue: ChangePasswordPayload = {
     oldPassword: '',
     newPassword: '',
   };
 
-  constructor() {
-    super();
+  constructor(props: UserChangePassComponentProps) {
+    super(props);
 
     this.setProps({
-      user: userInfo,
       values: this.formValue,
       onSubmit: this.onSubmit.bind(this),
       onInput: this.onInput.bind(this),
       validateRuleType: ValidateRuleType,
+      formError: () => this.props.store.getState().passwordFormError,
     });
   }
 
@@ -57,7 +54,7 @@ export class UserChangePassComponent extends Block<UserChangePassComponentProps>
       return;
     }
 
-    this.userService.changePassword(this.formValue);
+    this.props.store.dispatch(UserService.changePassword, this.formValue);
   }
 
   onInput(event: InputEvent): void {
@@ -124,6 +121,8 @@ export class UserChangePassComponent extends Block<UserChangePassComponentProps>
                             </li>
                         </ul>
 
+                        {{{InputErrorComponent error=formError}}}
+
                         {{{ButtonComponent onClick=onSubmit
                                            type='submit'
                                            className='user-change-pass__save'
@@ -135,3 +134,11 @@ export class UserChangePassComponent extends Block<UserChangePassComponentProps>
     `;
   }
 }
+
+export default userHoc(
+  routerHoc(
+    storeHoc(UserChangePassComponent, (state) => ({
+      user: state.user,
+    })),
+  ),
+);

@@ -1,4 +1,7 @@
-export { default as Block } from './block';
-export { default as registerComponent } from './register-component';
+export { default as Block, BlockClass } from './block';
+export { default as registerComponent, BlockConstructable } from './register-component';
 export { default as renderDOM } from './render-dom';
-export { default as Router } from './router';
+export { Store, Dispatch, BaseActionsStore } from './store';
+export type { CoreRouter } from './router';
+export { Router } from './router';
+export { HTTPTransport, METHOD } from './http-transport';

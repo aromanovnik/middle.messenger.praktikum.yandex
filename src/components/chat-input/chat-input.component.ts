@@ -1,30 +1,29 @@
 import { Block } from 'core';
-import { messagesService } from 'services';
 import { validateForm, ValidateRuleType } from 'helpers';
 
 import './chat-input.component.css';
+import { activeChatHoc, ActiveChatHocProps, storeHoc, StoreHocProps } from 'hocs';
 
-export interface ChatInputComponentProps {
-  error?: string;
-  values: {
-    message: string;
+export type ChatInputComponentProps = ActiveChatHocProps &
+  StoreHocProps & {
+    error?: string;
+    values: {
+      message: string;
+    };
+    onSubmit?: (event: MouseEvent) => void;
+    onBlur?: () => void;
+    onInput?: (event: InputEvent) => void;
   };
-  onSubmit?: (event: MouseEvent) => void;
-  onBlur?: () => void;
-  onInput?: (event: InputEvent) => void;
-}
 
 export class ChatInputComponent extends Block<ChatInputComponentProps> {
   static override componentName = 'ChatInputComponent';
-
-  messagesService = messagesService;
 
   formValue = {
     message: '',
   };
 
-  constructor() {
-    super();
+  constructor(props: ChatInputComponentProps) {
+    super(props);
 
     this.setProps({
       error: '',
@@ -43,9 +42,9 @@ export class ChatInputComponent extends Block<ChatInputComponentProps> {
       },
     ]);
 
-    this.refs['errorRef']?.setProps({
-      error: message,
-    });
+    // this.refs['errorRef']?.setProps({
+    //   error: message,
+    // });
 
     return message;
   }
@@ -56,8 +55,21 @@ export class ChatInputComponent extends Block<ChatInputComponentProps> {
     if (this.validate()) {
       return;
     }
+    if (!this.props.activeChat?.id) {
+      return;
+    }
 
-    this.messagesService.sendMessage(this.formValue.message);
+    this.props.store
+      .getState()
+      .messages[this.props.activeChat?.id]?.ws.sendMessage({ content: this.formValue.message });
+
+    this.formValue = {
+      message: '',
+    };
+    this.setProps({
+      error: '',
+      values: this.formValue,
+    });
   }
 
   onBlur(): void {
@@ -78,7 +90,7 @@ export class ChatInputComponent extends Block<ChatInputComponentProps> {
     return `
         <div class="chat-input">
 
-            <button class="chat-input__button-clip" title="Send file"></button>
+            <!--<button class="chat-input__button-clip" title="Send file"></button>-->
 
             <form class="chat-input__form" action="#">
 
@@ -95,8 +107,10 @@ export class ChatInputComponent extends Block<ChatInputComponentProps> {
                                    onClick=onSubmit}}}
             </form>
 
-            {{{InputErrorComponent ref='errorRef' error=error}}}
+            <!--{{{InputErrorComponent ref='errorRef' error=error}}}-->
         </div>
     `;
   }
 }
+
+export default storeHoc(activeChatHoc(ChatInputComponent));

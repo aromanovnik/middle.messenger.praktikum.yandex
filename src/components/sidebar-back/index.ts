@@ -1,1 +1,1 @@
-export * from './sidebar-back.component';
+export { default as SidebarBackComponentProps } from './sidebar-back.component';

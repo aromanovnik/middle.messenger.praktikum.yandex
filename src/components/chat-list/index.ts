@@ -1,1 +1,1 @@
-export * from './chat-list.component';
+export { default as ChatListComponent } from './chat-list.component';

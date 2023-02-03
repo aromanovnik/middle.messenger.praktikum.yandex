@@ -12,6 +12,10 @@
   text-decoration: none;
 }
 
+.chat-item_active {
+  background-color: var(--lavender);
+}
+
 .chat-item:hover {
   background-color: var(--lavender);
   text-decoration: none;

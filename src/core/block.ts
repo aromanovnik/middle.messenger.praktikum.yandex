@@ -1,9 +1,13 @@
 import { nanoid } from 'nanoid';
+// @ts-ignore
 import Handlebars from 'handlebars';
+import { isEqual } from 'helpers';
 import EventBus from './event-bus';
 
-interface BlockMeta<P = any> {
-  props: P;
+export interface BlockClass<P> extends Function {
+  new (props: P): Block<P>;
+
+  componentName?: string;
 }
 
 type Events = Values<typeof Block.EVENTS>;
@@ -13,21 +17,24 @@ export default class Block<P = any> {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
     FLOW_CDU: 'flow:component-did-update',
+    FLOW_PWU: 'flow:properties-will-update',
     FLOW_RENDER: 'flow:render',
+    FLOW_CWU: 'flow:component-will-unmount',
   } as const;
 
   public id = nanoid(6);
 
-  private readonly _meta: BlockMeta;
-
   protected _element?: Nullable<HTMLElement>;
 
-  protected readonly props: P;
+  protected props: Readonly<P>;
 
   protected children: { [id: string]: Block } = {};
 
   eventBus: () => EventBus<Events>;
 
+  /**
+   * @deprecated Use this.props
+   */
   protected state: any = {};
 
   protected refs: { [key: string]: Block } = {};
@@ -37,13 +44,10 @@ export default class Block<P = any> {
   public constructor(properties?: P) {
     const eventBus = new EventBus<Events>();
 
-    this._meta = {
-      props: properties,
-    };
-
     this.getStateFromProps(properties);
 
-    this.props = this._makePropsProxy(properties || ({} as P));
+    // this.props = this._makePropsProxy(properties || ({} as P));
+    this.props = properties || ({} as P);
     this.state = this._makePropsProxy(this.state);
 
     this.eventBus = () => eventBus;
@@ -53,10 +57,32 @@ export default class Block<P = any> {
     eventBus.emit(Block.EVENTS.INIT, this.props);
   }
 
+  /**
+   * Хелпер, который проверяет, находится ли элемент в DOM дереве
+   * И есть нет, триггерит событие COMPONENT_WILL_UNMOUNT
+   */
+  _checkInDom() {
+    if (!this._element) {
+      this.eventBus().emit(Block.EVENTS.FLOW_CWU, this.props);
+      return;
+    }
+
+    const elementInDOM = document.body.contains(this._element);
+
+    if (elementInDOM) {
+      setTimeout(() => this._checkInDom(), 1000);
+      return;
+    }
+
+    this.eventBus().emit(Block.EVENTS.FLOW_CWU, this.props);
+  }
+
   _registerEvents(eventBus: EventBus<Events>) {
     eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
+    eventBus.on(Block.EVENTS.FLOW_PWU, this._propertiesWillUpdate.bind(this));
+    eventBus.on(Block.EVENTS.FLOW_CWU, this._componentWillUnmount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
@@ -64,6 +90,10 @@ export default class Block<P = any> {
     this._element = this._createDocumentElement('div');
   }
 
+  // @ts-ignore
+  /**
+   * @deprecated
+   */
   protected getStateFromProps(properties: any): void {
     this.state = {};
   }
@@ -74,10 +104,19 @@ export default class Block<P = any> {
   }
 
   _componentDidMount(properties: P) {
+    this._checkInDom();
     this.componentDidMount(properties);
   }
 
+  // @ts-ignore
   componentDidMount(properties: P) {}
+
+  _componentWillUnmount() {
+    this.eventBus().destroy();
+    this.componentWillUnmount();
+  }
+
+  componentWillUnmount() {}
 
   _componentDidUpdate(oldProperties: P, newProperties: P) {
     const response = this.componentDidUpdate(oldProperties, newProperties);
@@ -87,16 +126,31 @@ export default class Block<P = any> {
     this._render();
   }
 
+  // @ts-ignore
   componentDidUpdate(oldProperties: P, newProperties: P) {
+    // return JSON.stringify(oldProperties) !== JSON.stringify(newProperties);
+    // return !isEqual(oldProperties, newProperties);
     return true;
   }
 
-  setProps = (nextProperties: P) => {
-    if (!nextProperties) {
+  _propertiesWillUpdate(oldProperties: P, newProperties: P) {
+    this.propertiesWillUpdate(oldProperties, newProperties);
+  }
+
+  propertiesWillUpdate(oldProperties: P, newProperties: P) {}
+
+  setProps = (nextPartialProps: Partial<P>): void => {
+    if (!nextPartialProps) {
       return;
     }
 
-    Object.assign(this.props, nextProperties);
+    const prevProps = this.props;
+    const nextProps = { ...prevProps, ...nextPartialProps };
+
+    this.props = nextProps;
+    this.eventBus().emit(Block.EVENTS.FLOW_PWU, prevProps, nextProps);
+
+    this.eventBus().emit(Block.EVENTS.FLOW_CDU, prevProps, nextProps);
   };
 
   setState = (nextState: any) => {
@@ -230,10 +284,14 @@ export default class Block<P = any> {
       /**
        * Ищем элемент layout-а, куда вставлять детей
        */
-      const layoutContent = content.querySelector('[data-layout="1"]');
-
-      if (layoutContent && stubChilds.length > 0) {
-        layoutContent.append(...stubChilds);
+      // const layoutContent = content.querySelector('[data-layout="1"]');
+      // if (layoutContent && stubChilds.length > 0) {
+      //   layoutContent.append(...stubChilds);
+      // }
+      const slotContent = content.querySelector('[data-slot="1"]') as HTMLDivElement;
+      if (slotContent && stubChilds.length) {
+        slotContent.append(...stubChilds);
+        delete slotContent.dataset['slot'];
       }
     }
 

@@ -1,1 +1,1 @@
-export * from './chat-input.component';
+export { default as ChatInputComponent } from './chat-input.component';

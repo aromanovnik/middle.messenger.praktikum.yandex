@@ -1,1 +1,1 @@
-export * from './registration-form.component';
+export { default as RegistrationFormComponentProps } from './registration-form.component';

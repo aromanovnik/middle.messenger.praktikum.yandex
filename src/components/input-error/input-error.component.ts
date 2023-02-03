@@ -2,9 +2,9 @@ import { Block } from 'core';
 
 import './input-error.component.css';
 
-export interface InputErrorComponentProps {
+export type InputErrorComponentProps = {
   error?: string;
-}
+};
 
 export class InputErrorComponent extends Block<InputErrorComponentProps> {
   static override componentName = 'InputErrorComponent';
