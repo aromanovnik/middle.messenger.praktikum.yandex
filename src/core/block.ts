@@ -1,7 +1,6 @@
 import { nanoid } from 'nanoid';
 // @ts-ignore
 import Handlebars from 'handlebars';
-import { isEqual } from 'helpers';
 import EventBus from './event-bus';
 
 export interface BlockClass<P> extends Function {
