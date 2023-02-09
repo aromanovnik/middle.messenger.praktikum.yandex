@@ -5,3 +5,4 @@ export { apiHasMessages } from './api-has-messages';
 export { isEqual } from './is-equal';
 export { diffObjectsDeep } from './diff-objects-deep';
 export { sleep } from './sleep';
+export { guid } from './guid';

@@ -1,7 +1,9 @@
+// Jest encountered an unexpected token
 import { nanoid } from 'nanoid';
 // @ts-ignore
 import Handlebars from 'handlebars';
 import EventBus from './event-bus';
+// import { guid } from '../helpers';
 
 export interface BlockClass<P> extends Function {
   new (props: P): Block<P>;
@@ -22,6 +24,7 @@ export default class Block<P = any> {
   } as const;
 
   public id = nanoid(6);
+  // public id = guid();
 
   protected _element?: Nullable<HTMLElement>;
 
