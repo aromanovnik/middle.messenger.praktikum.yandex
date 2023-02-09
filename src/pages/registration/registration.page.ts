@@ -1,5 +1,4 @@
 import { Block } from 'core';
-import { routerHoc } from 'hocs';
 
 export class RegistrationPage extends Block {
   constructor() {
@@ -16,4 +15,4 @@ export class RegistrationPage extends Block {
   }
 }
 
-export default routerHoc(RegistrationPage);
+// export default routerHoc(RegistrationPage);

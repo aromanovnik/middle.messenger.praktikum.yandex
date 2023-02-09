@@ -1,11 +1,8 @@
 import { Block } from 'core';
-import { routerHoc, RouterHocProps } from 'hocs';
 
-export type NotFoundPageProps = RouterHocProps;
-
-export class NotFoundPage extends Block<NotFoundPageProps> {
-  constructor(props: NotFoundPageProps) {
-    super(props);
+export class NotFoundPage extends Block {
+  constructor() {
+    super();
   }
 
   override render() {
@@ -20,4 +17,4 @@ export class NotFoundPage extends Block<NotFoundPageProps> {
   }
 }
 
-export default routerHoc(NotFoundPage);
+// export default routerHoc(NotFoundPage);

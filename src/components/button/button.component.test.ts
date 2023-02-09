@@ -14,20 +14,19 @@ const renderButton = async ({ onClick }: any) => {
 describe('components/Button', () => {
   // ЮНИТ-тест на UI компонент
   // могут называть интеграционным тестом
-  it('should render button', () => {
-    const button = renderButton({
+  it('should render button', async () => {
+    const button = await renderButton({
       onClick: () => {},
     });
-
     expect(button).toBeInTheDocument();
   });
 
   // ЮНИТ-тест на UI компонент с событием
-  it('should call onClick when user press button', () => {
+  it('should call onClick when user press button', async () => {
     // 1 Arrange
     const mock = jest.fn();
 
-    renderButton({ onClick: mock });
+    await renderButton({ onClick: mock });
 
     // 2 Act
     getByRole(document.body, 'button').click();

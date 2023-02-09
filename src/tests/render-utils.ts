@@ -1,8 +1,8 @@
-import { BlockClass, renderDOM, registerComponent, Store, Router } from 'core';
+import { BlockClass, renderDOM, registerComponent, Store } from 'core';
 import { AppState, defaultStore } from 'store';
 import * as components from 'components';
 import { sleep } from 'helpers';
-import { initRouter } from 'router';
+import router, { initRouter } from 'router';
 
 type RenderBlockParams<T> = {
   Block: BlockClass<T>;
@@ -20,7 +20,6 @@ export async function renderBlock<T extends Object>({
   });
 
   const store = new Store<AppState>({ ...defaultStore, ...state });
-  const router = new Router();
 
   document.body.innerHTML = '<div id="app"></div>';
 

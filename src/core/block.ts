@@ -1,9 +1,9 @@
 // Jest encountered an unexpected token
-import { nanoid } from 'nanoid';
+// import { nanoid } from 'nanoid';
 // @ts-ignore
 import Handlebars from 'handlebars';
 import EventBus from './event-bus';
-// import { guid } from '../helpers';
+import { guid } from '../helpers';
 
 export interface BlockClass<P> extends Function {
   new (props: P): Block<P>;
@@ -23,8 +23,8 @@ export default class Block<P = any> {
     FLOW_CWU: 'flow:component-will-unmount',
   } as const;
 
-  public id = nanoid(6);
-  // public id = guid();
+  // public id = nanoid(6);
+  public id = guid();
 
   protected _element?: Nullable<HTMLElement>;
 
