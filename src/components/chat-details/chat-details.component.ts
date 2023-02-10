@@ -71,7 +71,7 @@ export class ChatDetailsComponent extends Block<ChatDetailsComponentProps> {
       chatId: this.props.activeChat.id,
     });
 
-    this.props.router.go(this.props.links!.Messenger);
+    this.props.router.go(this.props.links!['Messenger']);
   }
 
   // Add user

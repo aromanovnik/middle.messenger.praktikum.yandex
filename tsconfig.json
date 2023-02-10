@@ -3,11 +3,9 @@
   "compilerOptions": {
     "noImplicitAny": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "noUnusedParameters": false,
     "sourceMap": true,
     "strictNullChecks": true,
-    "baseUrl": "./src",
-    "rootDir": "./src",
     "outDir": "./dist",
     "target": "es2017",
     "declaration": false,
@@ -26,6 +24,38 @@
       "node_modules/@types",
       "typings/app.d.ts",
       "typings/hbs.d.ts"
-    ]
+    ],
+    "paths": {
+      "core": [
+        "./src/core"
+      ],
+      "pages": [
+        "./src/pages"
+      ],
+      "components": [
+        "./src/components"
+      ],
+      "helpers": [
+        "./src/helpers"
+      ],
+      "services": [
+        "./src/services"
+      ],
+      "hocs": [
+        "./src/hocs"
+      ],
+      "store": [
+        "./src/store"
+      ],
+      "models": [
+        "./src/models"
+      ],
+      "api": [
+        "./src/api"
+      ],
+      "router": [
+        "./src/router"
+      ]
+    }
   }
 }

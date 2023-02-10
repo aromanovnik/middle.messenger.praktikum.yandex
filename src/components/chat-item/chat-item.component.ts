@@ -26,7 +26,7 @@ export class ChatItemComponent extends Block<ChatItemComponentProps> {
       events: {
         click: (event: MouseEvent) => {
           event?.preventDefault();
-          const link = `${this.props.links!.Messenger}/${this.props.chat.id}`;
+          const link = `${this.props.links!['Messenger']}/${this.props.chat.id}`;
           this.props.router.go(link);
         },
       },

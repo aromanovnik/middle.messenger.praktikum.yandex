@@ -236,19 +236,21 @@ export default class Block<P = any> {
     }
 
     for (const [event, listener] of Object.entries(events)) {
-      this._element!.removeEventListener(event, listener);
+      // @ts-ignore
+      this._element.removeEventListener(event, listener);
     }
   }
 
   _addEvents() {
     const { events } = this.props as any;
 
-    if (!events) {
+    if (!events || !this._element) {
       return;
     }
 
     for (const [event, listener] of Object.entries(events)) {
-      this._element!.addEventListener(event, listener);
+      // @ts-ignore
+      this._element.addEventListener(event, listener);
     }
   }
 

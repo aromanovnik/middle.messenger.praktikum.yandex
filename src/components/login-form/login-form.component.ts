@@ -53,7 +53,7 @@ export class LoginFormComponent extends Block<LoginFormComponentProps> {
   override componentDidMount(props: LoginFormComponentProps) {
     super.componentDidMount(props);
     if (this.props.user instanceof UserModel && this.props.links) {
-      this.props.router.go(this.props.links.Messenger);
+      this.props.router.go(this.props.links['Messenger']);
     }
   }
 
