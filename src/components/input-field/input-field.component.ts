@@ -12,6 +12,7 @@ export type InputFieldComponentProps = {
   id?: string;
   dataKey?: string;
   events?: object;
+  dataTestId?: string;
 };
 
 export class InputFieldComponent extends Block<InputFieldComponentProps> {
@@ -34,6 +35,8 @@ export class InputFieldComponent extends Block<InputFieldComponentProps> {
     // language=hbs
     return `
         <input class='input__input'
+               role='input'
+               {{#if dataTestId}}data-testid="{{dataTestId}}"{{/if}}
                id='{{id}}'
                type='{{type}}'
                name='{{name}}'

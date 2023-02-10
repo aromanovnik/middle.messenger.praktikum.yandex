@@ -26,10 +26,10 @@ describe('components/Button', () => {
     // 1 Arrange
     const mock = jest.fn();
 
-    await renderButton({ onClick: mock });
+    const button = await renderButton({ onClick: mock });
 
     // 2 Act
-    getByRole(document.body, 'button').click();
+    button.click();
 
     // 3 Assert
     expect(mock).toBeCalled();

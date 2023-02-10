@@ -28,7 +28,7 @@ export default class Block<P = any> {
 
   protected _element?: Nullable<HTMLElement>;
 
-  protected props: Readonly<P>;
+  props: Readonly<P>;
 
   protected children: { [id: string]: Block } = {};
 
@@ -172,6 +172,10 @@ export default class Block<P = any> {
 
     this._removeEvents();
     const newElement = fragment.firstElementChild!;
+
+    if (!this._element) {
+      return;
+    }
 
     this._element!.replaceWith(newElement);
 
