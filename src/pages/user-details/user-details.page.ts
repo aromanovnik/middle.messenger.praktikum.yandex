@@ -20,5 +20,3 @@ export class UserDetailsPage extends Block {
     `;
   }
 }
-
-// export default routerHoc(UserDetailsPage);

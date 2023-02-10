@@ -1,5 +1,5 @@
-import { BlockClass, renderDOM, registerComponent, Store } from 'core';
-import { AppState, defaultStore } from 'store';
+import { BlockClass, renderDOM, registerComponent } from 'core';
+import store, { AppState, defaultStore } from 'store';
 import * as components from 'components';
 import { sleep } from 'helpers';
 import router, { initRouter } from 'router';
@@ -19,7 +19,10 @@ export async function renderBlock<T extends Object>({
     registerComponent(Component);
   });
 
-  const store = new Store<AppState>({ ...defaultStore, ...state });
+  store.set({
+    ...defaultStore,
+    ...state,
+  });
 
   document.body.innerHTML = '<div id="app"></div>';
 

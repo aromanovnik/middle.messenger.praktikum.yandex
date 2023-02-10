@@ -14,5 +14,3 @@ export class RegistrationPage extends Block {
     `;
   }
 }
-
-// export default routerHoc(RegistrationPage);

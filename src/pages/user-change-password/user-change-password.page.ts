@@ -20,5 +20,3 @@ export class UserChangePasswordPage extends Block {
     `;
   }
 }
-
-// export default routerHoc(UserChangePasswordPage);

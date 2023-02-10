@@ -14,5 +14,3 @@ export class AuthPage extends Block {
     `;
   }
 }
-
-// export default routerHoc(AuthPage);

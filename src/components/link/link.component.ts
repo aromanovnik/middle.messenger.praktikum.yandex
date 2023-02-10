@@ -2,9 +2,9 @@ import { Block, Router } from 'core';
 
 import './link.component.css';
 import { ScreensPath } from 'router';
-import { routerHoc } from 'hocs';
+import { routerHoc, RouterHocProps } from 'hocs';
 
-export type LinkComponentProps = {
+export type LinkComponentProps = RouterHocProps & {
   router: Router;
   onClick: (event: MouseEvent) => void;
   title?: string;
@@ -12,6 +12,7 @@ export type LinkComponentProps = {
   events: object;
   to?: ScreensPath;
   onlyBack?: boolean;
+  dataTestId?: string;
 };
 
 export class LinkComponent extends Block<LinkComponentProps> {
@@ -42,7 +43,9 @@ export class LinkComponent extends Block<LinkComponentProps> {
   protected override render(): string {
     // language=hbs
     return `
-        <a href='#' class='link {{className}}'>{{title}}</a>
+        <a href='#'
+           {{#if dataTestId}}data-testid="{{dataTestId}}"{{/if}}
+           class='link {{className}}'>{{title}}</a>
     `;
   }
 }

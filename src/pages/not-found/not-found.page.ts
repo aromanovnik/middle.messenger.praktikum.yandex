@@ -16,5 +16,3 @@ export class NotFoundPage extends Block {
     `;
   }
 }
-
-// export default routerHoc(NotFoundPage);

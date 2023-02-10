@@ -14,5 +14,3 @@ export class MessengerPage extends Block {
     `;
   }
 }
-
-// export default routerHoc(MessengerPage);

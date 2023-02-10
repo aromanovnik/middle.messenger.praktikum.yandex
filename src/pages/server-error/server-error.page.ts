@@ -20,5 +20,3 @@ export class ServerErrorPage extends Block {
     `;
   }
 }
-
-// export default routerHoc(ServerErrorPage);
