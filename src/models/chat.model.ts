@@ -1,6 +1,7 @@
 import { ChatsResponse } from 'api';
 import { UserModel } from './user.model';
 import { MessageModel } from './message.model';
+import { config } from '../config';
 
 export class ChatModel {
   id: number;
@@ -22,7 +23,7 @@ export class ChatModel {
   constructor(chat: ChatsResponse) {
     this.id = chat.id ?? 0;
     this.title = chat.title ?? '';
-    this.avatar = chat.avatar ? `${process.env['API_ENDPOINT']}/resources${chat.avatar}` : '';
+    this.avatar = chat.avatar ? `${config.api}/resources${chat.avatar}` : '';
     this.unreadCount = chat.unreadCount ?? 0;
     this.lastMessage = {
       user: chat?.last_message?.user ? new UserModel(chat.last_message.user) : undefined,

@@ -1,5 +1,6 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -8,7 +9,28 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'chat.bundle.js',
   },
+
+  devServer: {
+    compress: false,
+    port: 4000,
+    historyApiFallback: true,
+  },
+
   resolve: {
+    alias: {
+      handlebars: 'handlebars/dist/handlebars.min.js',
+      core: path.resolve(__dirname, './src/core'),
+      pages: path.resolve(__dirname, './src/pages'),
+      components: path.resolve(__dirname, './src/components'),
+      helpers: path.resolve(__dirname, './src/helpers'),
+      services: path.resolve(__dirname, './src/services'),
+      hocs: path.resolve(__dirname, './src/hocs'),
+      store: path.resolve(__dirname, './src/store'),
+      models: path.resolve(__dirname, './src/models'),
+      api: path.resolve(__dirname, './src/api'),
+      router: path.resolve(__dirname, './src/router'),
+    },
+
     extensions: ['.ts', '.js', '.json'],
   },
   module: {
@@ -52,4 +74,11 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      hash: true,
+      template: './src/index.html',
+    }),
+    new CleanWebpackPlugin(),
+  ],
 };

@@ -1,4 +1,5 @@
 import { UserResponse } from 'api';
+import { config } from '../config';
 
 export class UserModel {
   id: number;
@@ -25,6 +26,6 @@ export class UserModel {
     this.login = user.login ?? '';
     this.email = user.email ?? '';
     this.phone = user.phone ?? '';
-    this.avatar = user.avatar ? `${process.env['API_ENDPOINT']}/resources${user.avatar}` : '';
+    this.avatar = user.avatar ? `${config.api}/resources${user.avatar}` : '';
   }
 }
