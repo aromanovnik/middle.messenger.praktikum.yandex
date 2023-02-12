@@ -1,7 +1,15 @@
-FROM ubuntu:18.04
-RUN apt update && apt install -y nodejs && apt install -y npm
-WORKDIR /var/www
-COPY ./dist ./
-COPY ./server.js ./server.js
+FROM node:16-alpine
+
+WORKDIR /var/www/app
+
+COPY package.json package-lock.json ./
+
+RUN npm ci
+
+COPY . .
+
+RUN npm run build
+
 EXPOSE 3000
-CMD node server.js
+
+CMD ["node", "./server.js"]

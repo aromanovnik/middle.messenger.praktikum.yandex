@@ -56,6 +56,7 @@
       "router": [
         "./src/router"
       ]
-    }
+    },
+    "allowSyntheticDefaultImports": true
   }
 }
