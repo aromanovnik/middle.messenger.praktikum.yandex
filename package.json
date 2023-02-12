@@ -5,8 +5,8 @@
   "scripts": {
     "test": "jest",
     "dev": "webpack serve",
-    "build": "webpack build",
-    "start": "webpack build && npm run server",
+    "build": "webpack",
+    "start": "webpack && npm run server",
     "clear": "rimraf dist",
     "server": "ts-node server.js",
     "format": "prettier --write \"src/**/*.ts\"",
