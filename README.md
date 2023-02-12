@@ -9,4 +9,7 @@
 - `npm run start` — запуск проекта, port:3000.
 
 ### link
-[Project on Netlify](https://papaya-cranachan-896fcd.netlify.app/)
+- [NEW Project on render.com](https://chat-xbcq.onrender.com) 
+
+- [OLD Project on Netlify](https://papaya-cranachan-896fcd.netlify.app/)
+
