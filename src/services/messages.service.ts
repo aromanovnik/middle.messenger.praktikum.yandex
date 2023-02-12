@@ -12,7 +12,7 @@ export type SendMessagePayload = {
 export type RequestGetCountNewMessagesPayload = { id: number };
 
 export class MessagesService {
-  path = `${config.api}`;
+  path = `${config.ws}`;
 
   socket?: WebSocket;
 
