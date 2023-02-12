@@ -1,4 +1,4 @@
-require('babel-core/register');
+// require('babel-core/register');
 
 import 'regenerator-runtime/runtime';
 
