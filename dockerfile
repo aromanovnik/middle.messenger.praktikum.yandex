@@ -1,8 +1,8 @@
-FROM node:16-alpine
+FROM node:16.13.0
 
 WORKDIR /var/www/app
 
-COPY package.json package-lock.json ./
+COPY package.json ./
 
 RUN npm ci
 
