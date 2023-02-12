@@ -1,4 +1,4 @@
-import { Screens } from 'router/router';
+import { Screens } from 'router';
 import { ChatModel, MessagesModel, UserModel } from 'models';
 
 export type AppState = {

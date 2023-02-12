@@ -1,7 +1,6 @@
 import { BaseActionsStore, BlockClass } from 'core';
 import store, { AppState } from 'store';
 import { ChatModel } from 'models';
-import { isEqual } from '../helpers';
 
 export type ActiveChatHocProps = {
   activeChat: ChatModel | null;

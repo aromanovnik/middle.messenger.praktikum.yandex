@@ -1,11 +1,10 @@
 import { Block } from 'core';
-import { routerHoc, RouterHocProps } from 'hocs';
 
-export type ServerErrorPageProps = RouterHocProps;
+// export type ServerErrorPageProps = RouterHocProps;
 
-export class ServerErrorPage extends Block<ServerErrorPageProps> {
-  constructor(props: ServerErrorPageProps) {
-    super(props);
+export class ServerErrorPage extends Block {
+  constructor() {
+    super();
   }
 
   protected override render(): string {
@@ -21,5 +20,3 @@ export class ServerErrorPage extends Block<ServerErrorPageProps> {
     `;
   }
 }
-
-export default routerHoc(ServerErrorPage);

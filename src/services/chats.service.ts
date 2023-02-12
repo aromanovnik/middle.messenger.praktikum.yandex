@@ -1,5 +1,5 @@
 import { Dispatch } from 'core';
-import store, { AppState } from 'store';
+import { AppState } from 'store';
 import {
   ChatDeleteRequest,
   ChatsApi,

@@ -3,20 +3,22 @@ import { EditUserPayload, UserService } from 'services';
 
 import './user-edit.component.css';
 import { validateForm, ValidateRuleType } from 'helpers';
-import { routerHoc, storeHoc, userHoc } from 'hocs';
+import { routerHoc, RouterHocProps, storeHoc, StoreHocProps, userHoc, UserHocProps } from 'hocs';
 import { AppState } from 'store';
 import { UserModel } from 'models';
 
-export interface UserEditComponentProps {
-  router: Router;
-  store: Store<AppState>;
-  user: UserModel;
-  values?: EditUserPayload;
-  onSubmit?: (event: MouseEvent) => void;
-  onInput?: (event: InputEvent) => void;
-  validateRuleType: typeof ValidateRuleType;
-  formError?: () => string | null;
-}
+export type UserEditComponentProps = UserHocProps &
+  RouterHocProps &
+  StoreHocProps & {
+    router: Router;
+    store: Store<AppState>;
+    user: UserModel;
+    values?: EditUserPayload;
+    onSubmit?: (event: MouseEvent) => void;
+    onInput?: (event: InputEvent) => void;
+    validateRuleType: typeof ValidateRuleType;
+    formError?: () => string | null;
+  };
 
 export class UserEditComponent extends Block<UserEditComponentProps> {
   static override componentName = 'UserEditComponent';

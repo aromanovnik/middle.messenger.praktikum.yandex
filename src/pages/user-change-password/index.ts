@@ -1,1 +1,1 @@
-export { default as UserChangePasswordPage } from './user-change-password.page';
+export { UserChangePasswordPage } from './user-change-password.page';

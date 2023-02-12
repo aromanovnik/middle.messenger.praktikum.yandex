@@ -72,6 +72,7 @@ export class UserInfoComponent extends Block<UserInfoComponentProps> {
                     </li>
                     <li class='user-page__item-list'>
                         {{{LinkComponent title='Выйти'
+                                         dataTestId='logout-btn'
                                          onClick=logout}}}
                     </li>
                 </ul>
