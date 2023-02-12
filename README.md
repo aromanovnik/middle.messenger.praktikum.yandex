@@ -2,6 +2,13 @@
 
 Знаю, знаю, знаю =)))
 
+### Technology stack
+- Typescript
+- Handlebars
+- Jest
+- Docker
+- Webpack
+
 ## Commands
 - `npm install` — установка стабильной версии,
 - `npm run dev` — запуск версии для разработчика,
