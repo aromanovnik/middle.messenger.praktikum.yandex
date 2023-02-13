@@ -1,8 +1,9 @@
-import { nanoid } from 'nanoid';
+// Jest encountered an unexpected token
+// import { nanoid } from 'nanoid';
 // @ts-ignore
 import Handlebars from 'handlebars';
-import { isEqual } from 'helpers';
 import EventBus from './event-bus';
+import { guid } from '../helpers';
 
 export interface BlockClass<P> extends Function {
   new (props: P): Block<P>;
@@ -22,11 +23,12 @@ export default class Block<P = any> {
     FLOW_CWU: 'flow:component-will-unmount',
   } as const;
 
-  public id = nanoid(6);
+  // public id = nanoid(6);
+  public id = guid();
 
   protected _element?: Nullable<HTMLElement>;
 
-  protected props: Readonly<P>;
+  props: Readonly<P>;
 
   protected children: { [id: string]: Block } = {};
 
@@ -171,6 +173,10 @@ export default class Block<P = any> {
     this._removeEvents();
     const newElement = fragment.firstElementChild!;
 
+    if (!this._element) {
+      return;
+    }
+
     this._element!.replaceWith(newElement);
 
     this._element = newElement as HTMLElement;
@@ -230,19 +236,21 @@ export default class Block<P = any> {
     }
 
     for (const [event, listener] of Object.entries(events)) {
-      this._element!.removeEventListener(event, listener);
+      // @ts-ignore
+      this._element.removeEventListener(event, listener);
     }
   }
 
   _addEvents() {
     const { events } = this.props as any;
 
-    if (!events) {
+    if (!events || !this._element) {
       return;
     }
 
     for (const [event, listener] of Object.entries(events)) {
-      this._element!.addEventListener(event, listener);
+      // @ts-ignore
+      this._element.addEventListener(event, listener);
     }
   }
 

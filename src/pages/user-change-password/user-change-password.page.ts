@@ -1,5 +1,4 @@
 import { Block } from 'core';
-import { routerHoc } from 'hocs';
 
 export class UserChangePasswordPage extends Block {
   constructor() {
@@ -21,5 +20,3 @@ export class UserChangePasswordPage extends Block {
     `;
   }
 }
-
-export default routerHoc(UserChangePasswordPage);

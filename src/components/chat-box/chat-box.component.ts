@@ -57,7 +57,7 @@ export class ChatBoxComponent extends Block<ChatBoxComponentProps> {
 
     const activeChat = this.props.chats?.find((el) => el.id === chatId);
     if (chatId && !activeChat) {
-      this.props.router.go(this.props.links!.NotFound);
+      this.props.router.go(this.props.links!['NotFound']);
     }
 
     if (activeChat?.id !== this.props.store.getState().activeChat?.id) {

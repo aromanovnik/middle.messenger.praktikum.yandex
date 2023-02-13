@@ -15,7 +15,10 @@ export type Options = {
 
 // todo: Спороно, но сделаю.
 // создаем тип метода
-export type HTTPMethod = (url: string, options: Omit<Options, 'method'>) => Promise<XMLHttpRequest>;
+export type HTTPMethod = (
+  url: string,
+  options?: Omit<Options, 'method'>,
+) => Promise<XMLHttpRequest>;
 
 function queryStringify(data: { [key: string | number]: string }) {
   if (typeof data !== 'object') {
@@ -31,23 +34,23 @@ function queryStringify(data: { [key: string | number]: string }) {
 
 export class HTTPTransport {
   // используем тип и удаляем дублирование в аргументах
-  static get: HTTPMethod = (url, options) =>
+  static get: HTTPMethod = (url, options = {}) =>
     HTTPTransport.request(url, { ...options, method: METHOD.GET }, options.timeout);
 
   // используем тип и удаляем дублирование в аргументах
-  static put: HTTPMethod = (url, options) =>
+  static put: HTTPMethod = (url, options = {}) =>
     HTTPTransport.request(url, { ...options, method: METHOD.PUT }, options.timeout);
 
   // используем тип и удаляем дублирование в аргументах
-  static post: HTTPMethod = (url, options) =>
+  static post: HTTPMethod = (url, options = {}) =>
     HTTPTransport.request(url, { ...options, method: METHOD.POST }, options.timeout);
 
   // используем тип и удаляем дублирование в аргументах
-  static patch: HTTPMethod = (url, options) =>
-    HTTPTransport.request(url, { ...options, method: METHOD.POST }, options.timeout);
+  static patch: HTTPMethod = (url, options = {}) =>
+    HTTPTransport.request(url, { ...options, method: METHOD.PATCH }, options.timeout);
 
   // используем тип и удаляем дублирование в аргументах
-  static delete: HTTPMethod = (url, options) =>
+  static delete: HTTPMethod = (url, options = {}) =>
     HTTPTransport.request(url, { ...options, method: METHOD.DELETE }, options.timeout);
 
   static request(url: string, options: Options, timeout = 5000): Promise<XMLHttpRequest> {

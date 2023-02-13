@@ -1,6 +1,8 @@
-import { initAppService } from 'services';
+// require('babel-core/register');
 
-require('babel-core/register');
+import 'regenerator-runtime/runtime';
+
+import { initAppService } from 'services';
 
 import * as components from 'components';
 import { registerComponent, BlockConstructable, BaseActionsStore } from 'core';

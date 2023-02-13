@@ -72,7 +72,7 @@ export class RegistrationFormComponent extends Block<RegistrationFormComponentPr
   override componentDidMount(props: RegistrationFormComponentProps) {
     super.componentDidMount(props);
     if (this.props.user instanceof UserModel && this.props.links) {
-      this.props.router.go(this.props.links.Messenger);
+      this.props.router.go(this.props.links['Messenger']);
     }
   }
 

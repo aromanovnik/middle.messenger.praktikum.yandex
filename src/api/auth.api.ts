@@ -1,12 +1,13 @@
 import { HTTPTransport } from 'core';
 import { BadRequestError, SignInRequest, SignUpRequest, UserResponse } from './types.api';
+import { config } from '../config';
 
 type SignInResponseData = {} | BadRequestError;
 type SignUpResponseData = SignUpRequest | BadRequestError;
 type UserResponseData = UserResponse | BadRequestError;
 
 export class AuthApi {
-  public static path = `${process.env['API_ENDPOINT']}/auth`;
+  public static path = `${config.api}/auth`;
 
   public static async signIn(data: SignInRequest): Promise<SignInResponseData> {
     const res = await HTTPTransport.post(`${AuthApi.path}/signin`, {

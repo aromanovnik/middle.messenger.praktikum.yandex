@@ -6,13 +6,14 @@ import {
   UserRequest,
   UserResponse,
 } from './types.api';
+import { config } from '../config';
 
 type ProfileResponseData = UserResponse | BadRequestError;
 type PasswordResponseData = {} | BadRequestError;
 type SearchUserResponseData = UserResponse[] | BadRequestError;
 
 export class UserApi {
-  public static path = `${process.env['API_ENDPOINT']}/user`;
+  public static path = `${config.api}/user`;
 
   public static async profile(data: UserRequest): Promise<ProfileResponseData> {
     const res = await HTTPTransport.put(`${UserApi.path}/profile`, {

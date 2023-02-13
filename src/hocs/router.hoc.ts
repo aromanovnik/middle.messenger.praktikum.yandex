@@ -13,7 +13,6 @@ export function routerHoc<P extends RouterHocProps>(WrappedBlock: BlockClass<P>)
   const links: RouterHocProps['links'] = {
     Messenger: '/messenger',
     MessengerDetail: '/messenger/:id-chat',
-    Onboarding: '/onboadring',
     Login: '/',
     Registration: '/sign-up',
     Settings: '/settings',

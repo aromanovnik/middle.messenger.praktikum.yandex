@@ -12,6 +12,7 @@ import {
   UserResponse,
   UsersRequest,
 } from './types.api';
+import { config } from '../config';
 
 export type AddUserRequest = { id: number };
 export type GetChatsResponseData = [ChatsResponse] | BadRequestError;
@@ -22,7 +23,7 @@ export type UsersResponseData = {} | BadRequestError;
 export type GetUsersResponseData = [UserResponse] | BadRequestError;
 
 export class ChatsApi {
-  public static path = `${process.env['API_ENDPOINT']}/chats`;
+  public static path = `${config.api}/chats`;
 
   public static async getChats(data: GetChatRequest): Promise<GetChatsResponseData> {
     const res = await HTTPTransport.get(`${ChatsApi.path}`, {

@@ -16,7 +16,7 @@ export class ErrorComponent extends Block<ErrorComponentProps> {
   constructor(props: ErrorComponentProps) {
     super({
       ...props,
-      actionHref: props.actionHref ?? props.links.Messenger,
+      actionHref: props.actionHref ?? props.links['Messenger'],
     });
   }
 

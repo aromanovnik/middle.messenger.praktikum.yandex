@@ -1,5 +1,4 @@
 import { Block } from 'core';
-import { routerHoc } from 'hocs';
 
 export class MessengerPage extends Block {
   constructor() {
@@ -15,5 +14,3 @@ export class MessengerPage extends Block {
     `;
   }
 }
-
-export default routerHoc(MessengerPage);

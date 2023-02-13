@@ -4,7 +4,6 @@ import {
   AuthPage,
   MessengerPage,
   NotFoundPage,
-  OnboardingPage,
   RegistrationPage,
   ServerErrorPage,
   UserChangePasswordPage,
@@ -14,7 +13,6 @@ import {
 
 export enum Screens {
   Messenger = 'messenger',
-  Onboarding = 'onboadring',
   Login = 'login',
   Registration = 'registration',
   Settings = 'settings',
@@ -27,7 +25,6 @@ export enum Screens {
 export enum ScreensPath {
   Messenger = '/messenger',
   MessengerDetail = '/messenger/:id-chat',
-  Onboarding = '/onboadring',
   Login = '/',
   Registration = '/sign-up',
   Settings = '/settings',
@@ -38,8 +35,6 @@ export enum ScreensPath {
 }
 
 const map: Record<Screens, BlockClass<any>> = {
-  [Screens.Onboarding]: OnboardingPage,
-
   [Screens.Login]: AuthPage,
   [Screens.Registration]: RegistrationPage,
 
@@ -58,11 +53,6 @@ export const getScreenComponent = (screen: Screens): BlockClass<any> => {
 };
 
 const routes = [
-  {
-    path: ScreensPath.Onboarding,
-    block: Screens.Onboarding,
-    shouldAuthorized: false,
-  },
   {
     path: ScreensPath.Login,
     block: Screens.Login,

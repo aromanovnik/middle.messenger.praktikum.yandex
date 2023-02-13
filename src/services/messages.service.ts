@@ -3,6 +3,7 @@ import { apiHasError, apiHasMessage, apiHasMessages } from 'helpers';
 import { MessageModel } from 'models';
 import store from 'store';
 import { MessagesModel } from '../models/messages.model';
+import { config } from '../config';
 
 export type SendMessagePayload = {
   content: string;
@@ -11,7 +12,7 @@ export type SendMessagePayload = {
 export type RequestGetCountNewMessagesPayload = { id: number };
 
 export class MessagesService {
-  path = `${process.env['WS_ENDPOINT']}`;
+  path = `${config.ws}`;
 
   socket?: WebSocket;
 

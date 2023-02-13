@@ -23,6 +23,8 @@ export class Router implements CoreRouter {
 
   private isStarted = false;
 
+  private _pathname?: string;
+
   private _params: Params = {};
 
   private set params(p: Params) {
@@ -90,6 +92,8 @@ export class Router implements CoreRouter {
   }
 
   private onRouteChange(pathname: string = window.location.pathname) {
+    this._pathname = pathname;
+
     const found = Object.entries(this.routes).some(([routeHash, callback]) => {
       if (this.comparePath(routeHash, pathname)) {
         const params = this.getVariablesFromRoutePath(routeHash, pathname);
@@ -128,5 +132,9 @@ export class Router implements CoreRouter {
 
   getParams(): Params {
     return this.params;
+  }
+
+  getPathname(): string | undefined {
+    return this._pathname;
   }
 }
